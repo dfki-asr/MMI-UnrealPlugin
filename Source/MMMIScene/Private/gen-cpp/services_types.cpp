@@ -4,15 +4,12 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "gen-cpp/services_types.h"
+#include "services_types.h"
 
 #include <algorithm>
 #include <ostream>
 
 #include <thrift/TToString.h>
-
-//used for culture Invariant float to string conversions
-#include<boost/lexical_cast.hpp>
 
 namespace MMIStandard {
 
@@ -49,7 +46,7 @@ std::string to_string(const MDirection::type& val) {
   if (it != _MDirection_VALUES_TO_NAMES.end()) {
     return std::string(it->second);
   } else {
-    return boost::lexical_cast<std::string>(static_cast<int>(val));
+    return std::to_string(static_cast<int>(val));
   }
 }
 
@@ -78,7 +75,7 @@ std::string to_string(const MIKOperationType::type& val) {
   if (it != _MIKOperationType_VALUES_TO_NAMES.end()) {
     return std::string(it->second);
   } else {
-    return boost::lexical_cast<std::string>(static_cast<int>(val));
+    return std::to_string(static_cast<int>(val));
   }
 }
 

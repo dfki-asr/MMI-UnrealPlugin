@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "gen-cpp/constraints_types.h"
+#include "constraints_types.h"
 
 #include <algorithm>
 #include <ostream>
@@ -38,7 +38,7 @@ std::string to_string(const MTranslationConstraintType::type& val) {
   if (it != _MTranslationConstraintType_VALUES_TO_NAMES.end()) {
     return std::string(it->second);
   } else {
-    return boost::lexical_cast<std::string>(static_cast<int>(val));
+    return std::to_string(static_cast<int>(val));
   }
 }
 

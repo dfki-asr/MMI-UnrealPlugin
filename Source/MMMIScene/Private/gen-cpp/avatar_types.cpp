@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "gen-cpp/avatar_types.h"
+#include "avatar_types.h"
 
 #include <algorithm>
 #include <ostream>
@@ -166,7 +166,7 @@ std::string to_string(const MJointType::type& val) {
   if (it != _MJointType_VALUES_TO_NAMES.end()) {
     return std::string(it->second);
   } else {
-    return boost::lexical_cast<std::string>(static_cast<int>(val));
+    return std::to_string(static_cast<int>(val));
   }
 }
 
@@ -201,7 +201,7 @@ std::string to_string(const MEndeffectorType::type& val) {
   if (it != _MEndeffectorType_VALUES_TO_NAMES.end()) {
     return std::string(it->second);
   } else {
-    return boost::lexical_cast<std::string>(static_cast<int>(val));
+    return std::to_string(static_cast<int>(val));
   }
 }
 
@@ -240,7 +240,7 @@ std::string to_string(const MChannel::type& val) {
   if (it != _MChannel_VALUES_TO_NAMES.end()) {
     return std::string(it->second);
   } else {
-    return boost::lexical_cast<std::string>(static_cast<int>(val));
+    return std::to_string(static_cast<int>(val));
   }
 }
 

@@ -28,10 +28,10 @@ class MotionModelUnitIf {
   virtual void GetBoundaryConstraints(std::vector< ::MMIStandard::MConstraint> & _return, const MInstruction& instruction) = 0;
   virtual void CheckPrerequisites( ::MMIStandard::MBoolResponse& _return, const MInstruction& instruction) = 0;
   virtual void Abort( ::MMIStandard::MBoolResponse& _return, const std::string& instructionId) = 0;
-  virtual void Dispose( ::MMIStandard::MBoolResponse& _return, const std::map<std::string, std::string> & parameters) = 0;
-  virtual void CreateCheckpoint(std::string& _return) = 0;
-  virtual void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& data) = 0;
-  virtual void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters) = 0;
+  virtual void Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& avatarID, const std::map<std::string, std::string> & parameters) = 0;
+  virtual void CreateCheckpoint(std::string& _return, const std::string& avatarID) = 0;
+  virtual void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& data, const std::string& avatarID) = 0;
+  virtual void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::string& avatarID, const std::map<std::string, std::string> & parameters) = 0;
 };
 
 class MotionModelUnitIfFactory {
@@ -79,16 +79,16 @@ class MotionModelUnitNull : virtual public MotionModelUnitIf {
   void Abort( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* instructionId */) {
     return;
   }
-  void Dispose( ::MMIStandard::MBoolResponse& /* _return */, const std::map<std::string, std::string> & /* parameters */) {
+  void Dispose( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* avatarID */, const std::map<std::string, std::string> & /* parameters */) {
     return;
   }
-  void CreateCheckpoint(std::string& /* _return */) {
+  void CreateCheckpoint(std::string& /* _return */, const std::string& /* avatarID */) {
     return;
   }
-  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* data */) {
+  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* data */, const std::string& /* avatarID */) {
     return;
   }
-  void ExecuteFunction(std::map<std::string, std::string> & /* _return */, const std::string& /* name */, const std::map<std::string, std::string> & /* parameters */) {
+  void ExecuteFunction(std::map<std::string, std::string> & /* _return */, const std::string& /* name */, const std::string& /* avatarID */, const std::map<std::string, std::string> & /* parameters */) {
     return;
   }
 };
@@ -739,7 +739,8 @@ class MotionModelUnit_Abort_presult {
 };
 
 typedef struct _MotionModelUnit_Dispose_args__isset {
-  _MotionModelUnit_Dispose_args__isset() : parameters(false) {}
+  _MotionModelUnit_Dispose_args__isset() : avatarID(false), parameters(false) {}
+  bool avatarID :1;
   bool parameters :1;
 } _MotionModelUnit_Dispose_args__isset;
 
@@ -748,18 +749,23 @@ class MotionModelUnit_Dispose_args {
 
   MotionModelUnit_Dispose_args(const MotionModelUnit_Dispose_args&);
   MotionModelUnit_Dispose_args& operator=(const MotionModelUnit_Dispose_args&);
-  MotionModelUnit_Dispose_args() {
+  MotionModelUnit_Dispose_args() : avatarID() {
   }
 
   virtual ~MotionModelUnit_Dispose_args() noexcept;
+  std::string avatarID;
   std::map<std::string, std::string>  parameters;
 
   _MotionModelUnit_Dispose_args__isset __isset;
+
+  void __set_avatarID(const std::string& val);
 
   void __set_parameters(const std::map<std::string, std::string> & val);
 
   bool operator == (const MotionModelUnit_Dispose_args & rhs) const
   {
+    if (!(avatarID == rhs.avatarID))
+      return false;
     if (!(parameters == rhs.parameters))
       return false;
     return true;
@@ -781,6 +787,7 @@ class MotionModelUnit_Dispose_pargs {
 
 
   virtual ~MotionModelUnit_Dispose_pargs() noexcept;
+  const std::string* avatarID;
   const std::map<std::string, std::string> * parameters;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -842,19 +849,30 @@ class MotionModelUnit_Dispose_presult {
 
 };
 
+typedef struct _MotionModelUnit_CreateCheckpoint_args__isset {
+  _MotionModelUnit_CreateCheckpoint_args__isset() : avatarID(false) {}
+  bool avatarID :1;
+} _MotionModelUnit_CreateCheckpoint_args__isset;
 
 class MotionModelUnit_CreateCheckpoint_args {
  public:
 
   MotionModelUnit_CreateCheckpoint_args(const MotionModelUnit_CreateCheckpoint_args&);
   MotionModelUnit_CreateCheckpoint_args& operator=(const MotionModelUnit_CreateCheckpoint_args&);
-  MotionModelUnit_CreateCheckpoint_args() {
+  MotionModelUnit_CreateCheckpoint_args() : avatarID() {
   }
 
   virtual ~MotionModelUnit_CreateCheckpoint_args() noexcept;
+  std::string avatarID;
 
-  bool operator == (const MotionModelUnit_CreateCheckpoint_args & /* rhs */) const
+  _MotionModelUnit_CreateCheckpoint_args__isset __isset;
+
+  void __set_avatarID(const std::string& val);
+
+  bool operator == (const MotionModelUnit_CreateCheckpoint_args & rhs) const
   {
+    if (!(avatarID == rhs.avatarID))
+      return false;
     return true;
   }
   bool operator != (const MotionModelUnit_CreateCheckpoint_args &rhs) const {
@@ -874,6 +892,7 @@ class MotionModelUnit_CreateCheckpoint_pargs {
 
 
   virtual ~MotionModelUnit_CreateCheckpoint_pargs() noexcept;
+  const std::string* avatarID;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -935,8 +954,9 @@ class MotionModelUnit_CreateCheckpoint_presult {
 };
 
 typedef struct _MotionModelUnit_RestoreCheckpoint_args__isset {
-  _MotionModelUnit_RestoreCheckpoint_args__isset() : data(false) {}
+  _MotionModelUnit_RestoreCheckpoint_args__isset() : data(false), avatarID(false) {}
   bool data :1;
+  bool avatarID :1;
 } _MotionModelUnit_RestoreCheckpoint_args__isset;
 
 class MotionModelUnit_RestoreCheckpoint_args {
@@ -944,19 +964,24 @@ class MotionModelUnit_RestoreCheckpoint_args {
 
   MotionModelUnit_RestoreCheckpoint_args(const MotionModelUnit_RestoreCheckpoint_args&);
   MotionModelUnit_RestoreCheckpoint_args& operator=(const MotionModelUnit_RestoreCheckpoint_args&);
-  MotionModelUnit_RestoreCheckpoint_args() : data() {
+  MotionModelUnit_RestoreCheckpoint_args() : data(), avatarID() {
   }
 
   virtual ~MotionModelUnit_RestoreCheckpoint_args() noexcept;
   std::string data;
+  std::string avatarID;
 
   _MotionModelUnit_RestoreCheckpoint_args__isset __isset;
 
   void __set_data(const std::string& val);
 
+  void __set_avatarID(const std::string& val);
+
   bool operator == (const MotionModelUnit_RestoreCheckpoint_args & rhs) const
   {
     if (!(data == rhs.data))
+      return false;
+    if (!(avatarID == rhs.avatarID))
       return false;
     return true;
   }
@@ -978,6 +1003,7 @@ class MotionModelUnit_RestoreCheckpoint_pargs {
 
   virtual ~MotionModelUnit_RestoreCheckpoint_pargs() noexcept;
   const std::string* data;
+  const std::string* avatarID;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1039,8 +1065,9 @@ class MotionModelUnit_RestoreCheckpoint_presult {
 };
 
 typedef struct _MotionModelUnit_ExecuteFunction_args__isset {
-  _MotionModelUnit_ExecuteFunction_args__isset() : name(false), parameters(false) {}
+  _MotionModelUnit_ExecuteFunction_args__isset() : name(false), avatarID(false), parameters(false) {}
   bool name :1;
+  bool avatarID :1;
   bool parameters :1;
 } _MotionModelUnit_ExecuteFunction_args__isset;
 
@@ -1049,22 +1076,27 @@ class MotionModelUnit_ExecuteFunction_args {
 
   MotionModelUnit_ExecuteFunction_args(const MotionModelUnit_ExecuteFunction_args&);
   MotionModelUnit_ExecuteFunction_args& operator=(const MotionModelUnit_ExecuteFunction_args&);
-  MotionModelUnit_ExecuteFunction_args() : name() {
+  MotionModelUnit_ExecuteFunction_args() : name(), avatarID() {
   }
 
   virtual ~MotionModelUnit_ExecuteFunction_args() noexcept;
   std::string name;
+  std::string avatarID;
   std::map<std::string, std::string>  parameters;
 
   _MotionModelUnit_ExecuteFunction_args__isset __isset;
 
   void __set_name(const std::string& val);
 
+  void __set_avatarID(const std::string& val);
+
   void __set_parameters(const std::map<std::string, std::string> & val);
 
   bool operator == (const MotionModelUnit_ExecuteFunction_args & rhs) const
   {
     if (!(name == rhs.name))
+      return false;
+    if (!(avatarID == rhs.avatarID))
       return false;
     if (!(parameters == rhs.parameters))
       return false;
@@ -1088,6 +1120,7 @@ class MotionModelUnit_ExecuteFunction_pargs {
 
   virtual ~MotionModelUnit_ExecuteFunction_pargs() noexcept;
   const std::string* name;
+  const std::string* avatarID;
   const std::map<std::string, std::string> * parameters;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -1192,17 +1225,17 @@ class MotionModelUnitClient : virtual public MotionModelUnitIf {
   void Abort( ::MMIStandard::MBoolResponse& _return, const std::string& instructionId);
   void send_Abort(const std::string& instructionId);
   void recv_Abort( ::MMIStandard::MBoolResponse& _return);
-  void Dispose( ::MMIStandard::MBoolResponse& _return, const std::map<std::string, std::string> & parameters);
-  void send_Dispose(const std::map<std::string, std::string> & parameters);
+  void Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& avatarID, const std::map<std::string, std::string> & parameters);
+  void send_Dispose(const std::string& avatarID, const std::map<std::string, std::string> & parameters);
   void recv_Dispose( ::MMIStandard::MBoolResponse& _return);
-  void CreateCheckpoint(std::string& _return);
-  void send_CreateCheckpoint();
+  void CreateCheckpoint(std::string& _return, const std::string& avatarID);
+  void send_CreateCheckpoint(const std::string& avatarID);
   void recv_CreateCheckpoint(std::string& _return);
-  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& data);
-  void send_RestoreCheckpoint(const std::string& data);
+  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& data, const std::string& avatarID);
+  void send_RestoreCheckpoint(const std::string& data, const std::string& avatarID);
   void recv_RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return);
-  void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters);
-  void send_ExecuteFunction(const std::string& name, const std::map<std::string, std::string> & parameters);
+  void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::string& avatarID, const std::map<std::string, std::string> & parameters);
+  void send_ExecuteFunction(const std::string& name, const std::string& avatarID, const std::map<std::string, std::string> & parameters);
   void recv_ExecuteFunction(std::map<std::string, std::string> & _return);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
@@ -1330,43 +1363,43 @@ class MotionModelUnitMultiface : virtual public MotionModelUnitIf {
     return;
   }
 
-  void Dispose( ::MMIStandard::MBoolResponse& _return, const std::map<std::string, std::string> & parameters) {
+  void Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& avatarID, const std::map<std::string, std::string> & parameters) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->Dispose(_return, parameters);
+      ifaces_[i]->Dispose(_return, avatarID, parameters);
     }
-    ifaces_[i]->Dispose(_return, parameters);
+    ifaces_[i]->Dispose(_return, avatarID, parameters);
     return;
   }
 
-  void CreateCheckpoint(std::string& _return) {
+  void CreateCheckpoint(std::string& _return, const std::string& avatarID) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->CreateCheckpoint(_return);
+      ifaces_[i]->CreateCheckpoint(_return, avatarID);
     }
-    ifaces_[i]->CreateCheckpoint(_return);
+    ifaces_[i]->CreateCheckpoint(_return, avatarID);
     return;
   }
 
-  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& data) {
+  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& data, const std::string& avatarID) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->RestoreCheckpoint(_return, data);
+      ifaces_[i]->RestoreCheckpoint(_return, data, avatarID);
     }
-    ifaces_[i]->RestoreCheckpoint(_return, data);
+    ifaces_[i]->RestoreCheckpoint(_return, data, avatarID);
     return;
   }
 
-  void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters) {
+  void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::string& avatarID, const std::map<std::string, std::string> & parameters) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->ExecuteFunction(_return, name, parameters);
+      ifaces_[i]->ExecuteFunction(_return, name, avatarID, parameters);
     }
-    ifaces_[i]->ExecuteFunction(_return, name, parameters);
+    ifaces_[i]->ExecuteFunction(_return, name, avatarID, parameters);
     return;
   }
 
@@ -1420,17 +1453,17 @@ class MotionModelUnitConcurrentClient : virtual public MotionModelUnitIf {
   void Abort( ::MMIStandard::MBoolResponse& _return, const std::string& instructionId);
   int32_t send_Abort(const std::string& instructionId);
   void recv_Abort( ::MMIStandard::MBoolResponse& _return, const int32_t seqid);
-  void Dispose( ::MMIStandard::MBoolResponse& _return, const std::map<std::string, std::string> & parameters);
-  int32_t send_Dispose(const std::map<std::string, std::string> & parameters);
+  void Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& avatarID, const std::map<std::string, std::string> & parameters);
+  int32_t send_Dispose(const std::string& avatarID, const std::map<std::string, std::string> & parameters);
   void recv_Dispose( ::MMIStandard::MBoolResponse& _return, const int32_t seqid);
-  void CreateCheckpoint(std::string& _return);
-  int32_t send_CreateCheckpoint();
+  void CreateCheckpoint(std::string& _return, const std::string& avatarID);
+  int32_t send_CreateCheckpoint(const std::string& avatarID);
   void recv_CreateCheckpoint(std::string& _return, const int32_t seqid);
-  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& data);
-  int32_t send_RestoreCheckpoint(const std::string& data);
+  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& data, const std::string& avatarID);
+  int32_t send_RestoreCheckpoint(const std::string& data, const std::string& avatarID);
   void recv_RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const int32_t seqid);
-  void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters);
-  int32_t send_ExecuteFunction(const std::string& name, const std::map<std::string, std::string> & parameters);
+  void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::string& avatarID, const std::map<std::string, std::string> & parameters);
+  int32_t send_ExecuteFunction(const std::string& name, const std::string& avatarID, const std::map<std::string, std::string> & parameters);
   void recv_ExecuteFunction(std::map<std::string, std::string> & _return, const int32_t seqid);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;

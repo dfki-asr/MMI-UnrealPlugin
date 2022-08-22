@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "gen-cpp/core_types.h"
+#include "core_types.h"
 
 #include <algorithm>
 #include <ostream>

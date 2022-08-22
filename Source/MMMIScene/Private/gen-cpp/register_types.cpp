@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "gen-cpp/register_types.h"
+#include "register_types.h"
 
 #include <algorithm>
 #include <ostream>

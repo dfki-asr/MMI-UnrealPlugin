@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "gen-cpp/MCoSimulationAccess.h"
+#include "MCoSimulationAccess.h"
 
 namespace MMIStandard {
 
@@ -50,6 +50,14 @@ uint32_t MCoSimulationAccess_RegisterAtEvent_args::read(::apache::thrift::protoc
           xfer += iprot->skip(ftype);
         }
         break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->avatarID);
+          this->__isset.avatarID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -75,6 +83,10 @@ uint32_t MCoSimulationAccess_RegisterAtEvent_args::write(::apache::thrift::proto
   xfer += oprot->writeString(this->eventType);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->avatarID);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -96,6 +108,10 @@ uint32_t MCoSimulationAccess_RegisterAtEvent_pargs::write(::apache::thrift::prot
 
   xfer += oprot->writeFieldBegin("eventType", ::apache::thrift::protocol::T_STRING, 2);
   xfer += oprot->writeString((*(this->eventType)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString((*(this->avatarID)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -253,6 +269,14 @@ uint32_t MCoSimulationAccess_UnregisterAtEvent_args::read(::apache::thrift::prot
           xfer += iprot->skip(ftype);
         }
         break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->avatarID);
+          this->__isset.avatarID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -278,6 +302,10 @@ uint32_t MCoSimulationAccess_UnregisterAtEvent_args::write(::apache::thrift::pro
   xfer += oprot->writeString(this->eventType);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->avatarID);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -299,6 +327,10 @@ uint32_t MCoSimulationAccess_UnregisterAtEvent_pargs::write(::apache::thrift::pr
 
   xfer += oprot->writeFieldBegin("eventType", ::apache::thrift::protocol::T_STRING, 2);
   xfer += oprot->writeString((*(this->eventType)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString((*(this->avatarID)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -674,7 +706,20 @@ uint32_t MCoSimulationAccess_Abort_args::read(::apache::thrift::protocol::TProto
     if (ftype == ::apache::thrift::protocol::T_STOP) {
       break;
     }
-    xfer += iprot->skip(ftype);
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->avatarID);
+          this->__isset.avatarID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
     xfer += iprot->readFieldEnd();
   }
 
@@ -687,6 +732,10 @@ uint32_t MCoSimulationAccess_Abort_args::write(::apache::thrift::protocol::TProt
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("MCoSimulationAccess_Abort_args");
+
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->avatarID);
+  xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -702,6 +751,10 @@ uint32_t MCoSimulationAccess_Abort_pargs::write(::apache::thrift::protocol::TPro
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("MCoSimulationAccess_Abort_pargs");
+
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->avatarID)));
+  xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -1268,6 +1321,14 @@ uint32_t MCoSimulationAccess_GetHistoryFromTime_args::read(::apache::thrift::pro
           xfer += iprot->skip(ftype);
         }
         break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->avatarID);
+          this->__isset.avatarID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1297,6 +1358,10 @@ uint32_t MCoSimulationAccess_GetHistoryFromTime_args::write(::apache::thrift::pr
   xfer += oprot->writeString(this->eventType);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->avatarID);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -1322,6 +1387,10 @@ uint32_t MCoSimulationAccess_GetHistoryFromTime_pargs::write(::apache::thrift::p
 
   xfer += oprot->writeFieldBegin("eventType", ::apache::thrift::protocol::T_STRING, 3);
   xfer += oprot->writeString((*(this->eventType)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString((*(this->avatarID)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -1519,6 +1588,14 @@ uint32_t MCoSimulationAccess_GetHistoryFromFrames_args::read(::apache::thrift::p
           xfer += iprot->skip(ftype);
         }
         break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->avatarID);
+          this->__isset.avatarID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1548,6 +1625,10 @@ uint32_t MCoSimulationAccess_GetHistoryFromFrames_args::write(::apache::thrift::
   xfer += oprot->writeString(this->eventType);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->avatarID);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -1573,6 +1654,10 @@ uint32_t MCoSimulationAccess_GetHistoryFromFrames_pargs::write(::apache::thrift:
 
   xfer += oprot->writeFieldBegin("eventType", ::apache::thrift::protocol::T_STRING, 3);
   xfer += oprot->writeString((*(this->eventType)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString((*(this->avatarID)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -1754,6 +1839,14 @@ uint32_t MCoSimulationAccess_GetHistory_args::read(::apache::thrift::protocol::T
           xfer += iprot->skip(ftype);
         }
         break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->avatarID);
+          this->__isset.avatarID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1775,6 +1868,10 @@ uint32_t MCoSimulationAccess_GetHistory_args::write(::apache::thrift::protocol::
   xfer += oprot->writeString(this->eventType);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->avatarID);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -1792,6 +1889,10 @@ uint32_t MCoSimulationAccess_GetHistory_pargs::write(::apache::thrift::protocol:
 
   xfer += oprot->writeFieldBegin("eventType", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->eventType)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->avatarID)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -1963,7 +2064,20 @@ uint32_t MCoSimulationAccess_GetCurrentEvents_args::read(::apache::thrift::proto
     if (ftype == ::apache::thrift::protocol::T_STOP) {
       break;
     }
-    xfer += iprot->skip(ftype);
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->avatarID);
+          this->__isset.avatarID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
     xfer += iprot->readFieldEnd();
   }
 
@@ -1976,6 +2090,10 @@ uint32_t MCoSimulationAccess_GetCurrentEvents_args::write(::apache::thrift::prot
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("MCoSimulationAccess_GetCurrentEvents_args");
+
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->avatarID);
+  xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -1991,6 +2109,10 @@ uint32_t MCoSimulationAccess_GetCurrentEvents_pargs::write(::apache::thrift::pro
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("MCoSimulationAccess_GetCurrentEvents_pargs");
+
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->avatarID)));
+  xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -2105,13 +2227,13 @@ uint32_t MCoSimulationAccess_GetCurrentEvents_presult::read(::apache::thrift::pr
   return xfer;
 }
 
-void MCoSimulationAccessClient::RegisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType)
+void MCoSimulationAccessClient::RegisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID)
 {
-  send_RegisterAtEvent(clientAddress, eventType);
+  send_RegisterAtEvent(clientAddress, eventType, avatarID);
   recv_RegisterAtEvent(_return);
 }
 
-void MCoSimulationAccessClient::send_RegisterAtEvent(const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType)
+void MCoSimulationAccessClient::send_RegisterAtEvent(const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("RegisterAtEvent", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -2119,6 +2241,7 @@ void MCoSimulationAccessClient::send_RegisterAtEvent(const  ::MMIStandard::MIPAd
   MCoSimulationAccess_RegisterAtEvent_pargs args;
   args.clientAddress = &clientAddress;
   args.eventType = &eventType;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -2164,13 +2287,13 @@ void MCoSimulationAccessClient::recv_RegisterAtEvent( ::MMIStandard::MBoolRespon
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RegisterAtEvent failed: unknown result");
 }
 
-void MCoSimulationAccessClient::UnregisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType)
+void MCoSimulationAccessClient::UnregisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID)
 {
-  send_UnregisterAtEvent(clientAddress, eventType);
+  send_UnregisterAtEvent(clientAddress, eventType, avatarID);
   recv_UnregisterAtEvent(_return);
 }
 
-void MCoSimulationAccessClient::send_UnregisterAtEvent(const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType)
+void MCoSimulationAccessClient::send_UnregisterAtEvent(const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("UnregisterAtEvent", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -2178,6 +2301,7 @@ void MCoSimulationAccessClient::send_UnregisterAtEvent(const  ::MMIStandard::MIP
   MCoSimulationAccess_UnregisterAtEvent_pargs args;
   args.clientAddress = &clientAddress;
   args.eventType = &eventType;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -2282,18 +2406,19 @@ void MCoSimulationAccessClient::recv_AssignInstruction( ::MMIStandard::MBoolResp
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "AssignInstruction failed: unknown result");
 }
 
-void MCoSimulationAccessClient::Abort( ::MMIStandard::MBoolResponse& _return)
+void MCoSimulationAccessClient::Abort( ::MMIStandard::MBoolResponse& _return, const std::string& avatarID)
 {
-  send_Abort();
+  send_Abort(avatarID);
   recv_Abort(_return);
 }
 
-void MCoSimulationAccessClient::send_Abort()
+void MCoSimulationAccessClient::send_Abort(const std::string& avatarID)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("Abort", ::apache::thrift::protocol::T_CALL, cseqid);
 
   MCoSimulationAccess_Abort_pargs args;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -2455,13 +2580,13 @@ void MCoSimulationAccessClient::recv_AbortInstructions( ::MMIStandard::MBoolResp
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "AbortInstructions failed: unknown result");
 }
 
-void MCoSimulationAccessClient::GetHistoryFromTime(std::vector<MCoSimulationEvents> & _return, const double startTime, const double endTime, const std::string& eventType)
+void MCoSimulationAccessClient::GetHistoryFromTime(std::vector<MCoSimulationEvents> & _return, const double startTime, const double endTime, const std::string& eventType, const std::string& avatarID)
 {
-  send_GetHistoryFromTime(startTime, endTime, eventType);
+  send_GetHistoryFromTime(startTime, endTime, eventType, avatarID);
   recv_GetHistoryFromTime(_return);
 }
 
-void MCoSimulationAccessClient::send_GetHistoryFromTime(const double startTime, const double endTime, const std::string& eventType)
+void MCoSimulationAccessClient::send_GetHistoryFromTime(const double startTime, const double endTime, const std::string& eventType, const std::string& avatarID)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("GetHistoryFromTime", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -2470,6 +2595,7 @@ void MCoSimulationAccessClient::send_GetHistoryFromTime(const double startTime, 
   args.startTime = &startTime;
   args.endTime = &endTime;
   args.eventType = &eventType;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -2515,13 +2641,13 @@ void MCoSimulationAccessClient::recv_GetHistoryFromTime(std::vector<MCoSimulatio
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "GetHistoryFromTime failed: unknown result");
 }
 
-void MCoSimulationAccessClient::GetHistoryFromFrames(std::vector<MCoSimulationEvents> & _return, const int32_t fromFrame, const int32_t toFrame, const std::string& eventType)
+void MCoSimulationAccessClient::GetHistoryFromFrames(std::vector<MCoSimulationEvents> & _return, const int32_t fromFrame, const int32_t toFrame, const std::string& eventType, const std::string& avatarID)
 {
-  send_GetHistoryFromFrames(fromFrame, toFrame, eventType);
+  send_GetHistoryFromFrames(fromFrame, toFrame, eventType, avatarID);
   recv_GetHistoryFromFrames(_return);
 }
 
-void MCoSimulationAccessClient::send_GetHistoryFromFrames(const int32_t fromFrame, const int32_t toFrame, const std::string& eventType)
+void MCoSimulationAccessClient::send_GetHistoryFromFrames(const int32_t fromFrame, const int32_t toFrame, const std::string& eventType, const std::string& avatarID)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("GetHistoryFromFrames", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -2530,6 +2656,7 @@ void MCoSimulationAccessClient::send_GetHistoryFromFrames(const int32_t fromFram
   args.fromFrame = &fromFrame;
   args.toFrame = &toFrame;
   args.eventType = &eventType;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -2575,19 +2702,20 @@ void MCoSimulationAccessClient::recv_GetHistoryFromFrames(std::vector<MCoSimulat
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "GetHistoryFromFrames failed: unknown result");
 }
 
-void MCoSimulationAccessClient::GetHistory(std::vector<MCoSimulationEvents> & _return, const std::string& eventType)
+void MCoSimulationAccessClient::GetHistory(std::vector<MCoSimulationEvents> & _return, const std::string& eventType, const std::string& avatarID)
 {
-  send_GetHistory(eventType);
+  send_GetHistory(eventType, avatarID);
   recv_GetHistory(_return);
 }
 
-void MCoSimulationAccessClient::send_GetHistory(const std::string& eventType)
+void MCoSimulationAccessClient::send_GetHistory(const std::string& eventType, const std::string& avatarID)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("GetHistory", ::apache::thrift::protocol::T_CALL, cseqid);
 
   MCoSimulationAccess_GetHistory_pargs args;
   args.eventType = &eventType;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -2633,18 +2761,19 @@ void MCoSimulationAccessClient::recv_GetHistory(std::vector<MCoSimulationEvents>
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "GetHistory failed: unknown result");
 }
 
-void MCoSimulationAccessClient::GetCurrentEvents(MCoSimulationEvents& _return)
+void MCoSimulationAccessClient::GetCurrentEvents(MCoSimulationEvents& _return, const std::string& avatarID)
 {
-  send_GetCurrentEvents();
+  send_GetCurrentEvents(avatarID);
   recv_GetCurrentEvents(_return);
 }
 
-void MCoSimulationAccessClient::send_GetCurrentEvents()
+void MCoSimulationAccessClient::send_GetCurrentEvents(const std::string& avatarID)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("GetCurrentEvents", ::apache::thrift::protocol::T_CALL, cseqid);
 
   MCoSimulationAccess_GetCurrentEvents_pargs args;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -2723,7 +2852,7 @@ void MCoSimulationAccessProcessor::process_RegisterAtEvent(int32_t seqid, ::apac
 
   MCoSimulationAccess_RegisterAtEvent_result result;
   try {
-    iface_->RegisterAtEvent(result.success, args.clientAddress, args.eventType);
+    iface_->RegisterAtEvent(result.success, args.clientAddress, args.eventType, args.avatarID);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -2777,7 +2906,7 @@ void MCoSimulationAccessProcessor::process_UnregisterAtEvent(int32_t seqid, ::ap
 
   MCoSimulationAccess_UnregisterAtEvent_result result;
   try {
-    iface_->UnregisterAtEvent(result.success, args.clientAddress, args.eventType);
+    iface_->UnregisterAtEvent(result.success, args.clientAddress, args.eventType, args.avatarID);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -2885,7 +3014,7 @@ void MCoSimulationAccessProcessor::process_Abort(int32_t seqid, ::apache::thrift
 
   MCoSimulationAccess_Abort_result result;
   try {
-    iface_->Abort(result.success);
+    iface_->Abort(result.success, args.avatarID);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3047,7 +3176,7 @@ void MCoSimulationAccessProcessor::process_GetHistoryFromTime(int32_t seqid, ::a
 
   MCoSimulationAccess_GetHistoryFromTime_result result;
   try {
-    iface_->GetHistoryFromTime(result.success, args.startTime, args.endTime, args.eventType);
+    iface_->GetHistoryFromTime(result.success, args.startTime, args.endTime, args.eventType, args.avatarID);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3101,7 +3230,7 @@ void MCoSimulationAccessProcessor::process_GetHistoryFromFrames(int32_t seqid, :
 
   MCoSimulationAccess_GetHistoryFromFrames_result result;
   try {
-    iface_->GetHistoryFromFrames(result.success, args.fromFrame, args.toFrame, args.eventType);
+    iface_->GetHistoryFromFrames(result.success, args.fromFrame, args.toFrame, args.eventType, args.avatarID);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3155,7 +3284,7 @@ void MCoSimulationAccessProcessor::process_GetHistory(int32_t seqid, ::apache::t
 
   MCoSimulationAccess_GetHistory_result result;
   try {
-    iface_->GetHistory(result.success, args.eventType);
+    iface_->GetHistory(result.success, args.eventType, args.avatarID);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3209,7 +3338,7 @@ void MCoSimulationAccessProcessor::process_GetCurrentEvents(int32_t seqid, ::apa
 
   MCoSimulationAccess_GetCurrentEvents_result result;
   try {
-    iface_->GetCurrentEvents(result.success);
+    iface_->GetCurrentEvents(result.success, args.avatarID);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3247,13 +3376,13 @@ void MCoSimulationAccessProcessor::process_GetCurrentEvents(int32_t seqid, ::apa
   return processor;
 }
 
-void MCoSimulationAccessConcurrentClient::RegisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType)
+void MCoSimulationAccessConcurrentClient::RegisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID)
 {
-  int32_t seqid = send_RegisterAtEvent(clientAddress, eventType);
+  int32_t seqid = send_RegisterAtEvent(clientAddress, eventType, avatarID);
   recv_RegisterAtEvent(_return, seqid);
 }
 
-int32_t MCoSimulationAccessConcurrentClient::send_RegisterAtEvent(const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType)
+int32_t MCoSimulationAccessConcurrentClient::send_RegisterAtEvent(const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -3262,6 +3391,7 @@ int32_t MCoSimulationAccessConcurrentClient::send_RegisterAtEvent(const  ::MMISt
   MCoSimulationAccess_RegisterAtEvent_pargs args;
   args.clientAddress = &clientAddress;
   args.eventType = &eventType;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -3332,13 +3462,13 @@ void MCoSimulationAccessConcurrentClient::recv_RegisterAtEvent( ::MMIStandard::M
   } // end while(true)
 }
 
-void MCoSimulationAccessConcurrentClient::UnregisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType)
+void MCoSimulationAccessConcurrentClient::UnregisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID)
 {
-  int32_t seqid = send_UnregisterAtEvent(clientAddress, eventType);
+  int32_t seqid = send_UnregisterAtEvent(clientAddress, eventType, avatarID);
   recv_UnregisterAtEvent(_return, seqid);
 }
 
-int32_t MCoSimulationAccessConcurrentClient::send_UnregisterAtEvent(const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType)
+int32_t MCoSimulationAccessConcurrentClient::send_UnregisterAtEvent(const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -3347,6 +3477,7 @@ int32_t MCoSimulationAccessConcurrentClient::send_UnregisterAtEvent(const  ::MMI
   MCoSimulationAccess_UnregisterAtEvent_pargs args;
   args.clientAddress = &clientAddress;
   args.eventType = &eventType;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -3502,19 +3633,20 @@ void MCoSimulationAccessConcurrentClient::recv_AssignInstruction( ::MMIStandard:
   } // end while(true)
 }
 
-void MCoSimulationAccessConcurrentClient::Abort( ::MMIStandard::MBoolResponse& _return)
+void MCoSimulationAccessConcurrentClient::Abort( ::MMIStandard::MBoolResponse& _return, const std::string& avatarID)
 {
-  int32_t seqid = send_Abort();
+  int32_t seqid = send_Abort(avatarID);
   recv_Abort(_return, seqid);
 }
 
-int32_t MCoSimulationAccessConcurrentClient::send_Abort()
+int32_t MCoSimulationAccessConcurrentClient::send_Abort(const std::string& avatarID)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
   oprot_->writeMessageBegin("Abort", ::apache::thrift::protocol::T_CALL, cseqid);
 
   MCoSimulationAccess_Abort_pargs args;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -3753,13 +3885,13 @@ void MCoSimulationAccessConcurrentClient::recv_AbortInstructions( ::MMIStandard:
   } // end while(true)
 }
 
-void MCoSimulationAccessConcurrentClient::GetHistoryFromTime(std::vector<MCoSimulationEvents> & _return, const double startTime, const double endTime, const std::string& eventType)
+void MCoSimulationAccessConcurrentClient::GetHistoryFromTime(std::vector<MCoSimulationEvents> & _return, const double startTime, const double endTime, const std::string& eventType, const std::string& avatarID)
 {
-  int32_t seqid = send_GetHistoryFromTime(startTime, endTime, eventType);
+  int32_t seqid = send_GetHistoryFromTime(startTime, endTime, eventType, avatarID);
   recv_GetHistoryFromTime(_return, seqid);
 }
 
-int32_t MCoSimulationAccessConcurrentClient::send_GetHistoryFromTime(const double startTime, const double endTime, const std::string& eventType)
+int32_t MCoSimulationAccessConcurrentClient::send_GetHistoryFromTime(const double startTime, const double endTime, const std::string& eventType, const std::string& avatarID)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -3769,6 +3901,7 @@ int32_t MCoSimulationAccessConcurrentClient::send_GetHistoryFromTime(const doubl
   args.startTime = &startTime;
   args.endTime = &endTime;
   args.eventType = &eventType;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -3839,13 +3972,13 @@ void MCoSimulationAccessConcurrentClient::recv_GetHistoryFromTime(std::vector<MC
   } // end while(true)
 }
 
-void MCoSimulationAccessConcurrentClient::GetHistoryFromFrames(std::vector<MCoSimulationEvents> & _return, const int32_t fromFrame, const int32_t toFrame, const std::string& eventType)
+void MCoSimulationAccessConcurrentClient::GetHistoryFromFrames(std::vector<MCoSimulationEvents> & _return, const int32_t fromFrame, const int32_t toFrame, const std::string& eventType, const std::string& avatarID)
 {
-  int32_t seqid = send_GetHistoryFromFrames(fromFrame, toFrame, eventType);
+  int32_t seqid = send_GetHistoryFromFrames(fromFrame, toFrame, eventType, avatarID);
   recv_GetHistoryFromFrames(_return, seqid);
 }
 
-int32_t MCoSimulationAccessConcurrentClient::send_GetHistoryFromFrames(const int32_t fromFrame, const int32_t toFrame, const std::string& eventType)
+int32_t MCoSimulationAccessConcurrentClient::send_GetHistoryFromFrames(const int32_t fromFrame, const int32_t toFrame, const std::string& eventType, const std::string& avatarID)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -3855,6 +3988,7 @@ int32_t MCoSimulationAccessConcurrentClient::send_GetHistoryFromFrames(const int
   args.fromFrame = &fromFrame;
   args.toFrame = &toFrame;
   args.eventType = &eventType;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -3925,13 +4059,13 @@ void MCoSimulationAccessConcurrentClient::recv_GetHistoryFromFrames(std::vector<
   } // end while(true)
 }
 
-void MCoSimulationAccessConcurrentClient::GetHistory(std::vector<MCoSimulationEvents> & _return, const std::string& eventType)
+void MCoSimulationAccessConcurrentClient::GetHistory(std::vector<MCoSimulationEvents> & _return, const std::string& eventType, const std::string& avatarID)
 {
-  int32_t seqid = send_GetHistory(eventType);
+  int32_t seqid = send_GetHistory(eventType, avatarID);
   recv_GetHistory(_return, seqid);
 }
 
-int32_t MCoSimulationAccessConcurrentClient::send_GetHistory(const std::string& eventType)
+int32_t MCoSimulationAccessConcurrentClient::send_GetHistory(const std::string& eventType, const std::string& avatarID)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -3939,6 +4073,7 @@ int32_t MCoSimulationAccessConcurrentClient::send_GetHistory(const std::string& 
 
   MCoSimulationAccess_GetHistory_pargs args;
   args.eventType = &eventType;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -4009,19 +4144,20 @@ void MCoSimulationAccessConcurrentClient::recv_GetHistory(std::vector<MCoSimulat
   } // end while(true)
 }
 
-void MCoSimulationAccessConcurrentClient::GetCurrentEvents(MCoSimulationEvents& _return)
+void MCoSimulationAccessConcurrentClient::GetCurrentEvents(MCoSimulationEvents& _return, const std::string& avatarID)
 {
-  int32_t seqid = send_GetCurrentEvents();
+  int32_t seqid = send_GetCurrentEvents(avatarID);
   recv_GetCurrentEvents(_return, seqid);
 }
 
-int32_t MCoSimulationAccessConcurrentClient::send_GetCurrentEvents()
+int32_t MCoSimulationAccessConcurrentClient::send_GetCurrentEvents(const std::string& avatarID)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
   oprot_->writeMessageBegin("GetCurrentEvents", ::apache::thrift::protocol::T_CALL, cseqid);
 
   MCoSimulationAccess_GetCurrentEvents_pargs args;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();

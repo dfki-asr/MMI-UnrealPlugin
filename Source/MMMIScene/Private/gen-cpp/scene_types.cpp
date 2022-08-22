@@ -4,15 +4,12 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "gen-cpp/scene_types.h"
+#include "scene_types.h"
 
 #include <algorithm>
 #include <ostream>
 
 #include <thrift/TToString.h>
-
-//used for culture invariant float to string conversions
-#include<boost/lexical_cast.hpp>
 
 namespace MMIStandard {
 
@@ -49,7 +46,7 @@ std::string to_string(const MDrawingCallType::type& val) {
   if (it != _MDrawingCallType_VALUES_TO_NAMES.end()) {
     return std::string(it->second);
   } else {
-    return boost::lexical_cast<std::string>(static_cast<int>(val));
+    return std::to_string(static_cast<int>(val));
   }
 }
 
@@ -88,7 +85,7 @@ std::string to_string(const MPhysicsInteractionType::type& val) {
   if (it != _MPhysicsInteractionType_VALUES_TO_NAMES.end()) {
     return std::string(it->second);
   } else {
-    return boost::lexical_cast<std::string>(static_cast<int>(val));
+    return std::to_string(static_cast<int>(val));
   }
 }
 
@@ -127,7 +124,7 @@ std::string to_string(const MColliderType::type& val) {
   if (it != _MColliderType_VALUES_TO_NAMES.end()) {
     return std::string(it->second);
   } else {
-    return boost::lexical_cast<std::string>(static_cast<int>(val));
+    return std::to_string(static_cast<int>(val));
   }
 }
 

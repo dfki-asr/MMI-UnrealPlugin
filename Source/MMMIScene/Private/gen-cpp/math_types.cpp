@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "gen-cpp/math_types.h"
+#include "math_types.h"
 
 #include <algorithm>
 #include <ostream>
@@ -556,6 +556,10 @@ void MTransform::__set_Rotation(const MQuaternion& val) {
   this->Rotation = val;
 }
 
+void MTransform::__set_Scale(const MVector3& val) {
+  this->Scale = val;
+}
+
 void MTransform::__set_Parent(const std::string& val) {
   this->Parent = val;
 __isset.Parent = true;
@@ -582,6 +586,7 @@ uint32_t MTransform::read(::apache::thrift::protocol::TProtocol* iprot) {
   bool isset_ID = false;
   bool isset_Position = false;
   bool isset_Rotation = false;
+  bool isset_Scale = false;
 
   while (true)
   {
@@ -616,6 +621,14 @@ uint32_t MTransform::read(::apache::thrift::protocol::TProtocol* iprot) {
         }
         break;
       case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->Scale.read(iprot);
+          isset_Scale = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
           xfer += iprot->readString(this->Parent);
           this->__isset.Parent = true;
@@ -638,6 +651,8 @@ uint32_t MTransform::read(::apache::thrift::protocol::TProtocol* iprot) {
     throw TProtocolException(TProtocolException::INVALID_DATA);
   if (!isset_Rotation)
     throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_Scale)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
   return xfer;
 }
 
@@ -658,8 +673,12 @@ uint32_t MTransform::write(::apache::thrift::protocol::TProtocol* oprot) const {
   xfer += this->Rotation.write(oprot);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("Scale", ::apache::thrift::protocol::T_STRUCT, 4);
+  xfer += this->Scale.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
   if (this->__isset.Parent) {
-    xfer += oprot->writeFieldBegin("Parent", ::apache::thrift::protocol::T_STRING, 4);
+    xfer += oprot->writeFieldBegin("Parent", ::apache::thrift::protocol::T_STRING, 5);
     xfer += oprot->writeString(this->Parent);
     xfer += oprot->writeFieldEnd();
   }
@@ -673,6 +692,7 @@ void swap(MTransform &a, MTransform &b) {
   swap(a.ID, b.ID);
   swap(a.Position, b.Position);
   swap(a.Rotation, b.Rotation);
+  swap(a.Scale, b.Scale);
   swap(a.Parent, b.Parent);
   swap(a.__isset, b.__isset);
 }
@@ -681,6 +701,7 @@ MTransform::MTransform(const MTransform& other14) {
   ID = other14.ID;
   Position = other14.Position;
   Rotation = other14.Rotation;
+  Scale = other14.Scale;
   Parent = other14.Parent;
   __isset = other14.__isset;
 }
@@ -688,6 +709,7 @@ MTransform& MTransform::operator=(const MTransform& other15) {
   ID = other15.ID;
   Position = other15.Position;
   Rotation = other15.Rotation;
+  Scale = other15.Scale;
   Parent = other15.Parent;
   __isset = other15.__isset;
   return *this;
@@ -698,6 +720,7 @@ void MTransform::printTo(std::ostream& out) const {
   out << "ID=" << to_string(ID);
   out << ", " << "Position=" << to_string(Position);
   out << ", " << "Rotation=" << to_string(Rotation);
+  out << ", " << "Scale=" << to_string(Scale);
   out << ", " << "Parent="; (__isset.Parent ? (out << to_string(Parent)) : (out << "<null>"));
   out << ")";
 }

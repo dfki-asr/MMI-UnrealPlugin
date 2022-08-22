@@ -28,11 +28,11 @@ class MMIAdapterIf {
   virtual void GetBoundaryConstraints(std::vector< ::MMIStandard::MConstraint> & _return, const  ::MMIStandard::MInstruction& instruction, const std::string& mmuID, const std::string& sessionID) = 0;
   virtual void CheckPrerequisites( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MInstruction& instruction, const std::string& mmuID, const std::string& sessionID) = 0;
   virtual void Abort( ::MMIStandard::MBoolResponse& _return, const std::string& instructionID, const std::string& mmuID, const std::string& sessionID) = 0;
-  virtual void Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID) = 0;
-  virtual void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID) = 0;
+  virtual void Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID) = 0;
+  virtual void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID) = 0;
   virtual void GetStatus(std::map<std::string, std::string> & _return) = 0;
   virtual void GetAdapterDescription(MAdapterDescription& _return) = 0;
-  virtual void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID) = 0;
+  virtual void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID, const std::string& sceneID) = 0;
   virtual void CloseSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID) = 0;
   virtual void PushScene( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MSceneUpdate& sceneUpdates, const std::string& sessionID) = 0;
   virtual void GetLoadableMMUs(std::vector< ::MMIStandard::MMUDescription> & _return) = 0;
@@ -90,10 +90,10 @@ class MMIAdapterNull : virtual public MMIAdapterIf {
   void Abort( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* instructionID */, const std::string& /* mmuID */, const std::string& /* sessionID */) {
     return;
   }
-  void Dispose( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* mmuID */, const std::string& /* sessionID */) {
+  void Dispose( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* mmuID */, const std::string& /* sessionID */, const std::string& /* avatarID */) {
     return;
   }
-  void ExecuteFunction(std::map<std::string, std::string> & /* _return */, const std::string& /* name */, const std::map<std::string, std::string> & /* parameters */, const std::string& /* mmuID */, const std::string& /* sessionID */) {
+  void ExecuteFunction(std::map<std::string, std::string> & /* _return */, const std::string& /* name */, const std::map<std::string, std::string> & /* parameters */, const std::string& /* mmuID */, const std::string& /* sessionID */, const std::string& /* avatarID */) {
     return;
   }
   void GetStatus(std::map<std::string, std::string> & /* _return */) {
@@ -102,7 +102,7 @@ class MMIAdapterNull : virtual public MMIAdapterIf {
   void GetAdapterDescription(MAdapterDescription& /* _return */) {
     return;
   }
-  void CreateSession( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* sessionID */) {
+  void CreateSession( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* sessionID */, const std::string& /* sceneID */) {
     return;
   }
   void CloseSession( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* sessionID */) {
@@ -867,9 +867,10 @@ class MMIAdapter_Abort_presult {
 };
 
 typedef struct _MMIAdapter_Dispose_args__isset {
-  _MMIAdapter_Dispose_args__isset() : mmuID(false), sessionID(false) {}
+  _MMIAdapter_Dispose_args__isset() : mmuID(false), sessionID(false), avatarID(false) {}
   bool mmuID :1;
   bool sessionID :1;
+  bool avatarID :1;
 } _MMIAdapter_Dispose_args__isset;
 
 class MMIAdapter_Dispose_args {
@@ -877,12 +878,13 @@ class MMIAdapter_Dispose_args {
 
   MMIAdapter_Dispose_args(const MMIAdapter_Dispose_args&);
   MMIAdapter_Dispose_args& operator=(const MMIAdapter_Dispose_args&);
-  MMIAdapter_Dispose_args() : mmuID(), sessionID() {
+  MMIAdapter_Dispose_args() : mmuID(), sessionID(), avatarID() {
   }
 
   virtual ~MMIAdapter_Dispose_args() noexcept;
   std::string mmuID;
   std::string sessionID;
+  std::string avatarID;
 
   _MMIAdapter_Dispose_args__isset __isset;
 
@@ -890,11 +892,15 @@ class MMIAdapter_Dispose_args {
 
   void __set_sessionID(const std::string& val);
 
+  void __set_avatarID(const std::string& val);
+
   bool operator == (const MMIAdapter_Dispose_args & rhs) const
   {
     if (!(mmuID == rhs.mmuID))
       return false;
     if (!(sessionID == rhs.sessionID))
+      return false;
+    if (!(avatarID == rhs.avatarID))
       return false;
     return true;
   }
@@ -917,6 +923,7 @@ class MMIAdapter_Dispose_pargs {
   virtual ~MMIAdapter_Dispose_pargs() noexcept;
   const std::string* mmuID;
   const std::string* sessionID;
+  const std::string* avatarID;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -978,11 +985,12 @@ class MMIAdapter_Dispose_presult {
 };
 
 typedef struct _MMIAdapter_ExecuteFunction_args__isset {
-  _MMIAdapter_ExecuteFunction_args__isset() : name(false), parameters(false), mmuID(false), sessionID(false) {}
+  _MMIAdapter_ExecuteFunction_args__isset() : name(false), parameters(false), mmuID(false), sessionID(false), avatarID(false) {}
   bool name :1;
   bool parameters :1;
   bool mmuID :1;
   bool sessionID :1;
+  bool avatarID :1;
 } _MMIAdapter_ExecuteFunction_args__isset;
 
 class MMIAdapter_ExecuteFunction_args {
@@ -990,7 +998,7 @@ class MMIAdapter_ExecuteFunction_args {
 
   MMIAdapter_ExecuteFunction_args(const MMIAdapter_ExecuteFunction_args&);
   MMIAdapter_ExecuteFunction_args& operator=(const MMIAdapter_ExecuteFunction_args&);
-  MMIAdapter_ExecuteFunction_args() : name(), mmuID(), sessionID() {
+  MMIAdapter_ExecuteFunction_args() : name(), mmuID(), sessionID(), avatarID() {
   }
 
   virtual ~MMIAdapter_ExecuteFunction_args() noexcept;
@@ -998,6 +1006,7 @@ class MMIAdapter_ExecuteFunction_args {
   std::map<std::string, std::string>  parameters;
   std::string mmuID;
   std::string sessionID;
+  std::string avatarID;
 
   _MMIAdapter_ExecuteFunction_args__isset __isset;
 
@@ -1009,6 +1018,8 @@ class MMIAdapter_ExecuteFunction_args {
 
   void __set_sessionID(const std::string& val);
 
+  void __set_avatarID(const std::string& val);
+
   bool operator == (const MMIAdapter_ExecuteFunction_args & rhs) const
   {
     if (!(name == rhs.name))
@@ -1018,6 +1029,8 @@ class MMIAdapter_ExecuteFunction_args {
     if (!(mmuID == rhs.mmuID))
       return false;
     if (!(sessionID == rhs.sessionID))
+      return false;
+    if (!(avatarID == rhs.avatarID))
       return false;
     return true;
   }
@@ -1042,6 +1055,7 @@ class MMIAdapter_ExecuteFunction_pargs {
   const std::map<std::string, std::string> * parameters;
   const std::string* mmuID;
   const std::string* sessionID;
+  const std::string* avatarID;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1287,8 +1301,9 @@ class MMIAdapter_GetAdapterDescription_presult {
 };
 
 typedef struct _MMIAdapter_CreateSession_args__isset {
-  _MMIAdapter_CreateSession_args__isset() : sessionID(false) {}
+  _MMIAdapter_CreateSession_args__isset() : sessionID(false), sceneID(false) {}
   bool sessionID :1;
+  bool sceneID :1;
 } _MMIAdapter_CreateSession_args__isset;
 
 class MMIAdapter_CreateSession_args {
@@ -1296,19 +1311,24 @@ class MMIAdapter_CreateSession_args {
 
   MMIAdapter_CreateSession_args(const MMIAdapter_CreateSession_args&);
   MMIAdapter_CreateSession_args& operator=(const MMIAdapter_CreateSession_args&);
-  MMIAdapter_CreateSession_args() : sessionID() {
+  MMIAdapter_CreateSession_args() : sessionID(), sceneID() {
   }
 
   virtual ~MMIAdapter_CreateSession_args() noexcept;
   std::string sessionID;
+  std::string sceneID;
 
   _MMIAdapter_CreateSession_args__isset __isset;
 
   void __set_sessionID(const std::string& val);
 
+  void __set_sceneID(const std::string& val);
+
   bool operator == (const MMIAdapter_CreateSession_args & rhs) const
   {
     if (!(sessionID == rhs.sessionID))
+      return false;
+    if (!(sceneID == rhs.sceneID))
       return false;
     return true;
   }
@@ -1330,6 +1350,7 @@ class MMIAdapter_CreateSession_pargs {
 
   virtual ~MMIAdapter_CreateSession_pargs() noexcept;
   const std::string* sessionID;
+  const std::string* sceneID;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -2503,11 +2524,11 @@ class MMIAdapterClient : virtual public MMIAdapterIf {
   void Abort( ::MMIStandard::MBoolResponse& _return, const std::string& instructionID, const std::string& mmuID, const std::string& sessionID);
   void send_Abort(const std::string& instructionID, const std::string& mmuID, const std::string& sessionID);
   void recv_Abort( ::MMIStandard::MBoolResponse& _return);
-  void Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID);
-  void send_Dispose(const std::string& mmuID, const std::string& sessionID);
+  void Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID);
+  void send_Dispose(const std::string& mmuID, const std::string& sessionID, const std::string& avatarID);
   void recv_Dispose( ::MMIStandard::MBoolResponse& _return);
-  void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID);
-  void send_ExecuteFunction(const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID);
+  void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID);
+  void send_ExecuteFunction(const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID);
   void recv_ExecuteFunction(std::map<std::string, std::string> & _return);
   void GetStatus(std::map<std::string, std::string> & _return);
   void send_GetStatus();
@@ -2515,8 +2536,8 @@ class MMIAdapterClient : virtual public MMIAdapterIf {
   void GetAdapterDescription(MAdapterDescription& _return);
   void send_GetAdapterDescription();
   void recv_GetAdapterDescription(MAdapterDescription& _return);
-  void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID);
-  void send_CreateSession(const std::string& sessionID);
+  void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID, const std::string& sceneID);
+  void send_CreateSession(const std::string& sessionID, const std::string& sceneID);
   void recv_CreateSession( ::MMIStandard::MBoolResponse& _return);
   void CloseSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID);
   void send_CloseSession(const std::string& sessionID);
@@ -2696,23 +2717,23 @@ class MMIAdapterMultiface : virtual public MMIAdapterIf {
     return;
   }
 
-  void Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID) {
+  void Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->Dispose(_return, mmuID, sessionID);
+      ifaces_[i]->Dispose(_return, mmuID, sessionID, avatarID);
     }
-    ifaces_[i]->Dispose(_return, mmuID, sessionID);
+    ifaces_[i]->Dispose(_return, mmuID, sessionID, avatarID);
     return;
   }
 
-  void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID) {
+  void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->ExecuteFunction(_return, name, parameters, mmuID, sessionID);
+      ifaces_[i]->ExecuteFunction(_return, name, parameters, mmuID, sessionID, avatarID);
     }
-    ifaces_[i]->ExecuteFunction(_return, name, parameters, mmuID, sessionID);
+    ifaces_[i]->ExecuteFunction(_return, name, parameters, mmuID, sessionID, avatarID);
     return;
   }
 
@@ -2736,13 +2757,13 @@ class MMIAdapterMultiface : virtual public MMIAdapterIf {
     return;
   }
 
-  void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID) {
+  void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID, const std::string& sceneID) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->CreateSession(_return, sessionID);
+      ifaces_[i]->CreateSession(_return, sessionID, sceneID);
     }
-    ifaces_[i]->CreateSession(_return, sessionID);
+    ifaces_[i]->CreateSession(_return, sessionID, sceneID);
     return;
   }
 
@@ -2896,11 +2917,11 @@ class MMIAdapterConcurrentClient : virtual public MMIAdapterIf {
   void Abort( ::MMIStandard::MBoolResponse& _return, const std::string& instructionID, const std::string& mmuID, const std::string& sessionID);
   int32_t send_Abort(const std::string& instructionID, const std::string& mmuID, const std::string& sessionID);
   void recv_Abort( ::MMIStandard::MBoolResponse& _return, const int32_t seqid);
-  void Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID);
-  int32_t send_Dispose(const std::string& mmuID, const std::string& sessionID);
+  void Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID);
+  int32_t send_Dispose(const std::string& mmuID, const std::string& sessionID, const std::string& avatarID);
   void recv_Dispose( ::MMIStandard::MBoolResponse& _return, const int32_t seqid);
-  void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID);
-  int32_t send_ExecuteFunction(const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID);
+  void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID);
+  int32_t send_ExecuteFunction(const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID);
   void recv_ExecuteFunction(std::map<std::string, std::string> & _return, const int32_t seqid);
   void GetStatus(std::map<std::string, std::string> & _return);
   int32_t send_GetStatus();
@@ -2908,8 +2929,8 @@ class MMIAdapterConcurrentClient : virtual public MMIAdapterIf {
   void GetAdapterDescription(MAdapterDescription& _return);
   int32_t send_GetAdapterDescription();
   void recv_GetAdapterDescription(MAdapterDescription& _return, const int32_t seqid);
-  void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID);
-  int32_t send_CreateSession(const std::string& sessionID);
+  void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID, const std::string& sceneID);
+  int32_t send_CreateSession(const std::string& sessionID, const std::string& sceneID);
   void recv_CreateSession( ::MMIStandard::MBoolResponse& _return, const int32_t seqid);
   void CloseSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID);
   int32_t send_CloseSession(const std::string& sessionID);

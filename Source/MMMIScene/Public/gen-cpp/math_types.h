@@ -228,6 +228,7 @@ class MTransform : public virtual ::apache::thrift::TBase {
   std::string ID;
   MVector3 Position;
   MQuaternion Rotation;
+  MVector3 Scale;
   std::string Parent;
 
   _MTransform__isset __isset;
@@ -237,6 +238,8 @@ class MTransform : public virtual ::apache::thrift::TBase {
   void __set_Position(const MVector3& val);
 
   void __set_Rotation(const MQuaternion& val);
+
+  void __set_Scale(const MVector3& val);
 
   void __set_Parent(const std::string& val);
 
@@ -248,6 +251,8 @@ class MTransform : public virtual ::apache::thrift::TBase {
       return false;
     if (!(Rotation == rhs.Rotation))
       return false;
+    if (!(Scale == rhs.Scale))
+      return false;
     if (__isset.Parent != rhs.__isset.Parent)
       return false;
     else if (__isset.Parent && !(Parent == rhs.Parent))
@@ -258,12 +263,7 @@ class MTransform : public virtual ::apache::thrift::TBase {
     return !(*this == rhs);
   }
 
-  bool operator < (const MTransform &MTransform) const {		// added function body, sadam
-	  int inID = stoi(MTransform.ID);
-	  int thisID = stoi(this->ID);
-	  if (inID < thisID)
-		  return true;
-  }
+  bool operator < (const MTransform & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;

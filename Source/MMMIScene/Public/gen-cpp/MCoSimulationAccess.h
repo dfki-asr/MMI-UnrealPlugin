@@ -23,16 +23,16 @@ namespace MMIStandard {
 class MCoSimulationAccessIf : virtual public  ::MMIStandard::MMIServiceBaseIf {
  public:
   virtual ~MCoSimulationAccessIf() {}
-  virtual void RegisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType) = 0;
-  virtual void UnregisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType) = 0;
+  virtual void RegisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID) = 0;
+  virtual void UnregisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID) = 0;
   virtual void AssignInstruction( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MInstruction& instruction, const std::map<std::string, std::string> & properties) = 0;
-  virtual void Abort( ::MMIStandard::MBoolResponse& _return) = 0;
+  virtual void Abort( ::MMIStandard::MBoolResponse& _return, const std::string& avatarID) = 0;
   virtual void AbortInstruction( ::MMIStandard::MBoolResponse& _return, const std::string& instructionID) = 0;
   virtual void AbortInstructions( ::MMIStandard::MBoolResponse& _return, const std::vector<std::string> & instructionIDs) = 0;
-  virtual void GetHistoryFromTime(std::vector<MCoSimulationEvents> & _return, const double startTime, const double endTime, const std::string& eventType) = 0;
-  virtual void GetHistoryFromFrames(std::vector<MCoSimulationEvents> & _return, const int32_t fromFrame, const int32_t toFrame, const std::string& eventType) = 0;
-  virtual void GetHistory(std::vector<MCoSimulationEvents> & _return, const std::string& eventType) = 0;
-  virtual void GetCurrentEvents(MCoSimulationEvents& _return) = 0;
+  virtual void GetHistoryFromTime(std::vector<MCoSimulationEvents> & _return, const double startTime, const double endTime, const std::string& eventType, const std::string& avatarID) = 0;
+  virtual void GetHistoryFromFrames(std::vector<MCoSimulationEvents> & _return, const int32_t fromFrame, const int32_t toFrame, const std::string& eventType, const std::string& avatarID) = 0;
+  virtual void GetHistory(std::vector<MCoSimulationEvents> & _return, const std::string& eventType, const std::string& avatarID) = 0;
+  virtual void GetCurrentEvents(MCoSimulationEvents& _return, const std::string& avatarID) = 0;
 };
 
 class MCoSimulationAccessIfFactory : virtual public  ::MMIStandard::MMIServiceBaseIfFactory {
@@ -62,16 +62,16 @@ class MCoSimulationAccessIfSingletonFactory : virtual public MCoSimulationAccess
 class MCoSimulationAccessNull : virtual public MCoSimulationAccessIf , virtual public  ::MMIStandard::MMIServiceBaseNull {
  public:
   virtual ~MCoSimulationAccessNull() {}
-  void RegisterAtEvent( ::MMIStandard::MBoolResponse& /* _return */, const  ::MMIStandard::MIPAddress& /* clientAddress */, const std::string& /* eventType */) {
+  void RegisterAtEvent( ::MMIStandard::MBoolResponse& /* _return */, const  ::MMIStandard::MIPAddress& /* clientAddress */, const std::string& /* eventType */, const std::string& /* avatarID */) {
     return;
   }
-  void UnregisterAtEvent( ::MMIStandard::MBoolResponse& /* _return */, const  ::MMIStandard::MIPAddress& /* clientAddress */, const std::string& /* eventType */) {
+  void UnregisterAtEvent( ::MMIStandard::MBoolResponse& /* _return */, const  ::MMIStandard::MIPAddress& /* clientAddress */, const std::string& /* eventType */, const std::string& /* avatarID */) {
     return;
   }
   void AssignInstruction( ::MMIStandard::MBoolResponse& /* _return */, const  ::MMIStandard::MInstruction& /* instruction */, const std::map<std::string, std::string> & /* properties */) {
     return;
   }
-  void Abort( ::MMIStandard::MBoolResponse& /* _return */) {
+  void Abort( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* avatarID */) {
     return;
   }
   void AbortInstruction( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* instructionID */) {
@@ -80,24 +80,25 @@ class MCoSimulationAccessNull : virtual public MCoSimulationAccessIf , virtual p
   void AbortInstructions( ::MMIStandard::MBoolResponse& /* _return */, const std::vector<std::string> & /* instructionIDs */) {
     return;
   }
-  void GetHistoryFromTime(std::vector<MCoSimulationEvents> & /* _return */, const double /* startTime */, const double /* endTime */, const std::string& /* eventType */) {
+  void GetHistoryFromTime(std::vector<MCoSimulationEvents> & /* _return */, const double /* startTime */, const double /* endTime */, const std::string& /* eventType */, const std::string& /* avatarID */) {
     return;
   }
-  void GetHistoryFromFrames(std::vector<MCoSimulationEvents> & /* _return */, const int32_t /* fromFrame */, const int32_t /* toFrame */, const std::string& /* eventType */) {
+  void GetHistoryFromFrames(std::vector<MCoSimulationEvents> & /* _return */, const int32_t /* fromFrame */, const int32_t /* toFrame */, const std::string& /* eventType */, const std::string& /* avatarID */) {
     return;
   }
-  void GetHistory(std::vector<MCoSimulationEvents> & /* _return */, const std::string& /* eventType */) {
+  void GetHistory(std::vector<MCoSimulationEvents> & /* _return */, const std::string& /* eventType */, const std::string& /* avatarID */) {
     return;
   }
-  void GetCurrentEvents(MCoSimulationEvents& /* _return */) {
+  void GetCurrentEvents(MCoSimulationEvents& /* _return */, const std::string& /* avatarID */) {
     return;
   }
 };
 
 typedef struct _MCoSimulationAccess_RegisterAtEvent_args__isset {
-  _MCoSimulationAccess_RegisterAtEvent_args__isset() : clientAddress(false), eventType(false) {}
+  _MCoSimulationAccess_RegisterAtEvent_args__isset() : clientAddress(false), eventType(false), avatarID(false) {}
   bool clientAddress :1;
   bool eventType :1;
+  bool avatarID :1;
 } _MCoSimulationAccess_RegisterAtEvent_args__isset;
 
 class MCoSimulationAccess_RegisterAtEvent_args {
@@ -105,12 +106,13 @@ class MCoSimulationAccess_RegisterAtEvent_args {
 
   MCoSimulationAccess_RegisterAtEvent_args(const MCoSimulationAccess_RegisterAtEvent_args&);
   MCoSimulationAccess_RegisterAtEvent_args& operator=(const MCoSimulationAccess_RegisterAtEvent_args&);
-  MCoSimulationAccess_RegisterAtEvent_args() : eventType() {
+  MCoSimulationAccess_RegisterAtEvent_args() : eventType(), avatarID() {
   }
 
   virtual ~MCoSimulationAccess_RegisterAtEvent_args() noexcept;
    ::MMIStandard::MIPAddress clientAddress;
   std::string eventType;
+  std::string avatarID;
 
   _MCoSimulationAccess_RegisterAtEvent_args__isset __isset;
 
@@ -118,11 +120,15 @@ class MCoSimulationAccess_RegisterAtEvent_args {
 
   void __set_eventType(const std::string& val);
 
+  void __set_avatarID(const std::string& val);
+
   bool operator == (const MCoSimulationAccess_RegisterAtEvent_args & rhs) const
   {
     if (!(clientAddress == rhs.clientAddress))
       return false;
     if (!(eventType == rhs.eventType))
+      return false;
+    if (!(avatarID == rhs.avatarID))
       return false;
     return true;
   }
@@ -145,6 +151,7 @@ class MCoSimulationAccess_RegisterAtEvent_pargs {
   virtual ~MCoSimulationAccess_RegisterAtEvent_pargs() noexcept;
   const  ::MMIStandard::MIPAddress* clientAddress;
   const std::string* eventType;
+  const std::string* avatarID;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -206,9 +213,10 @@ class MCoSimulationAccess_RegisterAtEvent_presult {
 };
 
 typedef struct _MCoSimulationAccess_UnregisterAtEvent_args__isset {
-  _MCoSimulationAccess_UnregisterAtEvent_args__isset() : clientAddress(false), eventType(false) {}
+  _MCoSimulationAccess_UnregisterAtEvent_args__isset() : clientAddress(false), eventType(false), avatarID(false) {}
   bool clientAddress :1;
   bool eventType :1;
+  bool avatarID :1;
 } _MCoSimulationAccess_UnregisterAtEvent_args__isset;
 
 class MCoSimulationAccess_UnregisterAtEvent_args {
@@ -216,12 +224,13 @@ class MCoSimulationAccess_UnregisterAtEvent_args {
 
   MCoSimulationAccess_UnregisterAtEvent_args(const MCoSimulationAccess_UnregisterAtEvent_args&);
   MCoSimulationAccess_UnregisterAtEvent_args& operator=(const MCoSimulationAccess_UnregisterAtEvent_args&);
-  MCoSimulationAccess_UnregisterAtEvent_args() : eventType() {
+  MCoSimulationAccess_UnregisterAtEvent_args() : eventType(), avatarID() {
   }
 
   virtual ~MCoSimulationAccess_UnregisterAtEvent_args() noexcept;
    ::MMIStandard::MIPAddress clientAddress;
   std::string eventType;
+  std::string avatarID;
 
   _MCoSimulationAccess_UnregisterAtEvent_args__isset __isset;
 
@@ -229,11 +238,15 @@ class MCoSimulationAccess_UnregisterAtEvent_args {
 
   void __set_eventType(const std::string& val);
 
+  void __set_avatarID(const std::string& val);
+
   bool operator == (const MCoSimulationAccess_UnregisterAtEvent_args & rhs) const
   {
     if (!(clientAddress == rhs.clientAddress))
       return false;
     if (!(eventType == rhs.eventType))
+      return false;
+    if (!(avatarID == rhs.avatarID))
       return false;
     return true;
   }
@@ -256,6 +269,7 @@ class MCoSimulationAccess_UnregisterAtEvent_pargs {
   virtual ~MCoSimulationAccess_UnregisterAtEvent_pargs() noexcept;
   const  ::MMIStandard::MIPAddress* clientAddress;
   const std::string* eventType;
+  const std::string* avatarID;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -427,19 +441,30 @@ class MCoSimulationAccess_AssignInstruction_presult {
 
 };
 
+typedef struct _MCoSimulationAccess_Abort_args__isset {
+  _MCoSimulationAccess_Abort_args__isset() : avatarID(false) {}
+  bool avatarID :1;
+} _MCoSimulationAccess_Abort_args__isset;
 
 class MCoSimulationAccess_Abort_args {
  public:
 
   MCoSimulationAccess_Abort_args(const MCoSimulationAccess_Abort_args&);
   MCoSimulationAccess_Abort_args& operator=(const MCoSimulationAccess_Abort_args&);
-  MCoSimulationAccess_Abort_args() {
+  MCoSimulationAccess_Abort_args() : avatarID() {
   }
 
   virtual ~MCoSimulationAccess_Abort_args() noexcept;
+  std::string avatarID;
 
-  bool operator == (const MCoSimulationAccess_Abort_args & /* rhs */) const
+  _MCoSimulationAccess_Abort_args__isset __isset;
+
+  void __set_avatarID(const std::string& val);
+
+  bool operator == (const MCoSimulationAccess_Abort_args & rhs) const
   {
+    if (!(avatarID == rhs.avatarID))
+      return false;
     return true;
   }
   bool operator != (const MCoSimulationAccess_Abort_args &rhs) const {
@@ -459,6 +484,7 @@ class MCoSimulationAccess_Abort_pargs {
 
 
   virtual ~MCoSimulationAccess_Abort_pargs() noexcept;
+  const std::string* avatarID;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -728,10 +754,11 @@ class MCoSimulationAccess_AbortInstructions_presult {
 };
 
 typedef struct _MCoSimulationAccess_GetHistoryFromTime_args__isset {
-  _MCoSimulationAccess_GetHistoryFromTime_args__isset() : startTime(false), endTime(false), eventType(false) {}
+  _MCoSimulationAccess_GetHistoryFromTime_args__isset() : startTime(false), endTime(false), eventType(false), avatarID(false) {}
   bool startTime :1;
   bool endTime :1;
   bool eventType :1;
+  bool avatarID :1;
 } _MCoSimulationAccess_GetHistoryFromTime_args__isset;
 
 class MCoSimulationAccess_GetHistoryFromTime_args {
@@ -739,13 +766,14 @@ class MCoSimulationAccess_GetHistoryFromTime_args {
 
   MCoSimulationAccess_GetHistoryFromTime_args(const MCoSimulationAccess_GetHistoryFromTime_args&);
   MCoSimulationAccess_GetHistoryFromTime_args& operator=(const MCoSimulationAccess_GetHistoryFromTime_args&);
-  MCoSimulationAccess_GetHistoryFromTime_args() : startTime(0), endTime(0), eventType() {
+  MCoSimulationAccess_GetHistoryFromTime_args() : startTime(0), endTime(0), eventType(), avatarID() {
   }
 
   virtual ~MCoSimulationAccess_GetHistoryFromTime_args() noexcept;
   double startTime;
   double endTime;
   std::string eventType;
+  std::string avatarID;
 
   _MCoSimulationAccess_GetHistoryFromTime_args__isset __isset;
 
@@ -755,6 +783,8 @@ class MCoSimulationAccess_GetHistoryFromTime_args {
 
   void __set_eventType(const std::string& val);
 
+  void __set_avatarID(const std::string& val);
+
   bool operator == (const MCoSimulationAccess_GetHistoryFromTime_args & rhs) const
   {
     if (!(startTime == rhs.startTime))
@@ -762,6 +792,8 @@ class MCoSimulationAccess_GetHistoryFromTime_args {
     if (!(endTime == rhs.endTime))
       return false;
     if (!(eventType == rhs.eventType))
+      return false;
+    if (!(avatarID == rhs.avatarID))
       return false;
     return true;
   }
@@ -785,6 +817,7 @@ class MCoSimulationAccess_GetHistoryFromTime_pargs {
   const double* startTime;
   const double* endTime;
   const std::string* eventType;
+  const std::string* avatarID;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -846,10 +879,11 @@ class MCoSimulationAccess_GetHistoryFromTime_presult {
 };
 
 typedef struct _MCoSimulationAccess_GetHistoryFromFrames_args__isset {
-  _MCoSimulationAccess_GetHistoryFromFrames_args__isset() : fromFrame(false), toFrame(false), eventType(false) {}
+  _MCoSimulationAccess_GetHistoryFromFrames_args__isset() : fromFrame(false), toFrame(false), eventType(false), avatarID(false) {}
   bool fromFrame :1;
   bool toFrame :1;
   bool eventType :1;
+  bool avatarID :1;
 } _MCoSimulationAccess_GetHistoryFromFrames_args__isset;
 
 class MCoSimulationAccess_GetHistoryFromFrames_args {
@@ -857,13 +891,14 @@ class MCoSimulationAccess_GetHistoryFromFrames_args {
 
   MCoSimulationAccess_GetHistoryFromFrames_args(const MCoSimulationAccess_GetHistoryFromFrames_args&);
   MCoSimulationAccess_GetHistoryFromFrames_args& operator=(const MCoSimulationAccess_GetHistoryFromFrames_args&);
-  MCoSimulationAccess_GetHistoryFromFrames_args() : fromFrame(0), toFrame(0), eventType() {
+  MCoSimulationAccess_GetHistoryFromFrames_args() : fromFrame(0), toFrame(0), eventType(), avatarID() {
   }
 
   virtual ~MCoSimulationAccess_GetHistoryFromFrames_args() noexcept;
   int32_t fromFrame;
   int32_t toFrame;
   std::string eventType;
+  std::string avatarID;
 
   _MCoSimulationAccess_GetHistoryFromFrames_args__isset __isset;
 
@@ -873,6 +908,8 @@ class MCoSimulationAccess_GetHistoryFromFrames_args {
 
   void __set_eventType(const std::string& val);
 
+  void __set_avatarID(const std::string& val);
+
   bool operator == (const MCoSimulationAccess_GetHistoryFromFrames_args & rhs) const
   {
     if (!(fromFrame == rhs.fromFrame))
@@ -880,6 +917,8 @@ class MCoSimulationAccess_GetHistoryFromFrames_args {
     if (!(toFrame == rhs.toFrame))
       return false;
     if (!(eventType == rhs.eventType))
+      return false;
+    if (!(avatarID == rhs.avatarID))
       return false;
     return true;
   }
@@ -903,6 +942,7 @@ class MCoSimulationAccess_GetHistoryFromFrames_pargs {
   const int32_t* fromFrame;
   const int32_t* toFrame;
   const std::string* eventType;
+  const std::string* avatarID;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -964,8 +1004,9 @@ class MCoSimulationAccess_GetHistoryFromFrames_presult {
 };
 
 typedef struct _MCoSimulationAccess_GetHistory_args__isset {
-  _MCoSimulationAccess_GetHistory_args__isset() : eventType(false) {}
+  _MCoSimulationAccess_GetHistory_args__isset() : eventType(false), avatarID(false) {}
   bool eventType :1;
+  bool avatarID :1;
 } _MCoSimulationAccess_GetHistory_args__isset;
 
 class MCoSimulationAccess_GetHistory_args {
@@ -973,19 +1014,24 @@ class MCoSimulationAccess_GetHistory_args {
 
   MCoSimulationAccess_GetHistory_args(const MCoSimulationAccess_GetHistory_args&);
   MCoSimulationAccess_GetHistory_args& operator=(const MCoSimulationAccess_GetHistory_args&);
-  MCoSimulationAccess_GetHistory_args() : eventType() {
+  MCoSimulationAccess_GetHistory_args() : eventType(), avatarID() {
   }
 
   virtual ~MCoSimulationAccess_GetHistory_args() noexcept;
   std::string eventType;
+  std::string avatarID;
 
   _MCoSimulationAccess_GetHistory_args__isset __isset;
 
   void __set_eventType(const std::string& val);
 
+  void __set_avatarID(const std::string& val);
+
   bool operator == (const MCoSimulationAccess_GetHistory_args & rhs) const
   {
     if (!(eventType == rhs.eventType))
+      return false;
+    if (!(avatarID == rhs.avatarID))
       return false;
     return true;
   }
@@ -1007,6 +1053,7 @@ class MCoSimulationAccess_GetHistory_pargs {
 
   virtual ~MCoSimulationAccess_GetHistory_pargs() noexcept;
   const std::string* eventType;
+  const std::string* avatarID;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1067,19 +1114,30 @@ class MCoSimulationAccess_GetHistory_presult {
 
 };
 
+typedef struct _MCoSimulationAccess_GetCurrentEvents_args__isset {
+  _MCoSimulationAccess_GetCurrentEvents_args__isset() : avatarID(false) {}
+  bool avatarID :1;
+} _MCoSimulationAccess_GetCurrentEvents_args__isset;
 
 class MCoSimulationAccess_GetCurrentEvents_args {
  public:
 
   MCoSimulationAccess_GetCurrentEvents_args(const MCoSimulationAccess_GetCurrentEvents_args&);
   MCoSimulationAccess_GetCurrentEvents_args& operator=(const MCoSimulationAccess_GetCurrentEvents_args&);
-  MCoSimulationAccess_GetCurrentEvents_args() {
+  MCoSimulationAccess_GetCurrentEvents_args() : avatarID() {
   }
 
   virtual ~MCoSimulationAccess_GetCurrentEvents_args() noexcept;
+  std::string avatarID;
 
-  bool operator == (const MCoSimulationAccess_GetCurrentEvents_args & /* rhs */) const
+  _MCoSimulationAccess_GetCurrentEvents_args__isset __isset;
+
+  void __set_avatarID(const std::string& val);
+
+  bool operator == (const MCoSimulationAccess_GetCurrentEvents_args & rhs) const
   {
+    if (!(avatarID == rhs.avatarID))
+      return false;
     return true;
   }
   bool operator != (const MCoSimulationAccess_GetCurrentEvents_args &rhs) const {
@@ -1099,6 +1157,7 @@ class MCoSimulationAccess_GetCurrentEvents_pargs {
 
 
   virtual ~MCoSimulationAccess_GetCurrentEvents_pargs() noexcept;
+  const std::string* avatarID;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1170,17 +1229,17 @@ class MCoSimulationAccessClient : virtual public MCoSimulationAccessIf, public  
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  void RegisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType);
-  void send_RegisterAtEvent(const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType);
+  void RegisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID);
+  void send_RegisterAtEvent(const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID);
   void recv_RegisterAtEvent( ::MMIStandard::MBoolResponse& _return);
-  void UnregisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType);
-  void send_UnregisterAtEvent(const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType);
+  void UnregisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID);
+  void send_UnregisterAtEvent(const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID);
   void recv_UnregisterAtEvent( ::MMIStandard::MBoolResponse& _return);
   void AssignInstruction( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MInstruction& instruction, const std::map<std::string, std::string> & properties);
   void send_AssignInstruction(const  ::MMIStandard::MInstruction& instruction, const std::map<std::string, std::string> & properties);
   void recv_AssignInstruction( ::MMIStandard::MBoolResponse& _return);
-  void Abort( ::MMIStandard::MBoolResponse& _return);
-  void send_Abort();
+  void Abort( ::MMIStandard::MBoolResponse& _return, const std::string& avatarID);
+  void send_Abort(const std::string& avatarID);
   void recv_Abort( ::MMIStandard::MBoolResponse& _return);
   void AbortInstruction( ::MMIStandard::MBoolResponse& _return, const std::string& instructionID);
   void send_AbortInstruction(const std::string& instructionID);
@@ -1188,17 +1247,17 @@ class MCoSimulationAccessClient : virtual public MCoSimulationAccessIf, public  
   void AbortInstructions( ::MMIStandard::MBoolResponse& _return, const std::vector<std::string> & instructionIDs);
   void send_AbortInstructions(const std::vector<std::string> & instructionIDs);
   void recv_AbortInstructions( ::MMIStandard::MBoolResponse& _return);
-  void GetHistoryFromTime(std::vector<MCoSimulationEvents> & _return, const double startTime, const double endTime, const std::string& eventType);
-  void send_GetHistoryFromTime(const double startTime, const double endTime, const std::string& eventType);
+  void GetHistoryFromTime(std::vector<MCoSimulationEvents> & _return, const double startTime, const double endTime, const std::string& eventType, const std::string& avatarID);
+  void send_GetHistoryFromTime(const double startTime, const double endTime, const std::string& eventType, const std::string& avatarID);
   void recv_GetHistoryFromTime(std::vector<MCoSimulationEvents> & _return);
-  void GetHistoryFromFrames(std::vector<MCoSimulationEvents> & _return, const int32_t fromFrame, const int32_t toFrame, const std::string& eventType);
-  void send_GetHistoryFromFrames(const int32_t fromFrame, const int32_t toFrame, const std::string& eventType);
+  void GetHistoryFromFrames(std::vector<MCoSimulationEvents> & _return, const int32_t fromFrame, const int32_t toFrame, const std::string& eventType, const std::string& avatarID);
+  void send_GetHistoryFromFrames(const int32_t fromFrame, const int32_t toFrame, const std::string& eventType, const std::string& avatarID);
   void recv_GetHistoryFromFrames(std::vector<MCoSimulationEvents> & _return);
-  void GetHistory(std::vector<MCoSimulationEvents> & _return, const std::string& eventType);
-  void send_GetHistory(const std::string& eventType);
+  void GetHistory(std::vector<MCoSimulationEvents> & _return, const std::string& eventType, const std::string& avatarID);
+  void send_GetHistory(const std::string& eventType, const std::string& avatarID);
   void recv_GetHistory(std::vector<MCoSimulationEvents> & _return);
-  void GetCurrentEvents(MCoSimulationEvents& _return);
-  void send_GetCurrentEvents();
+  void GetCurrentEvents(MCoSimulationEvents& _return, const std::string& avatarID);
+  void send_GetCurrentEvents(const std::string& avatarID);
   void recv_GetCurrentEvents(MCoSimulationEvents& _return);
 };
 
@@ -1267,23 +1326,23 @@ class MCoSimulationAccessMultiface : virtual public MCoSimulationAccessIf, publi
     ifaces_.push_back(iface);
   }
  public:
-  void RegisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType) {
+  void RegisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->RegisterAtEvent(_return, clientAddress, eventType);
+      ifaces_[i]->RegisterAtEvent(_return, clientAddress, eventType, avatarID);
     }
-    ifaces_[i]->RegisterAtEvent(_return, clientAddress, eventType);
+    ifaces_[i]->RegisterAtEvent(_return, clientAddress, eventType, avatarID);
     return;
   }
 
-  void UnregisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType) {
+  void UnregisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->UnregisterAtEvent(_return, clientAddress, eventType);
+      ifaces_[i]->UnregisterAtEvent(_return, clientAddress, eventType, avatarID);
     }
-    ifaces_[i]->UnregisterAtEvent(_return, clientAddress, eventType);
+    ifaces_[i]->UnregisterAtEvent(_return, clientAddress, eventType, avatarID);
     return;
   }
 
@@ -1297,13 +1356,13 @@ class MCoSimulationAccessMultiface : virtual public MCoSimulationAccessIf, publi
     return;
   }
 
-  void Abort( ::MMIStandard::MBoolResponse& _return) {
+  void Abort( ::MMIStandard::MBoolResponse& _return, const std::string& avatarID) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->Abort(_return);
+      ifaces_[i]->Abort(_return, avatarID);
     }
-    ifaces_[i]->Abort(_return);
+    ifaces_[i]->Abort(_return, avatarID);
     return;
   }
 
@@ -1327,43 +1386,43 @@ class MCoSimulationAccessMultiface : virtual public MCoSimulationAccessIf, publi
     return;
   }
 
-  void GetHistoryFromTime(std::vector<MCoSimulationEvents> & _return, const double startTime, const double endTime, const std::string& eventType) {
+  void GetHistoryFromTime(std::vector<MCoSimulationEvents> & _return, const double startTime, const double endTime, const std::string& eventType, const std::string& avatarID) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->GetHistoryFromTime(_return, startTime, endTime, eventType);
+      ifaces_[i]->GetHistoryFromTime(_return, startTime, endTime, eventType, avatarID);
     }
-    ifaces_[i]->GetHistoryFromTime(_return, startTime, endTime, eventType);
+    ifaces_[i]->GetHistoryFromTime(_return, startTime, endTime, eventType, avatarID);
     return;
   }
 
-  void GetHistoryFromFrames(std::vector<MCoSimulationEvents> & _return, const int32_t fromFrame, const int32_t toFrame, const std::string& eventType) {
+  void GetHistoryFromFrames(std::vector<MCoSimulationEvents> & _return, const int32_t fromFrame, const int32_t toFrame, const std::string& eventType, const std::string& avatarID) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->GetHistoryFromFrames(_return, fromFrame, toFrame, eventType);
+      ifaces_[i]->GetHistoryFromFrames(_return, fromFrame, toFrame, eventType, avatarID);
     }
-    ifaces_[i]->GetHistoryFromFrames(_return, fromFrame, toFrame, eventType);
+    ifaces_[i]->GetHistoryFromFrames(_return, fromFrame, toFrame, eventType, avatarID);
     return;
   }
 
-  void GetHistory(std::vector<MCoSimulationEvents> & _return, const std::string& eventType) {
+  void GetHistory(std::vector<MCoSimulationEvents> & _return, const std::string& eventType, const std::string& avatarID) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->GetHistory(_return, eventType);
+      ifaces_[i]->GetHistory(_return, eventType, avatarID);
     }
-    ifaces_[i]->GetHistory(_return, eventType);
+    ifaces_[i]->GetHistory(_return, eventType, avatarID);
     return;
   }
 
-  void GetCurrentEvents(MCoSimulationEvents& _return) {
+  void GetCurrentEvents(MCoSimulationEvents& _return, const std::string& avatarID) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->GetCurrentEvents(_return);
+      ifaces_[i]->GetCurrentEvents(_return, avatarID);
     }
-    ifaces_[i]->GetCurrentEvents(_return);
+    ifaces_[i]->GetCurrentEvents(_return, avatarID);
     return;
   }
 
@@ -1383,17 +1442,17 @@ class MCoSimulationAccessConcurrentClient : virtual public MCoSimulationAccessIf
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  void RegisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType);
-  int32_t send_RegisterAtEvent(const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType);
+  void RegisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID);
+  int32_t send_RegisterAtEvent(const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID);
   void recv_RegisterAtEvent( ::MMIStandard::MBoolResponse& _return, const int32_t seqid);
-  void UnregisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType);
-  int32_t send_UnregisterAtEvent(const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType);
+  void UnregisterAtEvent( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID);
+  int32_t send_UnregisterAtEvent(const  ::MMIStandard::MIPAddress& clientAddress, const std::string& eventType, const std::string& avatarID);
   void recv_UnregisterAtEvent( ::MMIStandard::MBoolResponse& _return, const int32_t seqid);
   void AssignInstruction( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MInstruction& instruction, const std::map<std::string, std::string> & properties);
   int32_t send_AssignInstruction(const  ::MMIStandard::MInstruction& instruction, const std::map<std::string, std::string> & properties);
   void recv_AssignInstruction( ::MMIStandard::MBoolResponse& _return, const int32_t seqid);
-  void Abort( ::MMIStandard::MBoolResponse& _return);
-  int32_t send_Abort();
+  void Abort( ::MMIStandard::MBoolResponse& _return, const std::string& avatarID);
+  int32_t send_Abort(const std::string& avatarID);
   void recv_Abort( ::MMIStandard::MBoolResponse& _return, const int32_t seqid);
   void AbortInstruction( ::MMIStandard::MBoolResponse& _return, const std::string& instructionID);
   int32_t send_AbortInstruction(const std::string& instructionID);
@@ -1401,17 +1460,17 @@ class MCoSimulationAccessConcurrentClient : virtual public MCoSimulationAccessIf
   void AbortInstructions( ::MMIStandard::MBoolResponse& _return, const std::vector<std::string> & instructionIDs);
   int32_t send_AbortInstructions(const std::vector<std::string> & instructionIDs);
   void recv_AbortInstructions( ::MMIStandard::MBoolResponse& _return, const int32_t seqid);
-  void GetHistoryFromTime(std::vector<MCoSimulationEvents> & _return, const double startTime, const double endTime, const std::string& eventType);
-  int32_t send_GetHistoryFromTime(const double startTime, const double endTime, const std::string& eventType);
+  void GetHistoryFromTime(std::vector<MCoSimulationEvents> & _return, const double startTime, const double endTime, const std::string& eventType, const std::string& avatarID);
+  int32_t send_GetHistoryFromTime(const double startTime, const double endTime, const std::string& eventType, const std::string& avatarID);
   void recv_GetHistoryFromTime(std::vector<MCoSimulationEvents> & _return, const int32_t seqid);
-  void GetHistoryFromFrames(std::vector<MCoSimulationEvents> & _return, const int32_t fromFrame, const int32_t toFrame, const std::string& eventType);
-  int32_t send_GetHistoryFromFrames(const int32_t fromFrame, const int32_t toFrame, const std::string& eventType);
+  void GetHistoryFromFrames(std::vector<MCoSimulationEvents> & _return, const int32_t fromFrame, const int32_t toFrame, const std::string& eventType, const std::string& avatarID);
+  int32_t send_GetHistoryFromFrames(const int32_t fromFrame, const int32_t toFrame, const std::string& eventType, const std::string& avatarID);
   void recv_GetHistoryFromFrames(std::vector<MCoSimulationEvents> & _return, const int32_t seqid);
-  void GetHistory(std::vector<MCoSimulationEvents> & _return, const std::string& eventType);
-  int32_t send_GetHistory(const std::string& eventType);
+  void GetHistory(std::vector<MCoSimulationEvents> & _return, const std::string& eventType, const std::string& avatarID);
+  int32_t send_GetHistory(const std::string& eventType, const std::string& avatarID);
   void recv_GetHistory(std::vector<MCoSimulationEvents> & _return, const int32_t seqid);
-  void GetCurrentEvents(MCoSimulationEvents& _return);
-  int32_t send_GetCurrentEvents();
+  void GetCurrentEvents(MCoSimulationEvents& _return, const std::string& avatarID);
+  int32_t send_GetCurrentEvents(const std::string& avatarID);
   void recv_GetCurrentEvents(MCoSimulationEvents& _return, const int32_t seqid);
 };
 

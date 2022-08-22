@@ -570,13 +570,7 @@ class MMUDescription : public virtual ::apache::thrift::TBase {
     return !(*this == rhs);
   }
 
-  bool operator < (const MMUDescription &MMUDesc) const {				// added function body, sadam
-	int inID = stoi(MMUDesc.ID);
-	int thisID = stoi(this->ID);
-	if (inID < thisID)
-	  return true;	
-    return false;
-  }
+  bool operator < (const MMUDescription & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -603,13 +597,14 @@ class MInstruction : public virtual ::apache::thrift::TBase {
 
   MInstruction(const MInstruction&);
   MInstruction& operator=(const MInstruction&);
-  MInstruction() : ID(), Name(), MotionType(), StartCondition(), EndCondition(), Action() {
+  MInstruction() : ID(), Name(), MotionType(), AvatarID(), StartCondition(), EndCondition(), Action() {
   }
 
   virtual ~MInstruction() noexcept;
   std::string ID;
   std::string Name;
   std::string MotionType;
+  std::string AvatarID;
   std::map<std::string, std::string>  Properties;
   std::vector< ::MMIStandard::MConstraint>  Constraints;
   std::string StartCondition;
@@ -624,6 +619,8 @@ class MInstruction : public virtual ::apache::thrift::TBase {
   void __set_Name(const std::string& val);
 
   void __set_MotionType(const std::string& val);
+
+  void __set_AvatarID(const std::string& val);
 
   void __set_Properties(const std::map<std::string, std::string> & val);
 
@@ -644,6 +641,8 @@ class MInstruction : public virtual ::apache::thrift::TBase {
     if (!(Name == rhs.Name))
       return false;
     if (!(MotionType == rhs.MotionType))
+      return false;
+    if (!(AvatarID == rhs.AvatarID))
       return false;
     if (__isset.Properties != rhs.__isset.Properties)
       return false;

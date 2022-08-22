@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "gen-cpp/MMIAdapter.h"
+#include "MMIAdapter.h"
 
 namespace MMIStandard {
 
@@ -1477,6 +1477,14 @@ uint32_t MMIAdapter_Dispose_args::read(::apache::thrift::protocol::TProtocol* ip
           xfer += iprot->skip(ftype);
         }
         break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->avatarID);
+          this->__isset.avatarID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1502,6 +1510,10 @@ uint32_t MMIAdapter_Dispose_args::write(::apache::thrift::protocol::TProtocol* o
   xfer += oprot->writeString(this->sessionID);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->avatarID);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -1523,6 +1535,10 @@ uint32_t MMIAdapter_Dispose_pargs::write(::apache::thrift::protocol::TProtocol* 
 
   xfer += oprot->writeFieldBegin("sessionID", ::apache::thrift::protocol::T_STRING, 2);
   xfer += oprot->writeString((*(this->sessionID)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString((*(this->avatarID)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -1711,6 +1727,14 @@ uint32_t MMIAdapter_ExecuteFunction_args::read(::apache::thrift::protocol::TProt
           xfer += iprot->skip(ftype);
         }
         break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->avatarID);
+          this->__isset.avatarID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1753,6 +1777,10 @@ uint32_t MMIAdapter_ExecuteFunction_args::write(::apache::thrift::protocol::TPro
   xfer += oprot->writeString(this->sessionID);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 5);
+  xfer += oprot->writeString(this->avatarID);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -1791,6 +1819,10 @@ uint32_t MMIAdapter_ExecuteFunction_pargs::write(::apache::thrift::protocol::TPr
 
   xfer += oprot->writeFieldBegin("sessionID", ::apache::thrift::protocol::T_STRING, 4);
   xfer += oprot->writeString((*(this->sessionID)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 5);
+  xfer += oprot->writeString((*(this->avatarID)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -2350,6 +2382,14 @@ uint32_t MMIAdapter_CreateSession_args::read(::apache::thrift::protocol::TProtoc
           xfer += iprot->skip(ftype);
         }
         break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->sceneID);
+          this->__isset.sceneID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2371,6 +2411,10 @@ uint32_t MMIAdapter_CreateSession_args::write(::apache::thrift::protocol::TProto
   xfer += oprot->writeString(this->sessionID);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("sceneID", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->sceneID);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -2388,6 +2432,10 @@ uint32_t MMIAdapter_CreateSession_pargs::write(::apache::thrift::protocol::TProt
 
   xfer += oprot->writeFieldBegin("sessionID", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->sessionID)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("sceneID", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->sceneID)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -4974,13 +5022,13 @@ void MMIAdapterClient::recv_Abort( ::MMIStandard::MBoolResponse& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "Abort failed: unknown result");
 }
 
-void MMIAdapterClient::Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID)
+void MMIAdapterClient::Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID)
 {
-  send_Dispose(mmuID, sessionID);
+  send_Dispose(mmuID, sessionID, avatarID);
   recv_Dispose(_return);
 }
 
-void MMIAdapterClient::send_Dispose(const std::string& mmuID, const std::string& sessionID)
+void MMIAdapterClient::send_Dispose(const std::string& mmuID, const std::string& sessionID, const std::string& avatarID)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("Dispose", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -4988,6 +5036,7 @@ void MMIAdapterClient::send_Dispose(const std::string& mmuID, const std::string&
   MMIAdapter_Dispose_pargs args;
   args.mmuID = &mmuID;
   args.sessionID = &sessionID;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -5033,13 +5082,13 @@ void MMIAdapterClient::recv_Dispose( ::MMIStandard::MBoolResponse& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "Dispose failed: unknown result");
 }
 
-void MMIAdapterClient::ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID)
+void MMIAdapterClient::ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID)
 {
-  send_ExecuteFunction(name, parameters, mmuID, sessionID);
+  send_ExecuteFunction(name, parameters, mmuID, sessionID, avatarID);
   recv_ExecuteFunction(_return);
 }
 
-void MMIAdapterClient::send_ExecuteFunction(const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID)
+void MMIAdapterClient::send_ExecuteFunction(const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("ExecuteFunction", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -5049,6 +5098,7 @@ void MMIAdapterClient::send_ExecuteFunction(const std::string& name, const std::
   args.parameters = &parameters;
   args.mmuID = &mmuID;
   args.sessionID = &sessionID;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -5208,19 +5258,20 @@ void MMIAdapterClient::recv_GetAdapterDescription(MAdapterDescription& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "GetAdapterDescription failed: unknown result");
 }
 
-void MMIAdapterClient::CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID)
+void MMIAdapterClient::CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID, const std::string& sceneID)
 {
-  send_CreateSession(sessionID);
+  send_CreateSession(sessionID, sceneID);
   recv_CreateSession(_return);
 }
 
-void MMIAdapterClient::send_CreateSession(const std::string& sessionID)
+void MMIAdapterClient::send_CreateSession(const std::string& sessionID, const std::string& sceneID)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("CreateSession", ::apache::thrift::protocol::T_CALL, cseqid);
 
   MMIAdapter_CreateSession_pargs args;
   args.sessionID = &sessionID;
+  args.sceneID = &sceneID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -6217,7 +6268,7 @@ void MMIAdapterProcessor::process_Dispose(int32_t seqid, ::apache::thrift::proto
 
   MMIAdapter_Dispose_result result;
   try {
-    iface_->Dispose(result.success, args.mmuID, args.sessionID);
+    iface_->Dispose(result.success, args.mmuID, args.sessionID, args.avatarID);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -6271,7 +6322,7 @@ void MMIAdapterProcessor::process_ExecuteFunction(int32_t seqid, ::apache::thrif
 
   MMIAdapter_ExecuteFunction_result result;
   try {
-    iface_->ExecuteFunction(result.success, args.name, args.parameters, args.mmuID, args.sessionID);
+    iface_->ExecuteFunction(result.success, args.name, args.parameters, args.mmuID, args.sessionID, args.avatarID);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -6433,7 +6484,7 @@ void MMIAdapterProcessor::process_CreateSession(int32_t seqid, ::apache::thrift:
 
   MMIAdapter_CreateSession_result result;
   try {
-    iface_->CreateSession(result.success, args.sessionID);
+    iface_->CreateSession(result.success, args.sessionID, args.sceneID);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -7530,13 +7581,13 @@ void MMIAdapterConcurrentClient::recv_Abort( ::MMIStandard::MBoolResponse& _retu
   } // end while(true)
 }
 
-void MMIAdapterConcurrentClient::Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID)
+void MMIAdapterConcurrentClient::Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID)
 {
-  int32_t seqid = send_Dispose(mmuID, sessionID);
+  int32_t seqid = send_Dispose(mmuID, sessionID, avatarID);
   recv_Dispose(_return, seqid);
 }
 
-int32_t MMIAdapterConcurrentClient::send_Dispose(const std::string& mmuID, const std::string& sessionID)
+int32_t MMIAdapterConcurrentClient::send_Dispose(const std::string& mmuID, const std::string& sessionID, const std::string& avatarID)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -7545,6 +7596,7 @@ int32_t MMIAdapterConcurrentClient::send_Dispose(const std::string& mmuID, const
   MMIAdapter_Dispose_pargs args;
   args.mmuID = &mmuID;
   args.sessionID = &sessionID;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -7615,13 +7667,13 @@ void MMIAdapterConcurrentClient::recv_Dispose( ::MMIStandard::MBoolResponse& _re
   } // end while(true)
 }
 
-void MMIAdapterConcurrentClient::ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID)
+void MMIAdapterConcurrentClient::ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID)
 {
-  int32_t seqid = send_ExecuteFunction(name, parameters, mmuID, sessionID);
+  int32_t seqid = send_ExecuteFunction(name, parameters, mmuID, sessionID, avatarID);
   recv_ExecuteFunction(_return, seqid);
 }
 
-int32_t MMIAdapterConcurrentClient::send_ExecuteFunction(const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID)
+int32_t MMIAdapterConcurrentClient::send_ExecuteFunction(const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -7632,6 +7684,7 @@ int32_t MMIAdapterConcurrentClient::send_ExecuteFunction(const std::string& name
   args.parameters = &parameters;
   args.mmuID = &mmuID;
   args.sessionID = &sessionID;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -7868,13 +7921,13 @@ void MMIAdapterConcurrentClient::recv_GetAdapterDescription(MAdapterDescription&
   } // end while(true)
 }
 
-void MMIAdapterConcurrentClient::CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID)
+void MMIAdapterConcurrentClient::CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID, const std::string& sceneID)
 {
-  int32_t seqid = send_CreateSession(sessionID);
+  int32_t seqid = send_CreateSession(sessionID, sceneID);
   recv_CreateSession(_return, seqid);
 }
 
-int32_t MMIAdapterConcurrentClient::send_CreateSession(const std::string& sessionID)
+int32_t MMIAdapterConcurrentClient::send_CreateSession(const std::string& sessionID, const std::string& sceneID)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -7882,6 +7935,7 @@ int32_t MMIAdapterConcurrentClient::send_CreateSession(const std::string& sessio
 
   MMIAdapter_CreateSession_pargs args;
   args.sessionID = &sessionID;
+  args.sceneID = &sceneID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();

@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "gen-cpp/MotionModelUnit.h"
+#include "MotionModelUnit.h"
 
 namespace MMIStandard {
 
@@ -1270,6 +1270,14 @@ uint32_t MotionModelUnit_Dispose_args::read(::apache::thrift::protocol::TProtoco
     switch (fid)
     {
       case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->avatarID);
+          this->__isset.avatarID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->parameters.clear();
@@ -1309,7 +1317,11 @@ uint32_t MotionModelUnit_Dispose_args::write(::apache::thrift::protocol::TProtoc
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("MotionModelUnit_Dispose_args");
 
-  xfer += oprot->writeFieldBegin("parameters", ::apache::thrift::protocol::T_MAP, 1);
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->avatarID);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("parameters", ::apache::thrift::protocol::T_MAP, 2);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->parameters.size()));
     std::map<std::string, std::string> ::const_iterator _iter162;
@@ -1337,7 +1349,11 @@ uint32_t MotionModelUnit_Dispose_pargs::write(::apache::thrift::protocol::TProto
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("MotionModelUnit_Dispose_pargs");
 
-  xfer += oprot->writeFieldBegin("parameters", ::apache::thrift::protocol::T_MAP, 1);
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->avatarID)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("parameters", ::apache::thrift::protocol::T_MAP, 2);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->parameters)).size()));
     std::map<std::string, std::string> ::const_iterator _iter163;
@@ -1487,7 +1503,20 @@ uint32_t MotionModelUnit_CreateCheckpoint_args::read(::apache::thrift::protocol:
     if (ftype == ::apache::thrift::protocol::T_STOP) {
       break;
     }
-    xfer += iprot->skip(ftype);
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->avatarID);
+          this->__isset.avatarID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
     xfer += iprot->readFieldEnd();
   }
 
@@ -1500,6 +1529,10 @@ uint32_t MotionModelUnit_CreateCheckpoint_args::write(::apache::thrift::protocol
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("MotionModelUnit_CreateCheckpoint_args");
+
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->avatarID);
+  xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -1515,6 +1548,10 @@ uint32_t MotionModelUnit_CreateCheckpoint_pargs::write(::apache::thrift::protoco
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("MotionModelUnit_CreateCheckpoint_pargs");
+
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->avatarID)));
+  xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -1663,6 +1700,14 @@ uint32_t MotionModelUnit_RestoreCheckpoint_args::read(::apache::thrift::protocol
           xfer += iprot->skip(ftype);
         }
         break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->avatarID);
+          this->__isset.avatarID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1684,6 +1729,10 @@ uint32_t MotionModelUnit_RestoreCheckpoint_args::write(::apache::thrift::protoco
   xfer += oprot->writeBinary(this->data);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->avatarID);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -1701,6 +1750,10 @@ uint32_t MotionModelUnit_RestoreCheckpoint_pargs::write(::apache::thrift::protoc
 
   xfer += oprot->writeFieldBegin("data", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeBinary((*(this->data)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->avatarID)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -1851,6 +1904,14 @@ uint32_t MotionModelUnit_ExecuteFunction_args::read(::apache::thrift::protocol::
         }
         break;
       case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->avatarID);
+          this->__isset.avatarID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->parameters.clear();
@@ -1894,7 +1955,11 @@ uint32_t MotionModelUnit_ExecuteFunction_args::write(::apache::thrift::protocol:
   xfer += oprot->writeString(this->name);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("parameters", ::apache::thrift::protocol::T_MAP, 2);
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->avatarID);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("parameters", ::apache::thrift::protocol::T_MAP, 3);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->parameters.size()));
     std::map<std::string, std::string> ::const_iterator _iter171;
@@ -1926,7 +1991,11 @@ uint32_t MotionModelUnit_ExecuteFunction_pargs::write(::apache::thrift::protocol
   xfer += oprot->writeString((*(this->name)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("parameters", ::apache::thrift::protocol::T_MAP, 2);
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->avatarID)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("parameters", ::apache::thrift::protocol::T_MAP, 3);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->parameters)).size()));
     std::map<std::string, std::string> ::const_iterator _iter172;
@@ -2442,18 +2511,19 @@ void MotionModelUnitClient::recv_Abort( ::MMIStandard::MBoolResponse& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "Abort failed: unknown result");
 }
 
-void MotionModelUnitClient::Dispose( ::MMIStandard::MBoolResponse& _return, const std::map<std::string, std::string> & parameters)
+void MotionModelUnitClient::Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& avatarID, const std::map<std::string, std::string> & parameters)
 {
-  send_Dispose(parameters);
+  send_Dispose(avatarID, parameters);
   recv_Dispose(_return);
 }
 
-void MotionModelUnitClient::send_Dispose(const std::map<std::string, std::string> & parameters)
+void MotionModelUnitClient::send_Dispose(const std::string& avatarID, const std::map<std::string, std::string> & parameters)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("Dispose", ::apache::thrift::protocol::T_CALL, cseqid);
 
   MotionModelUnit_Dispose_pargs args;
+  args.avatarID = &avatarID;
   args.parameters = &parameters;
   args.write(oprot_);
 
@@ -2500,18 +2570,19 @@ void MotionModelUnitClient::recv_Dispose( ::MMIStandard::MBoolResponse& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "Dispose failed: unknown result");
 }
 
-void MotionModelUnitClient::CreateCheckpoint(std::string& _return)
+void MotionModelUnitClient::CreateCheckpoint(std::string& _return, const std::string& avatarID)
 {
-  send_CreateCheckpoint();
+  send_CreateCheckpoint(avatarID);
   recv_CreateCheckpoint(_return);
 }
 
-void MotionModelUnitClient::send_CreateCheckpoint()
+void MotionModelUnitClient::send_CreateCheckpoint(const std::string& avatarID)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("CreateCheckpoint", ::apache::thrift::protocol::T_CALL, cseqid);
 
   MotionModelUnit_CreateCheckpoint_pargs args;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -2557,19 +2628,20 @@ void MotionModelUnitClient::recv_CreateCheckpoint(std::string& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "CreateCheckpoint failed: unknown result");
 }
 
-void MotionModelUnitClient::RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& data)
+void MotionModelUnitClient::RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& data, const std::string& avatarID)
 {
-  send_RestoreCheckpoint(data);
+  send_RestoreCheckpoint(data, avatarID);
   recv_RestoreCheckpoint(_return);
 }
 
-void MotionModelUnitClient::send_RestoreCheckpoint(const std::string& data)
+void MotionModelUnitClient::send_RestoreCheckpoint(const std::string& data, const std::string& avatarID)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("RestoreCheckpoint", ::apache::thrift::protocol::T_CALL, cseqid);
 
   MotionModelUnit_RestoreCheckpoint_pargs args;
   args.data = &data;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -2615,19 +2687,20 @@ void MotionModelUnitClient::recv_RestoreCheckpoint( ::MMIStandard::MBoolResponse
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RestoreCheckpoint failed: unknown result");
 }
 
-void MotionModelUnitClient::ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters)
+void MotionModelUnitClient::ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::string& avatarID, const std::map<std::string, std::string> & parameters)
 {
-  send_ExecuteFunction(name, parameters);
+  send_ExecuteFunction(name, avatarID, parameters);
   recv_ExecuteFunction(_return);
 }
 
-void MotionModelUnitClient::send_ExecuteFunction(const std::string& name, const std::map<std::string, std::string> & parameters)
+void MotionModelUnitClient::send_ExecuteFunction(const std::string& name, const std::string& avatarID, const std::map<std::string, std::string> & parameters)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("ExecuteFunction", ::apache::thrift::protocol::T_CALL, cseqid);
 
   MotionModelUnit_ExecuteFunction_pargs args;
   args.name = &name;
+  args.avatarID = &avatarID;
   args.parameters = &parameters;
   args.write(oprot_);
 
@@ -3040,7 +3113,7 @@ void MotionModelUnitProcessor::process_Dispose(int32_t seqid, ::apache::thrift::
 
   MotionModelUnit_Dispose_result result;
   try {
-    iface_->Dispose(result.success, args.parameters);
+    iface_->Dispose(result.success, args.avatarID, args.parameters);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3094,7 +3167,7 @@ void MotionModelUnitProcessor::process_CreateCheckpoint(int32_t seqid, ::apache:
 
   MotionModelUnit_CreateCheckpoint_result result;
   try {
-    iface_->CreateCheckpoint(result.success);
+    iface_->CreateCheckpoint(result.success, args.avatarID);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3148,7 +3221,7 @@ void MotionModelUnitProcessor::process_RestoreCheckpoint(int32_t seqid, ::apache
 
   MotionModelUnit_RestoreCheckpoint_result result;
   try {
-    iface_->RestoreCheckpoint(result.success, args.data);
+    iface_->RestoreCheckpoint(result.success, args.data, args.avatarID);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3202,7 +3275,7 @@ void MotionModelUnitProcessor::process_ExecuteFunction(int32_t seqid, ::apache::
 
   MotionModelUnit_ExecuteFunction_result result;
   try {
-    iface_->ExecuteFunction(result.success, args.name, args.parameters);
+    iface_->ExecuteFunction(result.success, args.name, args.avatarID, args.parameters);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3747,19 +3820,20 @@ void MotionModelUnitConcurrentClient::recv_Abort( ::MMIStandard::MBoolResponse& 
   } // end while(true)
 }
 
-void MotionModelUnitConcurrentClient::Dispose( ::MMIStandard::MBoolResponse& _return, const std::map<std::string, std::string> & parameters)
+void MotionModelUnitConcurrentClient::Dispose( ::MMIStandard::MBoolResponse& _return, const std::string& avatarID, const std::map<std::string, std::string> & parameters)
 {
-  int32_t seqid = send_Dispose(parameters);
+  int32_t seqid = send_Dispose(avatarID, parameters);
   recv_Dispose(_return, seqid);
 }
 
-int32_t MotionModelUnitConcurrentClient::send_Dispose(const std::map<std::string, std::string> & parameters)
+int32_t MotionModelUnitConcurrentClient::send_Dispose(const std::string& avatarID, const std::map<std::string, std::string> & parameters)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
   oprot_->writeMessageBegin("Dispose", ::apache::thrift::protocol::T_CALL, cseqid);
 
   MotionModelUnit_Dispose_pargs args;
+  args.avatarID = &avatarID;
   args.parameters = &parameters;
   args.write(oprot_);
 
@@ -3831,19 +3905,20 @@ void MotionModelUnitConcurrentClient::recv_Dispose( ::MMIStandard::MBoolResponse
   } // end while(true)
 }
 
-void MotionModelUnitConcurrentClient::CreateCheckpoint(std::string& _return)
+void MotionModelUnitConcurrentClient::CreateCheckpoint(std::string& _return, const std::string& avatarID)
 {
-  int32_t seqid = send_CreateCheckpoint();
+  int32_t seqid = send_CreateCheckpoint(avatarID);
   recv_CreateCheckpoint(_return, seqid);
 }
 
-int32_t MotionModelUnitConcurrentClient::send_CreateCheckpoint()
+int32_t MotionModelUnitConcurrentClient::send_CreateCheckpoint(const std::string& avatarID)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
   oprot_->writeMessageBegin("CreateCheckpoint", ::apache::thrift::protocol::T_CALL, cseqid);
 
   MotionModelUnit_CreateCheckpoint_pargs args;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -3914,13 +3989,13 @@ void MotionModelUnitConcurrentClient::recv_CreateCheckpoint(std::string& _return
   } // end while(true)
 }
 
-void MotionModelUnitConcurrentClient::RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& data)
+void MotionModelUnitConcurrentClient::RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& data, const std::string& avatarID)
 {
-  int32_t seqid = send_RestoreCheckpoint(data);
+  int32_t seqid = send_RestoreCheckpoint(data, avatarID);
   recv_RestoreCheckpoint(_return, seqid);
 }
 
-int32_t MotionModelUnitConcurrentClient::send_RestoreCheckpoint(const std::string& data)
+int32_t MotionModelUnitConcurrentClient::send_RestoreCheckpoint(const std::string& data, const std::string& avatarID)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -3928,6 +4003,7 @@ int32_t MotionModelUnitConcurrentClient::send_RestoreCheckpoint(const std::strin
 
   MotionModelUnit_RestoreCheckpoint_pargs args;
   args.data = &data;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -3998,13 +4074,13 @@ void MotionModelUnitConcurrentClient::recv_RestoreCheckpoint( ::MMIStandard::MBo
   } // end while(true)
 }
 
-void MotionModelUnitConcurrentClient::ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters)
+void MotionModelUnitConcurrentClient::ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::string& avatarID, const std::map<std::string, std::string> & parameters)
 {
-  int32_t seqid = send_ExecuteFunction(name, parameters);
+  int32_t seqid = send_ExecuteFunction(name, avatarID, parameters);
   recv_ExecuteFunction(_return, seqid);
 }
 
-int32_t MotionModelUnitConcurrentClient::send_ExecuteFunction(const std::string& name, const std::map<std::string, std::string> & parameters)
+int32_t MotionModelUnitConcurrentClient::send_ExecuteFunction(const std::string& name, const std::string& avatarID, const std::map<std::string, std::string> & parameters)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -4012,6 +4088,7 @@ int32_t MotionModelUnitConcurrentClient::send_ExecuteFunction(const std::string&
 
   MotionModelUnit_ExecuteFunction_pargs args;
   args.name = &name;
+  args.avatarID = &avatarID;
   args.parameters = &parameters;
   args.write(oprot_);
 

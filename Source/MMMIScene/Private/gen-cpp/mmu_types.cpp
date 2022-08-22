@@ -4,15 +4,12 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "gen-cpp/mmu_types.h"
+#include "mmu_types.h"
 
 #include <algorithm>
 #include <ostream>
 
 #include <thrift/TToString.h>
-
-//Used for culture invariant float to string conversions.
-#include<boost/lexical_cast.hpp>
 
 namespace MMIStandard {
 
@@ -41,7 +38,7 @@ std::string to_string(const MCoordinateSystemType::type& val) {
   if (it != _MCoordinateSystemType_VALUES_TO_NAMES.end()) {
     return std::string(it->second);
   } else {
-    return boost::lexical_cast<std::string>(static_cast<int>(val));
+    return std::to_string(static_cast<int>(val));
   }
 }
 
@@ -76,7 +73,7 @@ std::string to_string(const MDependencyType::type& val) {
   if (it != _MDependencyType_VALUES_TO_NAMES.end()) {
     return std::string(it->second);
   } else {
-    return boost::lexical_cast<std::string>(static_cast<int>(val));
+    return std::to_string(static_cast<int>(val));
   }
 }
 
@@ -1845,6 +1842,10 @@ void MInstruction::__set_MotionType(const std::string& val) {
   this->MotionType = val;
 }
 
+void MInstruction::__set_AvatarID(const std::string& val) {
+  this->AvatarID = val;
+}
+
 void MInstruction::__set_Properties(const std::map<std::string, std::string> & val) {
   this->Properties = val;
 __isset.Properties = true;
@@ -1896,6 +1897,7 @@ uint32_t MInstruction::read(::apache::thrift::protocol::TProtocol* iprot) {
   bool isset_ID = false;
   bool isset_Name = false;
   bool isset_MotionType = false;
+  bool isset_AvatarID = false;
 
   while (true)
   {
@@ -1930,6 +1932,14 @@ uint32_t MInstruction::read(::apache::thrift::protocol::TProtocol* iprot) {
         }
         break;
       case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->AvatarID);
+          isset_AvatarID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->Properties.clear();
@@ -1952,7 +1962,7 @@ uint32_t MInstruction::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 5:
+      case 6:
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Constraints.clear();
@@ -1972,7 +1982,7 @@ uint32_t MInstruction::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 6:
+      case 7:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
           xfer += iprot->readString(this->StartCondition);
           this->__isset.StartCondition = true;
@@ -1980,7 +1990,7 @@ uint32_t MInstruction::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 7:
+      case 8:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
           xfer += iprot->readString(this->EndCondition);
           this->__isset.EndCondition = true;
@@ -1988,7 +1998,7 @@ uint32_t MInstruction::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 8:
+      case 9:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
           xfer += iprot->readString(this->Action);
           this->__isset.Action = true;
@@ -1996,7 +2006,7 @@ uint32_t MInstruction::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 9:
+      case 10:
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Instructions.clear();
@@ -2031,6 +2041,8 @@ uint32_t MInstruction::read(::apache::thrift::protocol::TProtocol* iprot) {
     throw TProtocolException(TProtocolException::INVALID_DATA);
   if (!isset_MotionType)
     throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_AvatarID)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
   return xfer;
 }
 
@@ -2051,8 +2063,12 @@ uint32_t MInstruction::write(::apache::thrift::protocol::TProtocol* oprot) const
   xfer += oprot->writeString(this->MotionType);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("AvatarID", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->AvatarID);
+  xfer += oprot->writeFieldEnd();
+
   if (this->__isset.Properties) {
-    xfer += oprot->writeFieldBegin("Properties", ::apache::thrift::protocol::T_MAP, 4);
+    xfer += oprot->writeFieldBegin("Properties", ::apache::thrift::protocol::T_MAP, 5);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->Properties.size()));
       std::map<std::string, std::string> ::const_iterator _iter130;
@@ -2066,7 +2082,7 @@ uint32_t MInstruction::write(::apache::thrift::protocol::TProtocol* oprot) const
     xfer += oprot->writeFieldEnd();
   }
   if (this->__isset.Constraints) {
-    xfer += oprot->writeFieldBegin("Constraints", ::apache::thrift::protocol::T_LIST, 5);
+    xfer += oprot->writeFieldBegin("Constraints", ::apache::thrift::protocol::T_LIST, 6);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->Constraints.size()));
       std::vector< ::MMIStandard::MConstraint> ::const_iterator _iter131;
@@ -2079,22 +2095,22 @@ uint32_t MInstruction::write(::apache::thrift::protocol::TProtocol* oprot) const
     xfer += oprot->writeFieldEnd();
   }
   if (this->__isset.StartCondition) {
-    xfer += oprot->writeFieldBegin("StartCondition", ::apache::thrift::protocol::T_STRING, 6);
+    xfer += oprot->writeFieldBegin("StartCondition", ::apache::thrift::protocol::T_STRING, 7);
     xfer += oprot->writeString(this->StartCondition);
     xfer += oprot->writeFieldEnd();
   }
   if (this->__isset.EndCondition) {
-    xfer += oprot->writeFieldBegin("EndCondition", ::apache::thrift::protocol::T_STRING, 7);
+    xfer += oprot->writeFieldBegin("EndCondition", ::apache::thrift::protocol::T_STRING, 8);
     xfer += oprot->writeString(this->EndCondition);
     xfer += oprot->writeFieldEnd();
   }
   if (this->__isset.Action) {
-    xfer += oprot->writeFieldBegin("Action", ::apache::thrift::protocol::T_STRING, 8);
+    xfer += oprot->writeFieldBegin("Action", ::apache::thrift::protocol::T_STRING, 9);
     xfer += oprot->writeString(this->Action);
     xfer += oprot->writeFieldEnd();
   }
   if (this->__isset.Instructions) {
-    xfer += oprot->writeFieldBegin("Instructions", ::apache::thrift::protocol::T_LIST, 9);
+    xfer += oprot->writeFieldBegin("Instructions", ::apache::thrift::protocol::T_LIST, 10);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->Instructions.size()));
       std::vector<MInstruction> ::const_iterator _iter132;
@@ -2116,6 +2132,7 @@ void swap(MInstruction &a, MInstruction &b) {
   swap(a.ID, b.ID);
   swap(a.Name, b.Name);
   swap(a.MotionType, b.MotionType);
+  swap(a.AvatarID, b.AvatarID);
   swap(a.Properties, b.Properties);
   swap(a.Constraints, b.Constraints);
   swap(a.StartCondition, b.StartCondition);
@@ -2129,6 +2146,7 @@ MInstruction::MInstruction(const MInstruction& other133) {
   ID = other133.ID;
   Name = other133.Name;
   MotionType = other133.MotionType;
+  AvatarID = other133.AvatarID;
   Properties = other133.Properties;
   Constraints = other133.Constraints;
   StartCondition = other133.StartCondition;
@@ -2141,6 +2159,7 @@ MInstruction& MInstruction::operator=(const MInstruction& other134) {
   ID = other134.ID;
   Name = other134.Name;
   MotionType = other134.MotionType;
+  AvatarID = other134.AvatarID;
   Properties = other134.Properties;
   Constraints = other134.Constraints;
   StartCondition = other134.StartCondition;
@@ -2156,6 +2175,7 @@ void MInstruction::printTo(std::ostream& out) const {
   out << "ID=" << to_string(ID);
   out << ", " << "Name=" << to_string(Name);
   out << ", " << "MotionType=" << to_string(MotionType);
+  out << ", " << "AvatarID=" << to_string(AvatarID);
   out << ", " << "Properties="; (__isset.Properties ? (out << to_string(Properties)) : (out << "<null>"));
   out << ", " << "Constraints="; (__isset.Constraints ? (out << to_string(Constraints)) : (out << "<null>"));
   out << ", " << "StartCondition="; (__isset.StartCondition ? (out << to_string(StartCondition)) : (out << "<null>"));
