@@ -70,7 +70,7 @@ class MMIAdapterHandler : virtual public MMIAdapterIf {
     printf("GetAdapterDescription\n");
   }
 
-  void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID, const std::string& sceneID) {
+  void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID) {
     // Your implementation goes here
     printf("CreateSession\n");
   }
@@ -115,12 +115,12 @@ class MMIAdapterHandler : virtual public MMIAdapterIf {
     printf("LoadMMUs\n");
   }
 
-  void CreateCheckpoint(std::string& _return, const std::string& mmuID, const std::string& sessionID) {
+  void CreateCheckpoint(std::string& _return, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID) {
     // Your implementation goes here
     printf("CreateCheckpoint\n");
   }
 
-  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData) {
+  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData, const std::string& avatarID) {
     // Your implementation goes here
     printf("RestoreCheckpoint\n");
   }

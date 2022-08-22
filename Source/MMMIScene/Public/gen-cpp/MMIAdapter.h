@@ -32,7 +32,7 @@ class MMIAdapterIf {
   virtual void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID) = 0;
   virtual void GetStatus(std::map<std::string, std::string> & _return) = 0;
   virtual void GetAdapterDescription(MAdapterDescription& _return) = 0;
-  virtual void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID, const std::string& sceneID) = 0;
+  virtual void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID) = 0;
   virtual void CloseSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID) = 0;
   virtual void PushScene( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MSceneUpdate& sceneUpdates, const std::string& sessionID) = 0;
   virtual void GetLoadableMMUs(std::vector< ::MMIStandard::MMUDescription> & _return) = 0;
@@ -41,8 +41,8 @@ class MMIAdapterIf {
   virtual void GetScene(std::vector< ::MMIStandard::MSceneObject> & _return, const std::string& sessionID) = 0;
   virtual void GetSceneChanges( ::MMIStandard::MSceneUpdate& _return, const std::string& sessionID) = 0;
   virtual void LoadMMUs(std::map<std::string, std::string> & _return, const std::vector<std::string> & mmus, const std::string& sessionID) = 0;
-  virtual void CreateCheckpoint(std::string& _return, const std::string& mmuID, const std::string& sessionID) = 0;
-  virtual void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData) = 0;
+  virtual void CreateCheckpoint(std::string& _return, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID) = 0;
+  virtual void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData, const std::string& avatarID) = 0;
 };
 
 class MMIAdapterIfFactory {
@@ -102,7 +102,7 @@ class MMIAdapterNull : virtual public MMIAdapterIf {
   void GetAdapterDescription(MAdapterDescription& /* _return */) {
     return;
   }
-  void CreateSession( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* sessionID */, const std::string& /* sceneID */) {
+  void CreateSession( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* sessionID */) {
     return;
   }
   void CloseSession( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* sessionID */) {
@@ -129,10 +129,10 @@ class MMIAdapterNull : virtual public MMIAdapterIf {
   void LoadMMUs(std::map<std::string, std::string> & /* _return */, const std::vector<std::string> & /* mmus */, const std::string& /* sessionID */) {
     return;
   }
-  void CreateCheckpoint(std::string& /* _return */, const std::string& /* mmuID */, const std::string& /* sessionID */) {
+  void CreateCheckpoint(std::string& /* _return */, const std::string& /* mmuID */, const std::string& /* sessionID */, const std::string& /* avatarID */) {
     return;
   }
-  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* mmuID */, const std::string& /* sessionID */, const std::string& /* checkpointData */) {
+  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* mmuID */, const std::string& /* sessionID */, const std::string& /* checkpointData */, const std::string& /* avatarID */) {
     return;
   }
 };
@@ -1301,9 +1301,8 @@ class MMIAdapter_GetAdapterDescription_presult {
 };
 
 typedef struct _MMIAdapter_CreateSession_args__isset {
-  _MMIAdapter_CreateSession_args__isset() : sessionID(false), sceneID(false) {}
+  _MMIAdapter_CreateSession_args__isset() : sessionID(false) {}
   bool sessionID :1;
-  bool sceneID :1;
 } _MMIAdapter_CreateSession_args__isset;
 
 class MMIAdapter_CreateSession_args {
@@ -1311,24 +1310,19 @@ class MMIAdapter_CreateSession_args {
 
   MMIAdapter_CreateSession_args(const MMIAdapter_CreateSession_args&);
   MMIAdapter_CreateSession_args& operator=(const MMIAdapter_CreateSession_args&);
-  MMIAdapter_CreateSession_args() : sessionID(), sceneID() {
+  MMIAdapter_CreateSession_args() : sessionID() {
   }
 
   virtual ~MMIAdapter_CreateSession_args() noexcept;
   std::string sessionID;
-  std::string sceneID;
 
   _MMIAdapter_CreateSession_args__isset __isset;
 
   void __set_sessionID(const std::string& val);
 
-  void __set_sceneID(const std::string& val);
-
   bool operator == (const MMIAdapter_CreateSession_args & rhs) const
   {
     if (!(sessionID == rhs.sessionID))
-      return false;
-    if (!(sceneID == rhs.sceneID))
       return false;
     return true;
   }
@@ -1350,7 +1344,6 @@ class MMIAdapter_CreateSession_pargs {
 
   virtual ~MMIAdapter_CreateSession_pargs() noexcept;
   const std::string* sessionID;
-  const std::string* sceneID;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -2253,9 +2246,10 @@ class MMIAdapter_LoadMMUs_presult {
 };
 
 typedef struct _MMIAdapter_CreateCheckpoint_args__isset {
-  _MMIAdapter_CreateCheckpoint_args__isset() : mmuID(false), sessionID(false) {}
+  _MMIAdapter_CreateCheckpoint_args__isset() : mmuID(false), sessionID(false), avatarID(false) {}
   bool mmuID :1;
   bool sessionID :1;
+  bool avatarID :1;
 } _MMIAdapter_CreateCheckpoint_args__isset;
 
 class MMIAdapter_CreateCheckpoint_args {
@@ -2263,12 +2257,13 @@ class MMIAdapter_CreateCheckpoint_args {
 
   MMIAdapter_CreateCheckpoint_args(const MMIAdapter_CreateCheckpoint_args&);
   MMIAdapter_CreateCheckpoint_args& operator=(const MMIAdapter_CreateCheckpoint_args&);
-  MMIAdapter_CreateCheckpoint_args() : mmuID(), sessionID() {
+  MMIAdapter_CreateCheckpoint_args() : mmuID(), sessionID(), avatarID() {
   }
 
   virtual ~MMIAdapter_CreateCheckpoint_args() noexcept;
   std::string mmuID;
   std::string sessionID;
+  std::string avatarID;
 
   _MMIAdapter_CreateCheckpoint_args__isset __isset;
 
@@ -2276,11 +2271,15 @@ class MMIAdapter_CreateCheckpoint_args {
 
   void __set_sessionID(const std::string& val);
 
+  void __set_avatarID(const std::string& val);
+
   bool operator == (const MMIAdapter_CreateCheckpoint_args & rhs) const
   {
     if (!(mmuID == rhs.mmuID))
       return false;
     if (!(sessionID == rhs.sessionID))
+      return false;
+    if (!(avatarID == rhs.avatarID))
       return false;
     return true;
   }
@@ -2303,6 +2302,7 @@ class MMIAdapter_CreateCheckpoint_pargs {
   virtual ~MMIAdapter_CreateCheckpoint_pargs() noexcept;
   const std::string* mmuID;
   const std::string* sessionID;
+  const std::string* avatarID;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -2364,10 +2364,11 @@ class MMIAdapter_CreateCheckpoint_presult {
 };
 
 typedef struct _MMIAdapter_RestoreCheckpoint_args__isset {
-  _MMIAdapter_RestoreCheckpoint_args__isset() : mmuID(false), sessionID(false), checkpointData(false) {}
+  _MMIAdapter_RestoreCheckpoint_args__isset() : mmuID(false), sessionID(false), checkpointData(false), avatarID(false) {}
   bool mmuID :1;
   bool sessionID :1;
   bool checkpointData :1;
+  bool avatarID :1;
 } _MMIAdapter_RestoreCheckpoint_args__isset;
 
 class MMIAdapter_RestoreCheckpoint_args {
@@ -2375,13 +2376,14 @@ class MMIAdapter_RestoreCheckpoint_args {
 
   MMIAdapter_RestoreCheckpoint_args(const MMIAdapter_RestoreCheckpoint_args&);
   MMIAdapter_RestoreCheckpoint_args& operator=(const MMIAdapter_RestoreCheckpoint_args&);
-  MMIAdapter_RestoreCheckpoint_args() : mmuID(), sessionID(), checkpointData() {
+  MMIAdapter_RestoreCheckpoint_args() : mmuID(), sessionID(), checkpointData(), avatarID() {
   }
 
   virtual ~MMIAdapter_RestoreCheckpoint_args() noexcept;
   std::string mmuID;
   std::string sessionID;
   std::string checkpointData;
+  std::string avatarID;
 
   _MMIAdapter_RestoreCheckpoint_args__isset __isset;
 
@@ -2391,6 +2393,8 @@ class MMIAdapter_RestoreCheckpoint_args {
 
   void __set_checkpointData(const std::string& val);
 
+  void __set_avatarID(const std::string& val);
+
   bool operator == (const MMIAdapter_RestoreCheckpoint_args & rhs) const
   {
     if (!(mmuID == rhs.mmuID))
@@ -2398,6 +2402,8 @@ class MMIAdapter_RestoreCheckpoint_args {
     if (!(sessionID == rhs.sessionID))
       return false;
     if (!(checkpointData == rhs.checkpointData))
+      return false;
+    if (!(avatarID == rhs.avatarID))
       return false;
     return true;
   }
@@ -2421,6 +2427,7 @@ class MMIAdapter_RestoreCheckpoint_pargs {
   const std::string* mmuID;
   const std::string* sessionID;
   const std::string* checkpointData;
+  const std::string* avatarID;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -2536,8 +2543,8 @@ class MMIAdapterClient : virtual public MMIAdapterIf {
   void GetAdapterDescription(MAdapterDescription& _return);
   void send_GetAdapterDescription();
   void recv_GetAdapterDescription(MAdapterDescription& _return);
-  void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID, const std::string& sceneID);
-  void send_CreateSession(const std::string& sessionID, const std::string& sceneID);
+  void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID);
+  void send_CreateSession(const std::string& sessionID);
   void recv_CreateSession( ::MMIStandard::MBoolResponse& _return);
   void CloseSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID);
   void send_CloseSession(const std::string& sessionID);
@@ -2563,11 +2570,11 @@ class MMIAdapterClient : virtual public MMIAdapterIf {
   void LoadMMUs(std::map<std::string, std::string> & _return, const std::vector<std::string> & mmus, const std::string& sessionID);
   void send_LoadMMUs(const std::vector<std::string> & mmus, const std::string& sessionID);
   void recv_LoadMMUs(std::map<std::string, std::string> & _return);
-  void CreateCheckpoint(std::string& _return, const std::string& mmuID, const std::string& sessionID);
-  void send_CreateCheckpoint(const std::string& mmuID, const std::string& sessionID);
+  void CreateCheckpoint(std::string& _return, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID);
+  void send_CreateCheckpoint(const std::string& mmuID, const std::string& sessionID, const std::string& avatarID);
   void recv_CreateCheckpoint(std::string& _return);
-  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData);
-  void send_RestoreCheckpoint(const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData);
+  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData, const std::string& avatarID);
+  void send_RestoreCheckpoint(const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData, const std::string& avatarID);
   void recv_RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
@@ -2757,13 +2764,13 @@ class MMIAdapterMultiface : virtual public MMIAdapterIf {
     return;
   }
 
-  void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID, const std::string& sceneID) {
+  void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->CreateSession(_return, sessionID, sceneID);
+      ifaces_[i]->CreateSession(_return, sessionID);
     }
-    ifaces_[i]->CreateSession(_return, sessionID, sceneID);
+    ifaces_[i]->CreateSession(_return, sessionID);
     return;
   }
 
@@ -2847,23 +2854,23 @@ class MMIAdapterMultiface : virtual public MMIAdapterIf {
     return;
   }
 
-  void CreateCheckpoint(std::string& _return, const std::string& mmuID, const std::string& sessionID) {
+  void CreateCheckpoint(std::string& _return, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->CreateCheckpoint(_return, mmuID, sessionID);
+      ifaces_[i]->CreateCheckpoint(_return, mmuID, sessionID, avatarID);
     }
-    ifaces_[i]->CreateCheckpoint(_return, mmuID, sessionID);
+    ifaces_[i]->CreateCheckpoint(_return, mmuID, sessionID, avatarID);
     return;
   }
 
-  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData) {
+  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData, const std::string& avatarID) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->RestoreCheckpoint(_return, mmuID, sessionID, checkpointData);
+      ifaces_[i]->RestoreCheckpoint(_return, mmuID, sessionID, checkpointData, avatarID);
     }
-    ifaces_[i]->RestoreCheckpoint(_return, mmuID, sessionID, checkpointData);
+    ifaces_[i]->RestoreCheckpoint(_return, mmuID, sessionID, checkpointData, avatarID);
     return;
   }
 
@@ -2929,8 +2936,8 @@ class MMIAdapterConcurrentClient : virtual public MMIAdapterIf {
   void GetAdapterDescription(MAdapterDescription& _return);
   int32_t send_GetAdapterDescription();
   void recv_GetAdapterDescription(MAdapterDescription& _return, const int32_t seqid);
-  void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID, const std::string& sceneID);
-  int32_t send_CreateSession(const std::string& sessionID, const std::string& sceneID);
+  void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID);
+  int32_t send_CreateSession(const std::string& sessionID);
   void recv_CreateSession( ::MMIStandard::MBoolResponse& _return, const int32_t seqid);
   void CloseSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID);
   int32_t send_CloseSession(const std::string& sessionID);
@@ -2956,11 +2963,11 @@ class MMIAdapterConcurrentClient : virtual public MMIAdapterIf {
   void LoadMMUs(std::map<std::string, std::string> & _return, const std::vector<std::string> & mmus, const std::string& sessionID);
   int32_t send_LoadMMUs(const std::vector<std::string> & mmus, const std::string& sessionID);
   void recv_LoadMMUs(std::map<std::string, std::string> & _return, const int32_t seqid);
-  void CreateCheckpoint(std::string& _return, const std::string& mmuID, const std::string& sessionID);
-  int32_t send_CreateCheckpoint(const std::string& mmuID, const std::string& sessionID);
+  void CreateCheckpoint(std::string& _return, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID);
+  int32_t send_CreateCheckpoint(const std::string& mmuID, const std::string& sessionID, const std::string& avatarID);
   void recv_CreateCheckpoint(std::string& _return, const int32_t seqid);
-  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData);
-  int32_t send_RestoreCheckpoint(const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData);
+  void RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData, const std::string& avatarID);
+  int32_t send_RestoreCheckpoint(const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData, const std::string& avatarID);
   void recv_RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const int32_t seqid);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;

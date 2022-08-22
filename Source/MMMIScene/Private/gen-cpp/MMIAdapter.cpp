@@ -2382,14 +2382,6 @@ uint32_t MMIAdapter_CreateSession_args::read(::apache::thrift::protocol::TProtoc
           xfer += iprot->skip(ftype);
         }
         break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->sceneID);
-          this->__isset.sceneID = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2411,10 +2403,6 @@ uint32_t MMIAdapter_CreateSession_args::write(::apache::thrift::protocol::TProto
   xfer += oprot->writeString(this->sessionID);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("sceneID", ::apache::thrift::protocol::T_STRING, 2);
-  xfer += oprot->writeString(this->sceneID);
-  xfer += oprot->writeFieldEnd();
-
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -2432,10 +2420,6 @@ uint32_t MMIAdapter_CreateSession_pargs::write(::apache::thrift::protocol::TProt
 
   xfer += oprot->writeFieldBegin("sessionID", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->sessionID)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("sceneID", ::apache::thrift::protocol::T_STRING, 2);
-  xfer += oprot->writeString((*(this->sceneID)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -4279,6 +4263,14 @@ uint32_t MMIAdapter_CreateCheckpoint_args::read(::apache::thrift::protocol::TPro
           xfer += iprot->skip(ftype);
         }
         break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->avatarID);
+          this->__isset.avatarID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -4304,6 +4296,10 @@ uint32_t MMIAdapter_CreateCheckpoint_args::write(::apache::thrift::protocol::TPr
   xfer += oprot->writeString(this->sessionID);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->avatarID);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -4325,6 +4321,10 @@ uint32_t MMIAdapter_CreateCheckpoint_pargs::write(::apache::thrift::protocol::TP
 
   xfer += oprot->writeFieldBegin("sessionID", ::apache::thrift::protocol::T_STRING, 2);
   xfer += oprot->writeString((*(this->sessionID)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString((*(this->avatarID)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -4490,6 +4490,14 @@ uint32_t MMIAdapter_RestoreCheckpoint_args::read(::apache::thrift::protocol::TPr
           xfer += iprot->skip(ftype);
         }
         break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->avatarID);
+          this->__isset.avatarID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -4519,6 +4527,10 @@ uint32_t MMIAdapter_RestoreCheckpoint_args::write(::apache::thrift::protocol::TP
   xfer += oprot->writeBinary(this->checkpointData);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->avatarID);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -4544,6 +4556,10 @@ uint32_t MMIAdapter_RestoreCheckpoint_pargs::write(::apache::thrift::protocol::T
 
   xfer += oprot->writeFieldBegin("checkpointData", ::apache::thrift::protocol::T_STRING, 3);
   xfer += oprot->writeBinary((*(this->checkpointData)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("avatarID", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString((*(this->avatarID)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -5258,20 +5274,19 @@ void MMIAdapterClient::recv_GetAdapterDescription(MAdapterDescription& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "GetAdapterDescription failed: unknown result");
 }
 
-void MMIAdapterClient::CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID, const std::string& sceneID)
+void MMIAdapterClient::CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID)
 {
-  send_CreateSession(sessionID, sceneID);
+  send_CreateSession(sessionID);
   recv_CreateSession(_return);
 }
 
-void MMIAdapterClient::send_CreateSession(const std::string& sessionID, const std::string& sceneID)
+void MMIAdapterClient::send_CreateSession(const std::string& sessionID)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("CreateSession", ::apache::thrift::protocol::T_CALL, cseqid);
 
   MMIAdapter_CreateSession_pargs args;
   args.sessionID = &sessionID;
-  args.sceneID = &sceneID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -5783,13 +5798,13 @@ void MMIAdapterClient::recv_LoadMMUs(std::map<std::string, std::string> & _retur
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "LoadMMUs failed: unknown result");
 }
 
-void MMIAdapterClient::CreateCheckpoint(std::string& _return, const std::string& mmuID, const std::string& sessionID)
+void MMIAdapterClient::CreateCheckpoint(std::string& _return, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID)
 {
-  send_CreateCheckpoint(mmuID, sessionID);
+  send_CreateCheckpoint(mmuID, sessionID, avatarID);
   recv_CreateCheckpoint(_return);
 }
 
-void MMIAdapterClient::send_CreateCheckpoint(const std::string& mmuID, const std::string& sessionID)
+void MMIAdapterClient::send_CreateCheckpoint(const std::string& mmuID, const std::string& sessionID, const std::string& avatarID)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("CreateCheckpoint", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -5797,6 +5812,7 @@ void MMIAdapterClient::send_CreateCheckpoint(const std::string& mmuID, const std
   MMIAdapter_CreateCheckpoint_pargs args;
   args.mmuID = &mmuID;
   args.sessionID = &sessionID;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -5842,13 +5858,13 @@ void MMIAdapterClient::recv_CreateCheckpoint(std::string& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "CreateCheckpoint failed: unknown result");
 }
 
-void MMIAdapterClient::RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData)
+void MMIAdapterClient::RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData, const std::string& avatarID)
 {
-  send_RestoreCheckpoint(mmuID, sessionID, checkpointData);
+  send_RestoreCheckpoint(mmuID, sessionID, checkpointData, avatarID);
   recv_RestoreCheckpoint(_return);
 }
 
-void MMIAdapterClient::send_RestoreCheckpoint(const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData)
+void MMIAdapterClient::send_RestoreCheckpoint(const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData, const std::string& avatarID)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("RestoreCheckpoint", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -5857,6 +5873,7 @@ void MMIAdapterClient::send_RestoreCheckpoint(const std::string& mmuID, const st
   args.mmuID = &mmuID;
   args.sessionID = &sessionID;
   args.checkpointData = &checkpointData;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -6484,7 +6501,7 @@ void MMIAdapterProcessor::process_CreateSession(int32_t seqid, ::apache::thrift:
 
   MMIAdapter_CreateSession_result result;
   try {
-    iface_->CreateSession(result.success, args.sessionID, args.sceneID);
+    iface_->CreateSession(result.success, args.sessionID);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -6970,7 +6987,7 @@ void MMIAdapterProcessor::process_CreateCheckpoint(int32_t seqid, ::apache::thri
 
   MMIAdapter_CreateCheckpoint_result result;
   try {
-    iface_->CreateCheckpoint(result.success, args.mmuID, args.sessionID);
+    iface_->CreateCheckpoint(result.success, args.mmuID, args.sessionID, args.avatarID);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -7024,7 +7041,7 @@ void MMIAdapterProcessor::process_RestoreCheckpoint(int32_t seqid, ::apache::thr
 
   MMIAdapter_RestoreCheckpoint_result result;
   try {
-    iface_->RestoreCheckpoint(result.success, args.mmuID, args.sessionID, args.checkpointData);
+    iface_->RestoreCheckpoint(result.success, args.mmuID, args.sessionID, args.checkpointData, args.avatarID);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -7921,13 +7938,13 @@ void MMIAdapterConcurrentClient::recv_GetAdapterDescription(MAdapterDescription&
   } // end while(true)
 }
 
-void MMIAdapterConcurrentClient::CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID, const std::string& sceneID)
+void MMIAdapterConcurrentClient::CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID)
 {
-  int32_t seqid = send_CreateSession(sessionID, sceneID);
+  int32_t seqid = send_CreateSession(sessionID);
   recv_CreateSession(_return, seqid);
 }
 
-int32_t MMIAdapterConcurrentClient::send_CreateSession(const std::string& sessionID, const std::string& sceneID)
+int32_t MMIAdapterConcurrentClient::send_CreateSession(const std::string& sessionID)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -7935,7 +7952,6 @@ int32_t MMIAdapterConcurrentClient::send_CreateSession(const std::string& sessio
 
   MMIAdapter_CreateSession_pargs args;
   args.sessionID = &sessionID;
-  args.sceneID = &sceneID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -8680,13 +8696,13 @@ void MMIAdapterConcurrentClient::recv_LoadMMUs(std::map<std::string, std::string
   } // end while(true)
 }
 
-void MMIAdapterConcurrentClient::CreateCheckpoint(std::string& _return, const std::string& mmuID, const std::string& sessionID)
+void MMIAdapterConcurrentClient::CreateCheckpoint(std::string& _return, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID)
 {
-  int32_t seqid = send_CreateCheckpoint(mmuID, sessionID);
+  int32_t seqid = send_CreateCheckpoint(mmuID, sessionID, avatarID);
   recv_CreateCheckpoint(_return, seqid);
 }
 
-int32_t MMIAdapterConcurrentClient::send_CreateCheckpoint(const std::string& mmuID, const std::string& sessionID)
+int32_t MMIAdapterConcurrentClient::send_CreateCheckpoint(const std::string& mmuID, const std::string& sessionID, const std::string& avatarID)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -8695,6 +8711,7 @@ int32_t MMIAdapterConcurrentClient::send_CreateCheckpoint(const std::string& mmu
   MMIAdapter_CreateCheckpoint_pargs args;
   args.mmuID = &mmuID;
   args.sessionID = &sessionID;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -8765,13 +8782,13 @@ void MMIAdapterConcurrentClient::recv_CreateCheckpoint(std::string& _return, con
   } // end while(true)
 }
 
-void MMIAdapterConcurrentClient::RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData)
+void MMIAdapterConcurrentClient::RestoreCheckpoint( ::MMIStandard::MBoolResponse& _return, const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData, const std::string& avatarID)
 {
-  int32_t seqid = send_RestoreCheckpoint(mmuID, sessionID, checkpointData);
+  int32_t seqid = send_RestoreCheckpoint(mmuID, sessionID, checkpointData, avatarID);
   recv_RestoreCheckpoint(_return, seqid);
 }
 
-int32_t MMIAdapterConcurrentClient::send_RestoreCheckpoint(const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData)
+int32_t MMIAdapterConcurrentClient::send_RestoreCheckpoint(const std::string& mmuID, const std::string& sessionID, const std::string& checkpointData, const std::string& avatarID)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -8781,6 +8798,7 @@ int32_t MMIAdapterConcurrentClient::send_RestoreCheckpoint(const std::string& mm
   args.mmuID = &mmuID;
   args.sessionID = &sessionID;
   args.checkpointData = &checkpointData;
+  args.avatarID = &avatarID;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
