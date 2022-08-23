@@ -45,10 +45,10 @@ public:
     virtual void CheckPrerequisites( MBoolResponse& _return,
                                      const MInstruction& instruction ) override;
     virtual void Abort( MBoolResponse& _return, const string& instructionId ) override;
-    virtual void Dispose( MBoolResponse& _return, const map<string, string>& parameters ) override;
-    virtual void CreateCheckpoint( string& _return ) override;
-    virtual void RestoreCheckpoint( MBoolResponse& _return, const string& data ) override;
-    virtual void ExecuteFunction( map<string, string>& _return, const string& name,
+    virtual void Dispose( MBoolResponse& _return, const string& avatarID, const map<string, string>& parameters ) override;
+    virtual void CreateCheckpoint( string& _return, const string& avatarID ) override;
+    virtual void RestoreCheckpoint( MBoolResponse& _return, const string& data, const string& avatarID ) override;
+    virtual void ExecuteFunction( map<string, string>& _return, const string& name, const string& avatarID,
                                   const map<string, string>& parameters ) override;
 
     // getter

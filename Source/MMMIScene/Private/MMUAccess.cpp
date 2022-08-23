@@ -420,7 +420,7 @@ map<string, string> MMUAccess::CreateCheckpoint( vector<string> mmuIDs )
         if( find( mmuIDs.begin(), mmuIDs.end(), mmu->getID() ) != mmuIDs.end() )
         {
             string newCheckpointStr;
-            mmu->CreateCheckpoint( newCheckpointStr );
+            mmu->CreateCheckpoint( newCheckpointStr, this->AvatarID );
             checkpointData.insert( pair<string, string>( mmu->getID(), newCheckpointStr ) );
         }
     }
@@ -438,7 +438,7 @@ void MMUAccess::RestoreCheckpoint( map<string, string> checkpointData )
 
         if( checkpointData.find( mmuID ) != checkpointData.end() )
         {
-            mmu->RestoreCheckpoint( boolResponse, checkpointData[mmuID] );
+            mmu->RestoreCheckpoint( boolResponse, checkpointData[mmuID], this->AvatarID );
             boolResponses.push_back( boolResponse );
         }
     }

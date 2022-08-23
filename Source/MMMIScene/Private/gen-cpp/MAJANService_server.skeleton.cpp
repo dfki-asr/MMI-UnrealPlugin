@@ -43,16 +43,3 @@ class MAJANServiceHandler : virtual public MAJANServiceIf {
 
 };
 
-int main(int argc, char **argv) {
-  int port = 9090;
-  ::std::shared_ptr<MAJANServiceHandler> handler(new MAJANServiceHandler());
-  ::std::shared_ptr<TProcessor> processor(new MAJANServiceProcessor(handler));
-  ::std::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
-  ::std::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
-  ::std::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
-
-  TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
-  server.serve();
-  return 0;
-}
-
