@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "MSkeletonAccess.h"
+#include "gen-cpp/MSkeletonAccess.h"
 
 namespace MMIStandard {
 

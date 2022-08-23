@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "mmi_constants.h"
+#include "gen-cpp/mmi_constants.h"
 
 namespace MMIStandard {
 

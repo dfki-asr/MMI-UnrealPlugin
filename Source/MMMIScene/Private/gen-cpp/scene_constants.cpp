@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "scene_constants.h"
+#include "gen-cpp/scene_constants.h"
 
 namespace MMIStandard {
 

@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "mmu_types.h"
+#include "gen-cpp/mmu_types.h"
 
 #include <algorithm>
 #include <ostream>

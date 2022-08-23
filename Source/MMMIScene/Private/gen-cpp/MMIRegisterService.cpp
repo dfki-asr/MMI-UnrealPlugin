@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "MMIRegisterService.h"
+#include "gen-cpp/MMIRegisterService.h"
 
 namespace MMIStandard {
 

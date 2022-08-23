@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "MPostureBlendingService.h"
+#include "gen-cpp/MPostureBlendingService.h"
 
 namespace MMIStandard {
 

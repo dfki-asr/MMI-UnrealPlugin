@@ -108,23 +108,23 @@ void MotionModelUnitAccess::Dispose( MBoolResponse& _return, const map<string, s
 {
     // TODO_IMPORTANT: call does not work at the moment --> find different way --> important for
     // disposing the co-simulation mmu
-    this->Adapter->thriftClient.access->Dispose( _return, this->ID, this->sessionId );
+    this->Adapter->thriftClient.access->Dispose( _return, this->ID, this->sessionId, this->Description.ID );
 }
 
 void MotionModelUnitAccess::CreateCheckpoint( string& _return )
 {
-    this->Adapter->thriftClient.access->CreateCheckpoint( _return, this->ID, this->sessionId );
+    this->Adapter->thriftClient.access->CreateCheckpoint( _return, this->ID, this->sessionId , this-> Description.ID);
 }
 
 void MotionModelUnitAccess::RestoreCheckpoint( MBoolResponse& _return, const string& data )
 {
     this->Adapter->thriftClient.access->RestoreCheckpoint( _return, this->ID, this->sessionId,
-                                                           data );
+                                                           data , this->Description.ID);
 }
 
 void MotionModelUnitAccess::ExecuteFunction( map<string, string>& _return, const string& _name,
                                              const map<string, string>& parameters )
 {
     this->Adapter->thriftClient.access->ExecuteFunction( _return, _name, parameters, this->ID,
-                                                         this->sessionId );
+                                                         this->sessionId, this->Description.ID );
 }

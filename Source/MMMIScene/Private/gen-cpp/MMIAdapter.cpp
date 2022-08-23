@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "MMIAdapter.h"
+#include "gen-cpp/MMIAdapter.h"
 
 namespace MMIStandard {
 
@@ -5274,6 +5274,9 @@ void MMIAdapterClient::recv_GetAdapterDescription(MAdapterDescription& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "GetAdapterDescription failed: unknown result");
 }
 
+
+//remove sceneID as there won't be multiple identical sessions for the same scene. AUTHOR: Niklas
+
 void MMIAdapterClient::CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID)
 {
   send_CreateSession(sessionID);
@@ -5287,6 +5290,9 @@ void MMIAdapterClient::send_CreateSession(const std::string& sessionID)
 
   MMIAdapter_CreateSession_pargs args;
   args.sessionID = &sessionID;
+
+  //args.sceneID = &sceneID;
+
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -6501,7 +6507,9 @@ void MMIAdapterProcessor::process_CreateSession(int32_t seqid, ::apache::thrift:
 
   MMIAdapter_CreateSession_result result;
   try {
+
     iface_->CreateSession(result.success, args.sessionID);
+
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -7952,6 +7960,7 @@ int32_t MMIAdapterConcurrentClient::send_CreateSession(const std::string& sessio
 
   MMIAdapter_CreateSession_pargs args;
   args.sessionID = &sessionID;
+
   args.write(oprot_);
 
   oprot_->writeMessageEnd();

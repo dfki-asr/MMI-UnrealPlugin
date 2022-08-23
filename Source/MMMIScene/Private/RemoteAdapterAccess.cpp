@@ -167,7 +167,7 @@ map<string, string> RemoteAdapterAccess::GetStatus()
 string RemoteAdapterAccess::CreateCheckpoint( string mmuID, string checkpointId )
 {
     string _return;
-    this->thriftClient.access->CreateCheckpoint( _return, mmuID, checkpointId );
+    this->thriftClient.access->CreateCheckpoint( _return, mmuID, checkpointId , this->Description.ID);
     return _return;
 }
 
@@ -176,7 +176,7 @@ MBoolResponse RemoteAdapterAccess::RestoreCheckpoint( string mmuID, string check
 {
     MBoolResponse _return;
     this->thriftClient.access->RestoreCheckpoint( _return, mmuID, this->mmuAccess->SessionId,
-                                                  checkPointData );
+                                                  checkPointData, this->Description.ID );
     return _return;
 }
 
