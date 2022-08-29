@@ -225,7 +225,7 @@ class MTransform : public virtual ::apache::thrift::TBase {
   }
 
   virtual ~MTransform() noexcept;
-  std::string ID;
+  std::string ID ;
   MVector3 Position;
   MQuaternion Rotation;
   MVector3 Scale;

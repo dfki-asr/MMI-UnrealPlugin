@@ -257,9 +257,10 @@ void UMMISceneObject::TickComponent( float DeltaTime, ELevelTick TickType,
 // update root component (location of the Actor/SceneObject)
 void UMMISceneObject::UpdateRootComponent()
 {
-    // the virtual root maps to the actor location / rotation.
+    // the virtual root maps to the actor location / rotation. +scale
     this->ParentActor->SetActorLocation(ToFVec3(MSceneObject.Transform.Position));
     this->ParentActor->SetActorRotation(ToFQuat(MSceneObject.Transform.Rotation));
+    this->ParentActor->SetActorScale3D(ToFVec3(MSceneObject.Transform.Scale));
 }
 
 // update the physics of the object
@@ -338,7 +339,7 @@ void UMMISceneObject::UpdateMSceneObjTransform( MTransform& transform )
 	transform.Position = ToMVec3(ParentActor->GetActorLocation());
 	transform.Rotation = ToMQuat(ParentActor->GetActorRotation().Quaternion());
 	//ToDo: Add Scale MVector in MTransform and remove "ScaleXYZ" below in SetupCollider
-	//transform.Scale = ToMVec3(ParentActor->GetActorScale(), 1);
+	transform.Scale =  ToMVec3(ParentActor->GetActorScale(), 1);
 }
 
 void UMMISceneObject::SetupTransform()
@@ -557,10 +558,12 @@ void UMMISceneObject::SetupCollider()
 
 	//ToDo: Remove once Scale is added to MTransform
 	//ToDo: Change the sign for actorScale.X once coordinate system is fixed
+        
 	MVector3 actorScale = ToMVec3(ParentActor->GetActorScale(), 1);
 	MSceneObject.Collider.Properties["ScaleX"] = boost::lexical_cast<std::string>(-actorScale.X);
     MSceneObject.Collider.Properties["ScaleY"] = boost::lexical_cast<std::string>( (double)actorScale.Y );
     MSceneObject.Collider.Properties["ScaleZ"] = boost::lexical_cast<std::string>( (double)actorScale.Z );
+    
 	this->MSceneObject.Collider.__isset.Properties = true;
 }
 

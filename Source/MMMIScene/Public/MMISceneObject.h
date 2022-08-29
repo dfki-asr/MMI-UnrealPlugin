@@ -122,7 +122,7 @@ private:
     // flag indicating whether a collider was found
     bool colliderSet;
 
-    string GetSceneObjectType();
+    std::string GetSceneObjectType();
 
     /////////////////////////////////////////////////////////////////////////////////////
     ///////////// fields to supervise changes of the root component /////////////////////

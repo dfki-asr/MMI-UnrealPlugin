@@ -1049,6 +1049,8 @@ void UnrealSceneAccess::SceneObjectChanged_SceneUpdate( MSceneObject& sceneObjec
                 MVector3Extensions::ToDoubleVector( posVect, sceneObject.Transform.Position );
                 transform.__set_Position( posVect );
                 vector<double> rotVect( 4 );
+
+                //ToDo: There should be a transform.__set_Scale();
                 MQuaternionExtensions::ToDoubleVector( rotVect, sceneObject.Transform.Rotation );
                 transform.__set_Rotation( rotVect );
                 it->__set_Transform( transform );

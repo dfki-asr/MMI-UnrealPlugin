@@ -75,6 +75,7 @@ UInstructionWrapper* AAvatarBehavior::IdleInstruction(AMMIAvatar* avatar,
 	idleInstruction.__set_ID(MMUAccess::GetNewGuid());
 	idleInstruction.__set_Name("Idle");
 	idleInstruction.__set_MotionType("Pose/Idle");
+    idleInstruction.__set_AvatarID( avatar->AvatarID );
 
 	scheduleNewInstruction(avatar, idleInstruction, previousInstruction, duration, delay);
 
@@ -110,6 +111,7 @@ UInstructionWrapper* AAvatarBehavior::WalkInstruction(
 	walkInstruction.__set_ID(MMUAccess::GetNewGuid());
 	walkInstruction.__set_MotionType("Locomotion/Walk");
 	walkInstruction.__set_Name("Walking to target location");
+    walkInstruction.__set_AvatarID(avatar->AvatarID);
 
 	map<string, string> walkProperties =
 	{
@@ -165,6 +167,7 @@ UInstructionWrapper* AAvatarBehavior::ReachInstruction(AMMIAvatar* avatar, AActo
 	reachInstruction.__set_ID(MMUAccess::GetNewGuid());
 	reachInstruction.__set_MotionType("Pose/Reach");
 	reachInstruction.__set_Name("Reaching target object.");
+    reachInstruction.__set_AvatarID(avatar->AvatarID);
 
 	string handStr = TCHAR_TO_UTF8(*UEnum::GetValueAsString<Hand>(hand));
 
@@ -206,6 +209,7 @@ UInstructionWrapper* AAvatarBehavior::GraspInstruction(AMMIAvatar* avatar, AActo
 	graspInstruction.__set_ID(MMUAccess::GetNewGuid());
 	graspInstruction.__set_MotionType("Pose/Grasp");
 	graspInstruction.__set_Name("Grasping target object.");
+    graspInstruction.__set_AvatarID(avatar->AvatarID);
 
 	string handStr = TCHAR_TO_UTF8(*UEnum::GetValueAsString<Hand>(hand));
 
@@ -238,6 +242,7 @@ UInstructionWrapper* AAvatarBehavior::ReleaseInstruction(AMMIAvatar* avatar, Han
 	releaseInstruction.__set_ID(MMUAccess::GetNewGuid());
 	releaseInstruction.__set_MotionType("Object/Release");
 	releaseInstruction.__set_Name("Releasing object.");
+    releaseInstruction.__set_AvatarID( avatar->AvatarID );
 
 	string handStr = TCHAR_TO_UTF8(*UEnum::GetValueAsString<Hand>(hand));
 	map<string, string> reachProperties = { {"Hand", handStr} };
@@ -274,6 +279,7 @@ UInstructionWrapper* AAvatarBehavior::CarryInstruction(AMMIAvatar* avatar, AActo
 	carryInstruction.__set_ID(MMUAccess::GetNewGuid());
 	carryInstruction.__set_MotionType("Object/Carry");
 	carryInstruction.__set_Name("Carrying target object");
+    carryInstruction.__set_AvatarID( avatar->AvatarID );
 
 	string handStr = TCHAR_TO_UTF8(*UEnum::GetValueAsString<Hand>(hand));
 	map<string, string> carryProperties =
@@ -321,6 +327,7 @@ UInstructionWrapper* AAvatarBehavior::MoveInstruction(AMMIAvatar* avatar, AActor
 	moveInstruction.__set_ID(MMUAccess::GetNewGuid());
 	moveInstruction.__set_MotionType("Object/Move");
 	moveInstruction.__set_Name("Moving object");
+    moveInstruction.__set_AvatarID(avatar->AvatarID);
 
 	string handStr = TCHAR_TO_UTF8(*UEnum::GetValueAsString<Hand>(hand));
 	map<string, string> moveProperties =
