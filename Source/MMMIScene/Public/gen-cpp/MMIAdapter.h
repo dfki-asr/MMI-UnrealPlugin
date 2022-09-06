@@ -32,9 +32,6 @@ class MMIAdapterIf {
   virtual void ExecuteFunction(std::map<std::string, std::string> & _return, const std::string& name, const std::map<std::string, std::string> & parameters, const std::string& mmuID, const std::string& sessionID, const std::string& avatarID) = 0;
   virtual void GetStatus(std::map<std::string, std::string> & _return) = 0;
   virtual void GetAdapterDescription(MAdapterDescription& _return) = 0;
-
-    // Author: Niklas - Removed SceneID
-
   virtual void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID) = 0;
   virtual void CloseSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID) = 0;
   virtual void PushScene( ::MMIStandard::MBoolResponse& _return, const  ::MMIStandard::MSceneUpdate& sceneUpdates, const std::string& sessionID) = 0;
@@ -105,8 +102,6 @@ class MMIAdapterNull : virtual public MMIAdapterIf {
   void GetAdapterDescription(MAdapterDescription& /* _return */) {
     return;
   }
-
-  //Author: Niklas - removed sceneID.
   void CreateSession( ::MMIStandard::MBoolResponse& /* _return */, const std::string& /* sessionID */) {
     return;
   }
@@ -2941,9 +2936,6 @@ class MMIAdapterConcurrentClient : virtual public MMIAdapterIf {
   void GetAdapterDescription(MAdapterDescription& _return);
   int32_t send_GetAdapterDescription();
   void recv_GetAdapterDescription(MAdapterDescription& _return, const int32_t seqid);
-
-  // Author: Niklas - Removed SceneID
-
   void CreateSession( ::MMIStandard::MBoolResponse& _return, const std::string& sessionID);
   int32_t send_CreateSession(const std::string& sessionID);
   void recv_CreateSession( ::MMIStandard::MBoolResponse& _return, const int32_t seqid);

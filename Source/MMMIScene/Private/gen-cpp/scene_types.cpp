@@ -613,6 +613,11 @@ void MTransformUpdate::__set_Parent(const std::string& val) {
   this->Parent = val;
 __isset.Parent = true;
 }
+
+void MTransformUpdate::__set_Scale(const std::vector<double> & val) {
+  this->Scale = val;
+__isset.Scale = true;
+}
 std::ostream& operator<<(std::ostream& out, const MTransformUpdate& obj)
 {
   obj.printTo(out);
@@ -689,6 +694,26 @@ uint32_t MTransformUpdate::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->Scale.clear();
+            uint32_t _size16;
+            ::apache::thrift::protocol::TType _etype19;
+            xfer += iprot->readListBegin(_etype19, _size16);
+            this->Scale.resize(_size16);
+            uint32_t _i20;
+            for (_i20 = 0; _i20 < _size16; ++_i20)
+            {
+              xfer += iprot->readDouble(this->Scale[_i20]);
+            }
+            xfer += iprot->readListEnd();
+          }
+          this->__isset.Scale = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -710,10 +735,10 @@ uint32_t MTransformUpdate::write(::apache::thrift::protocol::TProtocol* oprot) c
     xfer += oprot->writeFieldBegin("Position", ::apache::thrift::protocol::T_LIST, 1);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->Position.size()));
-      std::vector<double> ::const_iterator _iter16;
-      for (_iter16 = this->Position.begin(); _iter16 != this->Position.end(); ++_iter16)
+      std::vector<double> ::const_iterator _iter21;
+      for (_iter21 = this->Position.begin(); _iter21 != this->Position.end(); ++_iter21)
       {
-        xfer += oprot->writeDouble((*_iter16));
+        xfer += oprot->writeDouble((*_iter21));
       }
       xfer += oprot->writeListEnd();
     }
@@ -723,10 +748,10 @@ uint32_t MTransformUpdate::write(::apache::thrift::protocol::TProtocol* oprot) c
     xfer += oprot->writeFieldBegin("Rotation", ::apache::thrift::protocol::T_LIST, 2);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->Rotation.size()));
-      std::vector<double> ::const_iterator _iter17;
-      for (_iter17 = this->Rotation.begin(); _iter17 != this->Rotation.end(); ++_iter17)
+      std::vector<double> ::const_iterator _iter22;
+      for (_iter22 = this->Rotation.begin(); _iter22 != this->Rotation.end(); ++_iter22)
       {
-        xfer += oprot->writeDouble((*_iter17));
+        xfer += oprot->writeDouble((*_iter22));
       }
       xfer += oprot->writeListEnd();
     }
@@ -735,6 +760,19 @@ uint32_t MTransformUpdate::write(::apache::thrift::protocol::TProtocol* oprot) c
   if (this->__isset.Parent) {
     xfer += oprot->writeFieldBegin("Parent", ::apache::thrift::protocol::T_STRING, 3);
     xfer += oprot->writeString(this->Parent);
+    xfer += oprot->writeFieldEnd();
+  }
+  if (this->__isset.Scale) {
+    xfer += oprot->writeFieldBegin("Scale", ::apache::thrift::protocol::T_LIST, 4);
+    {
+      xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->Scale.size()));
+      std::vector<double> ::const_iterator _iter23;
+      for (_iter23 = this->Scale.begin(); _iter23 != this->Scale.end(); ++_iter23)
+      {
+        xfer += oprot->writeDouble((*_iter23));
+      }
+      xfer += oprot->writeListEnd();
+    }
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -747,20 +785,23 @@ void swap(MTransformUpdate &a, MTransformUpdate &b) {
   swap(a.Position, b.Position);
   swap(a.Rotation, b.Rotation);
   swap(a.Parent, b.Parent);
+  swap(a.Scale, b.Scale);
   swap(a.__isset, b.__isset);
 }
 
-MTransformUpdate::MTransformUpdate(const MTransformUpdate& other18) {
-  Position = other18.Position;
-  Rotation = other18.Rotation;
-  Parent = other18.Parent;
-  __isset = other18.__isset;
+MTransformUpdate::MTransformUpdate(const MTransformUpdate& other24) {
+  Position = other24.Position;
+  Rotation = other24.Rotation;
+  Parent = other24.Parent;
+  Scale = other24.Scale;
+  __isset = other24.__isset;
 }
-MTransformUpdate& MTransformUpdate::operator=(const MTransformUpdate& other19) {
-  Position = other19.Position;
-  Rotation = other19.Rotation;
-  Parent = other19.Parent;
-  __isset = other19.__isset;
+MTransformUpdate& MTransformUpdate::operator=(const MTransformUpdate& other25) {
+  Position = other25.Position;
+  Rotation = other25.Rotation;
+  Parent = other25.Parent;
+  Scale = other25.Scale;
+  __isset = other25.__isset;
   return *this;
 }
 void MTransformUpdate::printTo(std::ostream& out) const {
@@ -769,6 +810,7 @@ void MTransformUpdate::printTo(std::ostream& out) const {
   out << "Position="; (__isset.Position ? (out << to_string(Position)) : (out << "<null>"));
   out << ", " << "Rotation="; (__isset.Rotation ? (out << to_string(Rotation)) : (out << "<null>"));
   out << ", " << "Parent="; (__isset.Parent ? (out << to_string(Parent)) : (out << "<null>"));
+  out << ", " << "Scale="; (__isset.Scale ? (out << to_string(Scale)) : (out << "<null>"));
   out << ")";
 }
 
@@ -870,15 +912,15 @@ void swap(MPropertyUpdate &a, MPropertyUpdate &b) {
   swap(a.__isset, b.__isset);
 }
 
-MPropertyUpdate::MPropertyUpdate(const MPropertyUpdate& other20) {
-  Key = other20.Key;
-  Value = other20.Value;
-  __isset = other20.__isset;
+MPropertyUpdate::MPropertyUpdate(const MPropertyUpdate& other26) {
+  Key = other26.Key;
+  Value = other26.Value;
+  __isset = other26.__isset;
 }
-MPropertyUpdate& MPropertyUpdate::operator=(const MPropertyUpdate& other21) {
-  Key = other21.Key;
-  Value = other21.Value;
-  __isset = other21.__isset;
+MPropertyUpdate& MPropertyUpdate::operator=(const MPropertyUpdate& other27) {
+  Key = other27.Key;
+  Value = other27.Value;
+  __isset = other27.__isset;
   return *this;
 }
 void MPropertyUpdate::printTo(std::ostream& out) const {
@@ -993,14 +1035,14 @@ uint32_t MPhysicsProperties::read(::apache::thrift::protocol::TProtocol* iprot) 
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->CenterOfMass.clear();
-            uint32_t _size22;
-            ::apache::thrift::protocol::TType _etype25;
-            xfer += iprot->readListBegin(_etype25, _size22);
-            this->CenterOfMass.resize(_size22);
-            uint32_t _i26;
-            for (_i26 = 0; _i26 < _size22; ++_i26)
+            uint32_t _size28;
+            ::apache::thrift::protocol::TType _etype31;
+            xfer += iprot->readListBegin(_etype31, _size28);
+            this->CenterOfMass.resize(_size28);
+            uint32_t _i32;
+            for (_i32 = 0; _i32 < _size28; ++_i32)
             {
-              xfer += iprot->readDouble(this->CenterOfMass[_i26]);
+              xfer += iprot->readDouble(this->CenterOfMass[_i32]);
             }
             xfer += iprot->readListEnd();
           }
@@ -1013,14 +1055,14 @@ uint32_t MPhysicsProperties::read(::apache::thrift::protocol::TProtocol* iprot) 
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Inertia.clear();
-            uint32_t _size27;
-            ::apache::thrift::protocol::TType _etype30;
-            xfer += iprot->readListBegin(_etype30, _size27);
-            this->Inertia.resize(_size27);
-            uint32_t _i31;
-            for (_i31 = 0; _i31 < _size27; ++_i31)
+            uint32_t _size33;
+            ::apache::thrift::protocol::TType _etype36;
+            xfer += iprot->readListBegin(_etype36, _size33);
+            this->Inertia.resize(_size33);
+            uint32_t _i37;
+            for (_i37 = 0; _i37 < _size33; ++_i37)
             {
-              xfer += iprot->readDouble(this->Inertia[_i31]);
+              xfer += iprot->readDouble(this->Inertia[_i37]);
             }
             xfer += iprot->readListEnd();
           }
@@ -1033,14 +1075,14 @@ uint32_t MPhysicsProperties::read(::apache::thrift::protocol::TProtocol* iprot) 
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Velocity.clear();
-            uint32_t _size32;
-            ::apache::thrift::protocol::TType _etype35;
-            xfer += iprot->readListBegin(_etype35, _size32);
-            this->Velocity.resize(_size32);
-            uint32_t _i36;
-            for (_i36 = 0; _i36 < _size32; ++_i36)
+            uint32_t _size38;
+            ::apache::thrift::protocol::TType _etype41;
+            xfer += iprot->readListBegin(_etype41, _size38);
+            this->Velocity.resize(_size38);
+            uint32_t _i42;
+            for (_i42 = 0; _i42 < _size38; ++_i42)
             {
-              xfer += iprot->readDouble(this->Velocity[_i36]);
+              xfer += iprot->readDouble(this->Velocity[_i42]);
             }
             xfer += iprot->readListEnd();
           }
@@ -1053,14 +1095,14 @@ uint32_t MPhysicsProperties::read(::apache::thrift::protocol::TProtocol* iprot) 
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->AngularVelocity.clear();
-            uint32_t _size37;
-            ::apache::thrift::protocol::TType _etype40;
-            xfer += iprot->readListBegin(_etype40, _size37);
-            this->AngularVelocity.resize(_size37);
-            uint32_t _i41;
-            for (_i41 = 0; _i41 < _size37; ++_i41)
+            uint32_t _size43;
+            ::apache::thrift::protocol::TType _etype46;
+            xfer += iprot->readListBegin(_etype46, _size43);
+            this->AngularVelocity.resize(_size43);
+            uint32_t _i47;
+            for (_i47 = 0; _i47 < _size43; ++_i47)
             {
-              xfer += iprot->readDouble(this->AngularVelocity[_i41]);
+              xfer += iprot->readDouble(this->AngularVelocity[_i47]);
             }
             xfer += iprot->readListEnd();
           }
@@ -1073,14 +1115,14 @@ uint32_t MPhysicsProperties::read(::apache::thrift::protocol::TProtocol* iprot) 
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->NetForce.clear();
-            uint32_t _size42;
-            ::apache::thrift::protocol::TType _etype45;
-            xfer += iprot->readListBegin(_etype45, _size42);
-            this->NetForce.resize(_size42);
-            uint32_t _i46;
-            for (_i46 = 0; _i46 < _size42; ++_i46)
+            uint32_t _size48;
+            ::apache::thrift::protocol::TType _etype51;
+            xfer += iprot->readListBegin(_etype51, _size48);
+            this->NetForce.resize(_size48);
+            uint32_t _i52;
+            for (_i52 = 0; _i52 < _size48; ++_i52)
             {
-              xfer += iprot->readDouble(this->NetForce[_i46]);
+              xfer += iprot->readDouble(this->NetForce[_i52]);
             }
             xfer += iprot->readListEnd();
           }
@@ -1093,14 +1135,14 @@ uint32_t MPhysicsProperties::read(::apache::thrift::protocol::TProtocol* iprot) 
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->NetTorque.clear();
-            uint32_t _size47;
-            ::apache::thrift::protocol::TType _etype50;
-            xfer += iprot->readListBegin(_etype50, _size47);
-            this->NetTorque.resize(_size47);
-            uint32_t _i51;
-            for (_i51 = 0; _i51 < _size47; ++_i51)
+            uint32_t _size53;
+            ::apache::thrift::protocol::TType _etype56;
+            xfer += iprot->readListBegin(_etype56, _size53);
+            this->NetTorque.resize(_size53);
+            uint32_t _i57;
+            for (_i57 = 0; _i57 < _size53; ++_i57)
             {
-              xfer += iprot->readDouble(this->NetTorque[_i51]);
+              xfer += iprot->readDouble(this->NetTorque[_i57]);
             }
             xfer += iprot->readListEnd();
           }
@@ -1177,10 +1219,10 @@ uint32_t MPhysicsProperties::write(::apache::thrift::protocol::TProtocol* oprot)
   xfer += oprot->writeFieldBegin("CenterOfMass", ::apache::thrift::protocol::T_LIST, 2);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->CenterOfMass.size()));
-    std::vector<double> ::const_iterator _iter52;
-    for (_iter52 = this->CenterOfMass.begin(); _iter52 != this->CenterOfMass.end(); ++_iter52)
+    std::vector<double> ::const_iterator _iter58;
+    for (_iter58 = this->CenterOfMass.begin(); _iter58 != this->CenterOfMass.end(); ++_iter58)
     {
-      xfer += oprot->writeDouble((*_iter52));
+      xfer += oprot->writeDouble((*_iter58));
     }
     xfer += oprot->writeListEnd();
   }
@@ -1190,10 +1232,10 @@ uint32_t MPhysicsProperties::write(::apache::thrift::protocol::TProtocol* oprot)
     xfer += oprot->writeFieldBegin("Inertia", ::apache::thrift::protocol::T_LIST, 3);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->Inertia.size()));
-      std::vector<double> ::const_iterator _iter53;
-      for (_iter53 = this->Inertia.begin(); _iter53 != this->Inertia.end(); ++_iter53)
+      std::vector<double> ::const_iterator _iter59;
+      for (_iter59 = this->Inertia.begin(); _iter59 != this->Inertia.end(); ++_iter59)
       {
-        xfer += oprot->writeDouble((*_iter53));
+        xfer += oprot->writeDouble((*_iter59));
       }
       xfer += oprot->writeListEnd();
     }
@@ -1203,10 +1245,10 @@ uint32_t MPhysicsProperties::write(::apache::thrift::protocol::TProtocol* oprot)
     xfer += oprot->writeFieldBegin("Velocity", ::apache::thrift::protocol::T_LIST, 4);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->Velocity.size()));
-      std::vector<double> ::const_iterator _iter54;
-      for (_iter54 = this->Velocity.begin(); _iter54 != this->Velocity.end(); ++_iter54)
+      std::vector<double> ::const_iterator _iter60;
+      for (_iter60 = this->Velocity.begin(); _iter60 != this->Velocity.end(); ++_iter60)
       {
-        xfer += oprot->writeDouble((*_iter54));
+        xfer += oprot->writeDouble((*_iter60));
       }
       xfer += oprot->writeListEnd();
     }
@@ -1216,10 +1258,10 @@ uint32_t MPhysicsProperties::write(::apache::thrift::protocol::TProtocol* oprot)
     xfer += oprot->writeFieldBegin("AngularVelocity", ::apache::thrift::protocol::T_LIST, 5);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->AngularVelocity.size()));
-      std::vector<double> ::const_iterator _iter55;
-      for (_iter55 = this->AngularVelocity.begin(); _iter55 != this->AngularVelocity.end(); ++_iter55)
+      std::vector<double> ::const_iterator _iter61;
+      for (_iter61 = this->AngularVelocity.begin(); _iter61 != this->AngularVelocity.end(); ++_iter61)
       {
-        xfer += oprot->writeDouble((*_iter55));
+        xfer += oprot->writeDouble((*_iter61));
       }
       xfer += oprot->writeListEnd();
     }
@@ -1229,10 +1271,10 @@ uint32_t MPhysicsProperties::write(::apache::thrift::protocol::TProtocol* oprot)
     xfer += oprot->writeFieldBegin("NetForce", ::apache::thrift::protocol::T_LIST, 6);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->NetForce.size()));
-      std::vector<double> ::const_iterator _iter56;
-      for (_iter56 = this->NetForce.begin(); _iter56 != this->NetForce.end(); ++_iter56)
+      std::vector<double> ::const_iterator _iter62;
+      for (_iter62 = this->NetForce.begin(); _iter62 != this->NetForce.end(); ++_iter62)
       {
-        xfer += oprot->writeDouble((*_iter56));
+        xfer += oprot->writeDouble((*_iter62));
       }
       xfer += oprot->writeListEnd();
     }
@@ -1242,10 +1284,10 @@ uint32_t MPhysicsProperties::write(::apache::thrift::protocol::TProtocol* oprot)
     xfer += oprot->writeFieldBegin("NetTorque", ::apache::thrift::protocol::T_LIST, 7);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->NetTorque.size()));
-      std::vector<double> ::const_iterator _iter57;
-      for (_iter57 = this->NetTorque.begin(); _iter57 != this->NetTorque.end(); ++_iter57)
+      std::vector<double> ::const_iterator _iter63;
+      for (_iter63 = this->NetTorque.begin(); _iter63 != this->NetTorque.end(); ++_iter63)
       {
-        xfer += oprot->writeDouble((*_iter57));
+        xfer += oprot->writeDouble((*_iter63));
       }
       xfer += oprot->writeListEnd();
     }
@@ -1298,35 +1340,35 @@ void swap(MPhysicsProperties &a, MPhysicsProperties &b) {
   swap(a.__isset, b.__isset);
 }
 
-MPhysicsProperties::MPhysicsProperties(const MPhysicsProperties& other58) {
-  Mass = other58.Mass;
-  CenterOfMass = other58.CenterOfMass;
-  Inertia = other58.Inertia;
-  Velocity = other58.Velocity;
-  AngularVelocity = other58.AngularVelocity;
-  NetForce = other58.NetForce;
-  NetTorque = other58.NetTorque;
-  Mu1 = other58.Mu1;
-  Mu2 = other58.Mu2;
-  Bounciness = other58.Bounciness;
-  MuTorsion = other58.MuTorsion;
-  TorsionSurfaceRadius = other58.TorsionSurfaceRadius;
-  __isset = other58.__isset;
+MPhysicsProperties::MPhysicsProperties(const MPhysicsProperties& other64) {
+  Mass = other64.Mass;
+  CenterOfMass = other64.CenterOfMass;
+  Inertia = other64.Inertia;
+  Velocity = other64.Velocity;
+  AngularVelocity = other64.AngularVelocity;
+  NetForce = other64.NetForce;
+  NetTorque = other64.NetTorque;
+  Mu1 = other64.Mu1;
+  Mu2 = other64.Mu2;
+  Bounciness = other64.Bounciness;
+  MuTorsion = other64.MuTorsion;
+  TorsionSurfaceRadius = other64.TorsionSurfaceRadius;
+  __isset = other64.__isset;
 }
-MPhysicsProperties& MPhysicsProperties::operator=(const MPhysicsProperties& other59) {
-  Mass = other59.Mass;
-  CenterOfMass = other59.CenterOfMass;
-  Inertia = other59.Inertia;
-  Velocity = other59.Velocity;
-  AngularVelocity = other59.AngularVelocity;
-  NetForce = other59.NetForce;
-  NetTorque = other59.NetTorque;
-  Mu1 = other59.Mu1;
-  Mu2 = other59.Mu2;
-  Bounciness = other59.Bounciness;
-  MuTorsion = other59.MuTorsion;
-  TorsionSurfaceRadius = other59.TorsionSurfaceRadius;
-  __isset = other59.__isset;
+MPhysicsProperties& MPhysicsProperties::operator=(const MPhysicsProperties& other65) {
+  Mass = other65.Mass;
+  CenterOfMass = other65.CenterOfMass;
+  Inertia = other65.Inertia;
+  Velocity = other65.Velocity;
+  AngularVelocity = other65.AngularVelocity;
+  NetForce = other65.NetForce;
+  NetTorque = other65.NetTorque;
+  Mu1 = other65.Mu1;
+  Mu2 = other65.Mu2;
+  Bounciness = other65.Bounciness;
+  MuTorsion = other65.MuTorsion;
+  TorsionSurfaceRadius = other65.TorsionSurfaceRadius;
+  __isset = other65.__isset;
   return *this;
 }
 void MPhysicsProperties::printTo(std::ostream& out) const {
@@ -1425,11 +1467,11 @@ void swap(MSphereColliderProperties &a, MSphereColliderProperties &b) {
   swap(a.Radius, b.Radius);
 }
 
-MSphereColliderProperties::MSphereColliderProperties(const MSphereColliderProperties& other60) {
-  Radius = other60.Radius;
+MSphereColliderProperties::MSphereColliderProperties(const MSphereColliderProperties& other66) {
+  Radius = other66.Radius;
 }
-MSphereColliderProperties& MSphereColliderProperties::operator=(const MSphereColliderProperties& other61) {
-  Radius = other61.Radius;
+MSphereColliderProperties& MSphereColliderProperties::operator=(const MSphereColliderProperties& other67) {
+  Radius = other67.Radius;
   return *this;
 }
 void MSphereColliderProperties::printTo(std::ostream& out) const {
@@ -1537,13 +1579,13 @@ void swap(MConeColliderProperties &a, MConeColliderProperties &b) {
   swap(a.Height, b.Height);
 }
 
-MConeColliderProperties::MConeColliderProperties(const MConeColliderProperties& other62) {
-  Radius = other62.Radius;
-  Height = other62.Height;
+MConeColliderProperties::MConeColliderProperties(const MConeColliderProperties& other68) {
+  Radius = other68.Radius;
+  Height = other68.Height;
 }
-MConeColliderProperties& MConeColliderProperties::operator=(const MConeColliderProperties& other63) {
-  Radius = other63.Radius;
-  Height = other63.Height;
+MConeColliderProperties& MConeColliderProperties::operator=(const MConeColliderProperties& other69) {
+  Radius = other69.Radius;
+  Height = other69.Height;
   return *this;
 }
 void MConeColliderProperties::printTo(std::ostream& out) const {
@@ -1652,13 +1694,13 @@ void swap(MCylinderColliderProperties &a, MCylinderColliderProperties &b) {
   swap(a.Height, b.Height);
 }
 
-MCylinderColliderProperties::MCylinderColliderProperties(const MCylinderColliderProperties& other64) {
-  Radius = other64.Radius;
-  Height = other64.Height;
+MCylinderColliderProperties::MCylinderColliderProperties(const MCylinderColliderProperties& other70) {
+  Radius = other70.Radius;
+  Height = other70.Height;
 }
-MCylinderColliderProperties& MCylinderColliderProperties::operator=(const MCylinderColliderProperties& other65) {
-  Radius = other65.Radius;
-  Height = other65.Height;
+MCylinderColliderProperties& MCylinderColliderProperties::operator=(const MCylinderColliderProperties& other71) {
+  Radius = other71.Radius;
+  Height = other71.Height;
   return *this;
 }
 void MCylinderColliderProperties::printTo(std::ostream& out) const {
@@ -1805,19 +1847,19 @@ void swap(MTransformManipulation &a, MTransformManipulation &b) {
   swap(a.__isset, b.__isset);
 }
 
-MTransformManipulation::MTransformManipulation(const MTransformManipulation& other66) {
-  Target = other66.Target;
-  Position = other66.Position;
-  Rotation = other66.Rotation;
-  Parent = other66.Parent;
-  __isset = other66.__isset;
+MTransformManipulation::MTransformManipulation(const MTransformManipulation& other72) {
+  Target = other72.Target;
+  Position = other72.Position;
+  Rotation = other72.Rotation;
+  Parent = other72.Parent;
+  __isset = other72.__isset;
 }
-MTransformManipulation& MTransformManipulation::operator=(const MTransformManipulation& other67) {
-  Target = other67.Target;
-  Position = other67.Position;
-  Rotation = other67.Rotation;
-  Parent = other67.Parent;
-  __isset = other67.__isset;
+MTransformManipulation& MTransformManipulation::operator=(const MTransformManipulation& other73) {
+  Target = other73.Target;
+  Position = other73.Position;
+  Rotation = other73.Rotation;
+  Parent = other73.Parent;
+  __isset = other73.__isset;
   return *this;
 }
 void MTransformManipulation::printTo(std::ostream& out) const {
@@ -1908,11 +1950,11 @@ void swap(MBoxColliderProperties &a, MBoxColliderProperties &b) {
   swap(a.Size, b.Size);
 }
 
-MBoxColliderProperties::MBoxColliderProperties(const MBoxColliderProperties& other68) {
-  Size = other68.Size;
+MBoxColliderProperties::MBoxColliderProperties(const MBoxColliderProperties& other74) {
+  Size = other74.Size;
 }
-MBoxColliderProperties& MBoxColliderProperties::operator=(const MBoxColliderProperties& other69) {
-  Size = other69.Size;
+MBoxColliderProperties& MBoxColliderProperties::operator=(const MBoxColliderProperties& other75) {
+  Size = other75.Size;
   return *this;
 }
 void MBoxColliderProperties::printTo(std::ostream& out) const {
@@ -2040,17 +2082,17 @@ void swap(MCapsuleColliderProperties &a, MCapsuleColliderProperties &b) {
   swap(a.__isset, b.__isset);
 }
 
-MCapsuleColliderProperties::MCapsuleColliderProperties(const MCapsuleColliderProperties& other70) {
-  Radius = other70.Radius;
-  Height = other70.Height;
-  MainAxis = other70.MainAxis;
-  __isset = other70.__isset;
+MCapsuleColliderProperties::MCapsuleColliderProperties(const MCapsuleColliderProperties& other76) {
+  Radius = other76.Radius;
+  Height = other76.Height;
+  MainAxis = other76.MainAxis;
+  __isset = other76.__isset;
 }
-MCapsuleColliderProperties& MCapsuleColliderProperties::operator=(const MCapsuleColliderProperties& other71) {
-  Radius = other71.Radius;
-  Height = other71.Height;
-  MainAxis = other71.MainAxis;
-  __isset = other71.__isset;
+MCapsuleColliderProperties& MCapsuleColliderProperties::operator=(const MCapsuleColliderProperties& other77) {
+  Radius = other77.Radius;
+  Height = other77.Height;
+  MainAxis = other77.MainAxis;
+  __isset = other77.__isset;
   return *this;
 }
 void MCapsuleColliderProperties::printTo(std::ostream& out) const {
@@ -2108,14 +2150,14 @@ uint32_t MMeshColliderProperties::read(::apache::thrift::protocol::TProtocol* ip
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Vertices.clear();
-            uint32_t _size72;
-            ::apache::thrift::protocol::TType _etype75;
-            xfer += iprot->readListBegin(_etype75, _size72);
-            this->Vertices.resize(_size72);
-            uint32_t _i76;
-            for (_i76 = 0; _i76 < _size72; ++_i76)
+            uint32_t _size78;
+            ::apache::thrift::protocol::TType _etype81;
+            xfer += iprot->readListBegin(_etype81, _size78);
+            this->Vertices.resize(_size78);
+            uint32_t _i82;
+            for (_i82 = 0; _i82 < _size78; ++_i82)
             {
-              xfer += this->Vertices[_i76].read(iprot);
+              xfer += this->Vertices[_i82].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -2128,14 +2170,14 @@ uint32_t MMeshColliderProperties::read(::apache::thrift::protocol::TProtocol* ip
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Triangles.clear();
-            uint32_t _size77;
-            ::apache::thrift::protocol::TType _etype80;
-            xfer += iprot->readListBegin(_etype80, _size77);
-            this->Triangles.resize(_size77);
-            uint32_t _i81;
-            for (_i81 = 0; _i81 < _size77; ++_i81)
+            uint32_t _size83;
+            ::apache::thrift::protocol::TType _etype86;
+            xfer += iprot->readListBegin(_etype86, _size83);
+            this->Triangles.resize(_size83);
+            uint32_t _i87;
+            for (_i87 = 0; _i87 < _size83; ++_i87)
             {
-              xfer += iprot->readI32(this->Triangles[_i81]);
+              xfer += iprot->readI32(this->Triangles[_i87]);
             }
             xfer += iprot->readListEnd();
           }
@@ -2168,10 +2210,10 @@ uint32_t MMeshColliderProperties::write(::apache::thrift::protocol::TProtocol* o
   xfer += oprot->writeFieldBegin("Vertices", ::apache::thrift::protocol::T_LIST, 1);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->Vertices.size()));
-    std::vector< ::MMIStandard::MVector3> ::const_iterator _iter82;
-    for (_iter82 = this->Vertices.begin(); _iter82 != this->Vertices.end(); ++_iter82)
+    std::vector< ::MMIStandard::MVector3> ::const_iterator _iter88;
+    for (_iter88 = this->Vertices.begin(); _iter88 != this->Vertices.end(); ++_iter88)
     {
-      xfer += (*_iter82).write(oprot);
+      xfer += (*_iter88).write(oprot);
     }
     xfer += oprot->writeListEnd();
   }
@@ -2180,10 +2222,10 @@ uint32_t MMeshColliderProperties::write(::apache::thrift::protocol::TProtocol* o
   xfer += oprot->writeFieldBegin("Triangles", ::apache::thrift::protocol::T_LIST, 2);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_I32, static_cast<uint32_t>(this->Triangles.size()));
-    std::vector<int32_t> ::const_iterator _iter83;
-    for (_iter83 = this->Triangles.begin(); _iter83 != this->Triangles.end(); ++_iter83)
+    std::vector<int32_t> ::const_iterator _iter89;
+    for (_iter89 = this->Triangles.begin(); _iter89 != this->Triangles.end(); ++_iter89)
     {
-      xfer += oprot->writeI32((*_iter83));
+      xfer += oprot->writeI32((*_iter89));
     }
     xfer += oprot->writeListEnd();
   }
@@ -2200,13 +2242,13 @@ void swap(MMeshColliderProperties &a, MMeshColliderProperties &b) {
   swap(a.Triangles, b.Triangles);
 }
 
-MMeshColliderProperties::MMeshColliderProperties(const MMeshColliderProperties& other84) {
-  Vertices = other84.Vertices;
-  Triangles = other84.Triangles;
+MMeshColliderProperties::MMeshColliderProperties(const MMeshColliderProperties& other90) {
+  Vertices = other90.Vertices;
+  Triangles = other90.Triangles;
 }
-MMeshColliderProperties& MMeshColliderProperties::operator=(const MMeshColliderProperties& other85) {
-  Vertices = other85.Vertices;
-  Triangles = other85.Triangles;
+MMeshColliderProperties& MMeshColliderProperties::operator=(const MMeshColliderProperties& other91) {
+  Vertices = other91.Vertices;
+  Triangles = other91.Triangles;
   return *this;
 }
 void MMeshColliderProperties::printTo(std::ostream& out) const {
@@ -2286,14 +2328,14 @@ uint32_t MMesh::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Vertices.clear();
-            uint32_t _size86;
-            ::apache::thrift::protocol::TType _etype89;
-            xfer += iprot->readListBegin(_etype89, _size86);
-            this->Vertices.resize(_size86);
-            uint32_t _i90;
-            for (_i90 = 0; _i90 < _size86; ++_i90)
+            uint32_t _size92;
+            ::apache::thrift::protocol::TType _etype95;
+            xfer += iprot->readListBegin(_etype95, _size92);
+            this->Vertices.resize(_size92);
+            uint32_t _i96;
+            for (_i96 = 0; _i96 < _size92; ++_i96)
             {
-              xfer += this->Vertices[_i90].read(iprot);
+              xfer += this->Vertices[_i96].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -2306,14 +2348,14 @@ uint32_t MMesh::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Triangles.clear();
-            uint32_t _size91;
-            ::apache::thrift::protocol::TType _etype94;
-            xfer += iprot->readListBegin(_etype94, _size91);
-            this->Triangles.resize(_size91);
-            uint32_t _i95;
-            for (_i95 = 0; _i95 < _size91; ++_i95)
+            uint32_t _size97;
+            ::apache::thrift::protocol::TType _etype100;
+            xfer += iprot->readListBegin(_etype100, _size97);
+            this->Triangles.resize(_size97);
+            uint32_t _i101;
+            for (_i101 = 0; _i101 < _size97; ++_i101)
             {
-              xfer += iprot->readI32(this->Triangles[_i95]);
+              xfer += iprot->readI32(this->Triangles[_i101]);
             }
             xfer += iprot->readListEnd();
           }
@@ -2326,14 +2368,14 @@ uint32_t MMesh::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->UVCoordinates.clear();
-            uint32_t _size96;
-            ::apache::thrift::protocol::TType _etype99;
-            xfer += iprot->readListBegin(_etype99, _size96);
-            this->UVCoordinates.resize(_size96);
-            uint32_t _i100;
-            for (_i100 = 0; _i100 < _size96; ++_i100)
+            uint32_t _size102;
+            ::apache::thrift::protocol::TType _etype105;
+            xfer += iprot->readListBegin(_etype105, _size102);
+            this->UVCoordinates.resize(_size102);
+            uint32_t _i106;
+            for (_i106 = 0; _i106 < _size102; ++_i106)
             {
-              xfer += this->UVCoordinates[_i100].read(iprot);
+              xfer += this->UVCoordinates[_i106].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -2346,17 +2388,17 @@ uint32_t MMesh::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->Properties.clear();
-            uint32_t _size101;
-            ::apache::thrift::protocol::TType _ktype102;
-            ::apache::thrift::protocol::TType _vtype103;
-            xfer += iprot->readMapBegin(_ktype102, _vtype103, _size101);
-            uint32_t _i105;
-            for (_i105 = 0; _i105 < _size101; ++_i105)
+            uint32_t _size107;
+            ::apache::thrift::protocol::TType _ktype108;
+            ::apache::thrift::protocol::TType _vtype109;
+            xfer += iprot->readMapBegin(_ktype108, _vtype109, _size107);
+            uint32_t _i111;
+            for (_i111 = 0; _i111 < _size107; ++_i111)
             {
-              std::string _key106;
-              xfer += iprot->readString(_key106);
-              std::string& _val107 = this->Properties[_key106];
-              xfer += iprot->readString(_val107);
+              std::string _key112;
+              xfer += iprot->readString(_key112);
+              std::string& _val113 = this->Properties[_key112];
+              xfer += iprot->readString(_val113);
             }
             xfer += iprot->readMapEnd();
           }
@@ -2395,10 +2437,10 @@ uint32_t MMesh::write(::apache::thrift::protocol::TProtocol* oprot) const {
   xfer += oprot->writeFieldBegin("Vertices", ::apache::thrift::protocol::T_LIST, 2);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->Vertices.size()));
-    std::vector< ::MMIStandard::MVector3> ::const_iterator _iter108;
-    for (_iter108 = this->Vertices.begin(); _iter108 != this->Vertices.end(); ++_iter108)
+    std::vector< ::MMIStandard::MVector3> ::const_iterator _iter114;
+    for (_iter114 = this->Vertices.begin(); _iter114 != this->Vertices.end(); ++_iter114)
     {
-      xfer += (*_iter108).write(oprot);
+      xfer += (*_iter114).write(oprot);
     }
     xfer += oprot->writeListEnd();
   }
@@ -2407,10 +2449,10 @@ uint32_t MMesh::write(::apache::thrift::protocol::TProtocol* oprot) const {
   xfer += oprot->writeFieldBegin("Triangles", ::apache::thrift::protocol::T_LIST, 3);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_I32, static_cast<uint32_t>(this->Triangles.size()));
-    std::vector<int32_t> ::const_iterator _iter109;
-    for (_iter109 = this->Triangles.begin(); _iter109 != this->Triangles.end(); ++_iter109)
+    std::vector<int32_t> ::const_iterator _iter115;
+    for (_iter115 = this->Triangles.begin(); _iter115 != this->Triangles.end(); ++_iter115)
     {
-      xfer += oprot->writeI32((*_iter109));
+      xfer += oprot->writeI32((*_iter115));
     }
     xfer += oprot->writeListEnd();
   }
@@ -2420,10 +2462,10 @@ uint32_t MMesh::write(::apache::thrift::protocol::TProtocol* oprot) const {
     xfer += oprot->writeFieldBegin("UVCoordinates", ::apache::thrift::protocol::T_LIST, 4);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->UVCoordinates.size()));
-      std::vector< ::MMIStandard::MVector2> ::const_iterator _iter110;
-      for (_iter110 = this->UVCoordinates.begin(); _iter110 != this->UVCoordinates.end(); ++_iter110)
+      std::vector< ::MMIStandard::MVector2> ::const_iterator _iter116;
+      for (_iter116 = this->UVCoordinates.begin(); _iter116 != this->UVCoordinates.end(); ++_iter116)
       {
-        xfer += (*_iter110).write(oprot);
+        xfer += (*_iter116).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -2433,11 +2475,11 @@ uint32_t MMesh::write(::apache::thrift::protocol::TProtocol* oprot) const {
     xfer += oprot->writeFieldBegin("Properties", ::apache::thrift::protocol::T_MAP, 5);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->Properties.size()));
-      std::map<std::string, std::string> ::const_iterator _iter111;
-      for (_iter111 = this->Properties.begin(); _iter111 != this->Properties.end(); ++_iter111)
+      std::map<std::string, std::string> ::const_iterator _iter117;
+      for (_iter117 = this->Properties.begin(); _iter117 != this->Properties.end(); ++_iter117)
       {
-        xfer += oprot->writeString(_iter111->first);
-        xfer += oprot->writeString(_iter111->second);
+        xfer += oprot->writeString(_iter117->first);
+        xfer += oprot->writeString(_iter117->second);
       }
       xfer += oprot->writeMapEnd();
     }
@@ -2458,21 +2500,21 @@ void swap(MMesh &a, MMesh &b) {
   swap(a.__isset, b.__isset);
 }
 
-MMesh::MMesh(const MMesh& other112) {
-  ID = other112.ID;
-  Vertices = other112.Vertices;
-  Triangles = other112.Triangles;
-  UVCoordinates = other112.UVCoordinates;
-  Properties = other112.Properties;
-  __isset = other112.__isset;
+MMesh::MMesh(const MMesh& other118) {
+  ID = other118.ID;
+  Vertices = other118.Vertices;
+  Triangles = other118.Triangles;
+  UVCoordinates = other118.UVCoordinates;
+  Properties = other118.Properties;
+  __isset = other118.__isset;
 }
-MMesh& MMesh::operator=(const MMesh& other113) {
-  ID = other113.ID;
-  Vertices = other113.Vertices;
-  Triangles = other113.Triangles;
-  UVCoordinates = other113.UVCoordinates;
-  Properties = other113.Properties;
-  __isset = other113.__isset;
+MMesh& MMesh::operator=(const MMesh& other119) {
+  ID = other119.ID;
+  Vertices = other119.Vertices;
+  Triangles = other119.Triangles;
+  UVCoordinates = other119.UVCoordinates;
+  Properties = other119.Properties;
+  __isset = other119.__isset;
   return *this;
 }
 void MMesh::printTo(std::ostream& out) const {
@@ -2537,14 +2579,14 @@ uint32_t MNavigationMesh::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Vertices.clear();
-            uint32_t _size114;
-            ::apache::thrift::protocol::TType _etype117;
-            xfer += iprot->readListBegin(_etype117, _size114);
-            this->Vertices.resize(_size114);
-            uint32_t _i118;
-            for (_i118 = 0; _i118 < _size114; ++_i118)
+            uint32_t _size120;
+            ::apache::thrift::protocol::TType _etype123;
+            xfer += iprot->readListBegin(_etype123, _size120);
+            this->Vertices.resize(_size120);
+            uint32_t _i124;
+            for (_i124 = 0; _i124 < _size120; ++_i124)
             {
-              xfer += this->Vertices[_i118].read(iprot);
+              xfer += this->Vertices[_i124].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -2557,14 +2599,14 @@ uint32_t MNavigationMesh::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Triangles.clear();
-            uint32_t _size119;
-            ::apache::thrift::protocol::TType _etype122;
-            xfer += iprot->readListBegin(_etype122, _size119);
-            this->Triangles.resize(_size119);
-            uint32_t _i123;
-            for (_i123 = 0; _i123 < _size119; ++_i123)
+            uint32_t _size125;
+            ::apache::thrift::protocol::TType _etype128;
+            xfer += iprot->readListBegin(_etype128, _size125);
+            this->Triangles.resize(_size125);
+            uint32_t _i129;
+            for (_i129 = 0; _i129 < _size125; ++_i129)
             {
-              xfer += iprot->readI32(this->Triangles[_i123]);
+              xfer += iprot->readI32(this->Triangles[_i129]);
             }
             xfer += iprot->readListEnd();
           }
@@ -2577,17 +2619,17 @@ uint32_t MNavigationMesh::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->Properties.clear();
-            uint32_t _size124;
-            ::apache::thrift::protocol::TType _ktype125;
-            ::apache::thrift::protocol::TType _vtype126;
-            xfer += iprot->readMapBegin(_ktype125, _vtype126, _size124);
-            uint32_t _i128;
-            for (_i128 = 0; _i128 < _size124; ++_i128)
+            uint32_t _size130;
+            ::apache::thrift::protocol::TType _ktype131;
+            ::apache::thrift::protocol::TType _vtype132;
+            xfer += iprot->readMapBegin(_ktype131, _vtype132, _size130);
+            uint32_t _i134;
+            for (_i134 = 0; _i134 < _size130; ++_i134)
             {
-              std::string _key129;
-              xfer += iprot->readString(_key129);
-              std::string& _val130 = this->Properties[_key129];
-              xfer += iprot->readString(_val130);
+              std::string _key135;
+              xfer += iprot->readString(_key135);
+              std::string& _val136 = this->Properties[_key135];
+              xfer += iprot->readString(_val136);
             }
             xfer += iprot->readMapEnd();
           }
@@ -2620,10 +2662,10 @@ uint32_t MNavigationMesh::write(::apache::thrift::protocol::TProtocol* oprot) co
   xfer += oprot->writeFieldBegin("Vertices", ::apache::thrift::protocol::T_LIST, 1);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->Vertices.size()));
-    std::vector< ::MMIStandard::MVector3> ::const_iterator _iter131;
-    for (_iter131 = this->Vertices.begin(); _iter131 != this->Vertices.end(); ++_iter131)
+    std::vector< ::MMIStandard::MVector3> ::const_iterator _iter137;
+    for (_iter137 = this->Vertices.begin(); _iter137 != this->Vertices.end(); ++_iter137)
     {
-      xfer += (*_iter131).write(oprot);
+      xfer += (*_iter137).write(oprot);
     }
     xfer += oprot->writeListEnd();
   }
@@ -2632,10 +2674,10 @@ uint32_t MNavigationMesh::write(::apache::thrift::protocol::TProtocol* oprot) co
   xfer += oprot->writeFieldBegin("Triangles", ::apache::thrift::protocol::T_LIST, 2);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_I32, static_cast<uint32_t>(this->Triangles.size()));
-    std::vector<int32_t> ::const_iterator _iter132;
-    for (_iter132 = this->Triangles.begin(); _iter132 != this->Triangles.end(); ++_iter132)
+    std::vector<int32_t> ::const_iterator _iter138;
+    for (_iter138 = this->Triangles.begin(); _iter138 != this->Triangles.end(); ++_iter138)
     {
-      xfer += oprot->writeI32((*_iter132));
+      xfer += oprot->writeI32((*_iter138));
     }
     xfer += oprot->writeListEnd();
   }
@@ -2645,11 +2687,11 @@ uint32_t MNavigationMesh::write(::apache::thrift::protocol::TProtocol* oprot) co
     xfer += oprot->writeFieldBegin("Properties", ::apache::thrift::protocol::T_MAP, 3);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->Properties.size()));
-      std::map<std::string, std::string> ::const_iterator _iter133;
-      for (_iter133 = this->Properties.begin(); _iter133 != this->Properties.end(); ++_iter133)
+      std::map<std::string, std::string> ::const_iterator _iter139;
+      for (_iter139 = this->Properties.begin(); _iter139 != this->Properties.end(); ++_iter139)
       {
-        xfer += oprot->writeString(_iter133->first);
-        xfer += oprot->writeString(_iter133->second);
+        xfer += oprot->writeString(_iter139->first);
+        xfer += oprot->writeString(_iter139->second);
       }
       xfer += oprot->writeMapEnd();
     }
@@ -2668,17 +2710,17 @@ void swap(MNavigationMesh &a, MNavigationMesh &b) {
   swap(a.__isset, b.__isset);
 }
 
-MNavigationMesh::MNavigationMesh(const MNavigationMesh& other134) {
-  Vertices = other134.Vertices;
-  Triangles = other134.Triangles;
-  Properties = other134.Properties;
-  __isset = other134.__isset;
+MNavigationMesh::MNavigationMesh(const MNavigationMesh& other140) {
+  Vertices = other140.Vertices;
+  Triangles = other140.Triangles;
+  Properties = other140.Properties;
+  __isset = other140.__isset;
 }
-MNavigationMesh& MNavigationMesh::operator=(const MNavigationMesh& other135) {
-  Vertices = other135.Vertices;
-  Triangles = other135.Triangles;
-  Properties = other135.Properties;
-  __isset = other135.__isset;
+MNavigationMesh& MNavigationMesh::operator=(const MNavigationMesh& other141) {
+  Vertices = other141.Vertices;
+  Triangles = other141.Triangles;
+  Properties = other141.Properties;
+  __isset = other141.__isset;
   return *this;
 }
 void MNavigationMesh::printTo(std::ostream& out) const {
@@ -2739,9 +2781,9 @@ uint32_t MDrawingCall::read(::apache::thrift::protocol::TProtocol* iprot) {
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_I32) {
-          int32_t ecast136;
-          xfer += iprot->readI32(ecast136);
-          this->Type = (MDrawingCallType::type)ecast136;
+          int32_t ecast142;
+          xfer += iprot->readI32(ecast142);
+          this->Type = (MDrawingCallType::type)ecast142;
           isset_Type = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -2751,14 +2793,14 @@ uint32_t MDrawingCall::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Data.clear();
-            uint32_t _size137;
-            ::apache::thrift::protocol::TType _etype140;
-            xfer += iprot->readListBegin(_etype140, _size137);
-            this->Data.resize(_size137);
-            uint32_t _i141;
-            for (_i141 = 0; _i141 < _size137; ++_i141)
+            uint32_t _size143;
+            ::apache::thrift::protocol::TType _etype146;
+            xfer += iprot->readListBegin(_etype146, _size143);
+            this->Data.resize(_size143);
+            uint32_t _i147;
+            for (_i147 = 0; _i147 < _size143; ++_i147)
             {
-              xfer += iprot->readDouble(this->Data[_i141]);
+              xfer += iprot->readDouble(this->Data[_i147]);
             }
             xfer += iprot->readListEnd();
           }
@@ -2771,17 +2813,17 @@ uint32_t MDrawingCall::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->Properties.clear();
-            uint32_t _size142;
-            ::apache::thrift::protocol::TType _ktype143;
-            ::apache::thrift::protocol::TType _vtype144;
-            xfer += iprot->readMapBegin(_ktype143, _vtype144, _size142);
-            uint32_t _i146;
-            for (_i146 = 0; _i146 < _size142; ++_i146)
+            uint32_t _size148;
+            ::apache::thrift::protocol::TType _ktype149;
+            ::apache::thrift::protocol::TType _vtype150;
+            xfer += iprot->readMapBegin(_ktype149, _vtype150, _size148);
+            uint32_t _i152;
+            for (_i152 = 0; _i152 < _size148; ++_i152)
             {
-              std::string _key147;
-              xfer += iprot->readString(_key147);
-              std::string& _val148 = this->Properties[_key147];
-              xfer += iprot->readString(_val148);
+              std::string _key153;
+              xfer += iprot->readString(_key153);
+              std::string& _val154 = this->Properties[_key153];
+              xfer += iprot->readString(_val154);
             }
             xfer += iprot->readMapEnd();
           }
@@ -2817,10 +2859,10 @@ uint32_t MDrawingCall::write(::apache::thrift::protocol::TProtocol* oprot) const
     xfer += oprot->writeFieldBegin("Data", ::apache::thrift::protocol::T_LIST, 2);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->Data.size()));
-      std::vector<double> ::const_iterator _iter149;
-      for (_iter149 = this->Data.begin(); _iter149 != this->Data.end(); ++_iter149)
+      std::vector<double> ::const_iterator _iter155;
+      for (_iter155 = this->Data.begin(); _iter155 != this->Data.end(); ++_iter155)
       {
-        xfer += oprot->writeDouble((*_iter149));
+        xfer += oprot->writeDouble((*_iter155));
       }
       xfer += oprot->writeListEnd();
     }
@@ -2830,11 +2872,11 @@ uint32_t MDrawingCall::write(::apache::thrift::protocol::TProtocol* oprot) const
     xfer += oprot->writeFieldBegin("Properties", ::apache::thrift::protocol::T_MAP, 3);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->Properties.size()));
-      std::map<std::string, std::string> ::const_iterator _iter150;
-      for (_iter150 = this->Properties.begin(); _iter150 != this->Properties.end(); ++_iter150)
+      std::map<std::string, std::string> ::const_iterator _iter156;
+      for (_iter156 = this->Properties.begin(); _iter156 != this->Properties.end(); ++_iter156)
       {
-        xfer += oprot->writeString(_iter150->first);
-        xfer += oprot->writeString(_iter150->second);
+        xfer += oprot->writeString(_iter156->first);
+        xfer += oprot->writeString(_iter156->second);
       }
       xfer += oprot->writeMapEnd();
     }
@@ -2853,17 +2895,17 @@ void swap(MDrawingCall &a, MDrawingCall &b) {
   swap(a.__isset, b.__isset);
 }
 
-MDrawingCall::MDrawingCall(const MDrawingCall& other151) {
-  Type = other151.Type;
-  Data = other151.Data;
-  Properties = other151.Properties;
-  __isset = other151.__isset;
+MDrawingCall::MDrawingCall(const MDrawingCall& other157) {
+  Type = other157.Type;
+  Data = other157.Data;
+  Properties = other157.Properties;
+  __isset = other157.__isset;
 }
-MDrawingCall& MDrawingCall::operator=(const MDrawingCall& other152) {
-  Type = other152.Type;
-  Data = other152.Data;
-  Properties = other152.Properties;
-  __isset = other152.__isset;
+MDrawingCall& MDrawingCall::operator=(const MDrawingCall& other158) {
+  Type = other158.Type;
+  Data = other158.Data;
+  Properties = other158.Properties;
+  __isset = other158.__isset;
   return *this;
 }
 void MDrawingCall::printTo(std::ostream& out) const {
@@ -2937,9 +2979,9 @@ uint32_t MPhysicsInteraction::read(::apache::thrift::protocol::TProtocol* iprot)
         break;
       case 2:
         if (ftype == ::apache::thrift::protocol::T_I32) {
-          int32_t ecast153;
-          xfer += iprot->readI32(ecast153);
-          this->Type = (MPhysicsInteractionType::type)ecast153;
+          int32_t ecast159;
+          xfer += iprot->readI32(ecast159);
+          this->Type = (MPhysicsInteractionType::type)ecast159;
           isset_Type = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -2949,14 +2991,14 @@ uint32_t MPhysicsInteraction::read(::apache::thrift::protocol::TProtocol* iprot)
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Values.clear();
-            uint32_t _size154;
-            ::apache::thrift::protocol::TType _etype157;
-            xfer += iprot->readListBegin(_etype157, _size154);
-            this->Values.resize(_size154);
-            uint32_t _i158;
-            for (_i158 = 0; _i158 < _size154; ++_i158)
+            uint32_t _size160;
+            ::apache::thrift::protocol::TType _etype163;
+            xfer += iprot->readListBegin(_etype163, _size160);
+            this->Values.resize(_size160);
+            uint32_t _i164;
+            for (_i164 = 0; _i164 < _size160; ++_i164)
             {
-              xfer += iprot->readDouble(this->Values[_i158]);
+              xfer += iprot->readDouble(this->Values[_i164]);
             }
             xfer += iprot->readListEnd();
           }
@@ -2969,17 +3011,17 @@ uint32_t MPhysicsInteraction::read(::apache::thrift::protocol::TProtocol* iprot)
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->Properties.clear();
-            uint32_t _size159;
-            ::apache::thrift::protocol::TType _ktype160;
-            ::apache::thrift::protocol::TType _vtype161;
-            xfer += iprot->readMapBegin(_ktype160, _vtype161, _size159);
-            uint32_t _i163;
-            for (_i163 = 0; _i163 < _size159; ++_i163)
+            uint32_t _size165;
+            ::apache::thrift::protocol::TType _ktype166;
+            ::apache::thrift::protocol::TType _vtype167;
+            xfer += iprot->readMapBegin(_ktype166, _vtype167, _size165);
+            uint32_t _i169;
+            for (_i169 = 0; _i169 < _size165; ++_i169)
             {
-              std::string _key164;
-              xfer += iprot->readString(_key164);
-              std::string& _val165 = this->Properties[_key164];
-              xfer += iprot->readString(_val165);
+              std::string _key170;
+              xfer += iprot->readString(_key170);
+              std::string& _val171 = this->Properties[_key170];
+              xfer += iprot->readString(_val171);
             }
             xfer += iprot->readMapEnd();
           }
@@ -3022,10 +3064,10 @@ uint32_t MPhysicsInteraction::write(::apache::thrift::protocol::TProtocol* oprot
   xfer += oprot->writeFieldBegin("Values", ::apache::thrift::protocol::T_LIST, 3);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->Values.size()));
-    std::vector<double> ::const_iterator _iter166;
-    for (_iter166 = this->Values.begin(); _iter166 != this->Values.end(); ++_iter166)
+    std::vector<double> ::const_iterator _iter172;
+    for (_iter172 = this->Values.begin(); _iter172 != this->Values.end(); ++_iter172)
     {
-      xfer += oprot->writeDouble((*_iter166));
+      xfer += oprot->writeDouble((*_iter172));
     }
     xfer += oprot->writeListEnd();
   }
@@ -3035,11 +3077,11 @@ uint32_t MPhysicsInteraction::write(::apache::thrift::protocol::TProtocol* oprot
     xfer += oprot->writeFieldBegin("Properties", ::apache::thrift::protocol::T_MAP, 4);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->Properties.size()));
-      std::map<std::string, std::string> ::const_iterator _iter167;
-      for (_iter167 = this->Properties.begin(); _iter167 != this->Properties.end(); ++_iter167)
+      std::map<std::string, std::string> ::const_iterator _iter173;
+      for (_iter173 = this->Properties.begin(); _iter173 != this->Properties.end(); ++_iter173)
       {
-        xfer += oprot->writeString(_iter167->first);
-        xfer += oprot->writeString(_iter167->second);
+        xfer += oprot->writeString(_iter173->first);
+        xfer += oprot->writeString(_iter173->second);
       }
       xfer += oprot->writeMapEnd();
     }
@@ -3059,19 +3101,19 @@ void swap(MPhysicsInteraction &a, MPhysicsInteraction &b) {
   swap(a.__isset, b.__isset);
 }
 
-MPhysicsInteraction::MPhysicsInteraction(const MPhysicsInteraction& other168) {
-  Target = other168.Target;
-  Type = other168.Type;
-  Values = other168.Values;
-  Properties = other168.Properties;
-  __isset = other168.__isset;
+MPhysicsInteraction::MPhysicsInteraction(const MPhysicsInteraction& other174) {
+  Target = other174.Target;
+  Type = other174.Type;
+  Values = other174.Values;
+  Properties = other174.Properties;
+  __isset = other174.__isset;
 }
-MPhysicsInteraction& MPhysicsInteraction::operator=(const MPhysicsInteraction& other169) {
-  Target = other169.Target;
-  Type = other169.Type;
-  Values = other169.Values;
-  Properties = other169.Properties;
-  __isset = other169.__isset;
+MPhysicsInteraction& MPhysicsInteraction::operator=(const MPhysicsInteraction& other175) {
+  Target = other175.Target;
+  Type = other175.Type;
+  Values = other175.Values;
+  Properties = other175.Properties;
+  __isset = other175.__isset;
   return *this;
 }
 void MPhysicsInteraction::printTo(std::ostream& out) const {
@@ -3140,14 +3182,14 @@ uint32_t MSceneManipulation::read(::apache::thrift::protocol::TProtocol* iprot) 
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Transforms.clear();
-            uint32_t _size170;
-            ::apache::thrift::protocol::TType _etype173;
-            xfer += iprot->readListBegin(_etype173, _size170);
-            this->Transforms.resize(_size170);
-            uint32_t _i174;
-            for (_i174 = 0; _i174 < _size170; ++_i174)
+            uint32_t _size176;
+            ::apache::thrift::protocol::TType _etype179;
+            xfer += iprot->readListBegin(_etype179, _size176);
+            this->Transforms.resize(_size176);
+            uint32_t _i180;
+            for (_i180 = 0; _i180 < _size176; ++_i180)
             {
-              xfer += this->Transforms[_i174].read(iprot);
+              xfer += this->Transforms[_i180].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -3160,14 +3202,14 @@ uint32_t MSceneManipulation::read(::apache::thrift::protocol::TProtocol* iprot) 
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->PhysicsInteractions.clear();
-            uint32_t _size175;
-            ::apache::thrift::protocol::TType _etype178;
-            xfer += iprot->readListBegin(_etype178, _size175);
-            this->PhysicsInteractions.resize(_size175);
-            uint32_t _i179;
-            for (_i179 = 0; _i179 < _size175; ++_i179)
+            uint32_t _size181;
+            ::apache::thrift::protocol::TType _etype184;
+            xfer += iprot->readListBegin(_etype184, _size181);
+            this->PhysicsInteractions.resize(_size181);
+            uint32_t _i185;
+            for (_i185 = 0; _i185 < _size181; ++_i185)
             {
-              xfer += this->PhysicsInteractions[_i179].read(iprot);
+              xfer += this->PhysicsInteractions[_i185].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -3180,14 +3222,14 @@ uint32_t MSceneManipulation::read(::apache::thrift::protocol::TProtocol* iprot) 
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Properties.clear();
-            uint32_t _size180;
-            ::apache::thrift::protocol::TType _etype183;
-            xfer += iprot->readListBegin(_etype183, _size180);
-            this->Properties.resize(_size180);
-            uint32_t _i184;
-            for (_i184 = 0; _i184 < _size180; ++_i184)
+            uint32_t _size186;
+            ::apache::thrift::protocol::TType _etype189;
+            xfer += iprot->readListBegin(_etype189, _size186);
+            this->Properties.resize(_size186);
+            uint32_t _i190;
+            for (_i190 = 0; _i190 < _size186; ++_i190)
             {
-              xfer += this->Properties[_i184].read(iprot);
+              xfer += this->Properties[_i190].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -3200,14 +3242,14 @@ uint32_t MSceneManipulation::read(::apache::thrift::protocol::TProtocol* iprot) 
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Attachments.clear();
-            uint32_t _size185;
-            ::apache::thrift::protocol::TType _etype188;
-            xfer += iprot->readListBegin(_etype188, _size185);
-            this->Attachments.resize(_size185);
-            uint32_t _i189;
-            for (_i189 = 0; _i189 < _size185; ++_i189)
+            uint32_t _size191;
+            ::apache::thrift::protocol::TType _etype194;
+            xfer += iprot->readListBegin(_etype194, _size191);
+            this->Attachments.resize(_size191);
+            uint32_t _i195;
+            for (_i195 = 0; _i195 < _size191; ++_i195)
             {
-              xfer += this->Attachments[_i189].read(iprot);
+              xfer += this->Attachments[_i195].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -3237,10 +3279,10 @@ uint32_t MSceneManipulation::write(::apache::thrift::protocol::TProtocol* oprot)
     xfer += oprot->writeFieldBegin("Transforms", ::apache::thrift::protocol::T_LIST, 1);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->Transforms.size()));
-      std::vector<MTransformManipulation> ::const_iterator _iter190;
-      for (_iter190 = this->Transforms.begin(); _iter190 != this->Transforms.end(); ++_iter190)
+      std::vector<MTransformManipulation> ::const_iterator _iter196;
+      for (_iter196 = this->Transforms.begin(); _iter196 != this->Transforms.end(); ++_iter196)
       {
-        xfer += (*_iter190).write(oprot);
+        xfer += (*_iter196).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -3250,10 +3292,10 @@ uint32_t MSceneManipulation::write(::apache::thrift::protocol::TProtocol* oprot)
     xfer += oprot->writeFieldBegin("PhysicsInteractions", ::apache::thrift::protocol::T_LIST, 2);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->PhysicsInteractions.size()));
-      std::vector<MPhysicsInteraction> ::const_iterator _iter191;
-      for (_iter191 = this->PhysicsInteractions.begin(); _iter191 != this->PhysicsInteractions.end(); ++_iter191)
+      std::vector<MPhysicsInteraction> ::const_iterator _iter197;
+      for (_iter197 = this->PhysicsInteractions.begin(); _iter197 != this->PhysicsInteractions.end(); ++_iter197)
       {
-        xfer += (*_iter191).write(oprot);
+        xfer += (*_iter197).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -3263,10 +3305,10 @@ uint32_t MSceneManipulation::write(::apache::thrift::protocol::TProtocol* oprot)
     xfer += oprot->writeFieldBegin("Properties", ::apache::thrift::protocol::T_LIST, 3);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->Properties.size()));
-      std::vector<MPropertyManipulation> ::const_iterator _iter192;
-      for (_iter192 = this->Properties.begin(); _iter192 != this->Properties.end(); ++_iter192)
+      std::vector<MPropertyManipulation> ::const_iterator _iter198;
+      for (_iter198 = this->Properties.begin(); _iter198 != this->Properties.end(); ++_iter198)
       {
-        xfer += (*_iter192).write(oprot);
+        xfer += (*_iter198).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -3276,10 +3318,10 @@ uint32_t MSceneManipulation::write(::apache::thrift::protocol::TProtocol* oprot)
     xfer += oprot->writeFieldBegin("Attachments", ::apache::thrift::protocol::T_LIST, 4);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->Attachments.size()));
-      std::vector<MAttachmentManipulation> ::const_iterator _iter193;
-      for (_iter193 = this->Attachments.begin(); _iter193 != this->Attachments.end(); ++_iter193)
+      std::vector<MAttachmentManipulation> ::const_iterator _iter199;
+      for (_iter199 = this->Attachments.begin(); _iter199 != this->Attachments.end(); ++_iter199)
       {
-        xfer += (*_iter193).write(oprot);
+        xfer += (*_iter199).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -3299,19 +3341,19 @@ void swap(MSceneManipulation &a, MSceneManipulation &b) {
   swap(a.__isset, b.__isset);
 }
 
-MSceneManipulation::MSceneManipulation(const MSceneManipulation& other194) {
-  Transforms = other194.Transforms;
-  PhysicsInteractions = other194.PhysicsInteractions;
-  Properties = other194.Properties;
-  Attachments = other194.Attachments;
-  __isset = other194.__isset;
+MSceneManipulation::MSceneManipulation(const MSceneManipulation& other200) {
+  Transforms = other200.Transforms;
+  PhysicsInteractions = other200.PhysicsInteractions;
+  Properties = other200.Properties;
+  Attachments = other200.Attachments;
+  __isset = other200.__isset;
 }
-MSceneManipulation& MSceneManipulation::operator=(const MSceneManipulation& other195) {
-  Transforms = other195.Transforms;
-  PhysicsInteractions = other195.PhysicsInteractions;
-  Properties = other195.Properties;
-  Attachments = other195.Attachments;
-  __isset = other195.__isset;
+MSceneManipulation& MSceneManipulation::operator=(const MSceneManipulation& other201) {
+  Transforms = other201.Transforms;
+  PhysicsInteractions = other201.PhysicsInteractions;
+  Properties = other201.Properties;
+  Attachments = other201.Attachments;
+  __isset = other201.__isset;
   return *this;
 }
 void MSceneManipulation::printTo(std::ostream& out) const {
@@ -3426,9 +3468,9 @@ uint32_t MCollider::read(::apache::thrift::protocol::TProtocol* iprot) {
         break;
       case 2:
         if (ftype == ::apache::thrift::protocol::T_I32) {
-          int32_t ecast196;
-          xfer += iprot->readI32(ecast196);
-          this->Type = (MColliderType::type)ecast196;
+          int32_t ecast202;
+          xfer += iprot->readI32(ecast202);
+          this->Type = (MColliderType::type)ecast202;
           isset_Type = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -3502,14 +3544,14 @@ uint32_t MCollider::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Colliders.clear();
-            uint32_t _size197;
-            ::apache::thrift::protocol::TType _etype200;
-            xfer += iprot->readListBegin(_etype200, _size197);
-            this->Colliders.resize(_size197);
-            uint32_t _i201;
-            for (_i201 = 0; _i201 < _size197; ++_i201)
+            uint32_t _size203;
+            ::apache::thrift::protocol::TType _etype206;
+            xfer += iprot->readListBegin(_etype206, _size203);
+            this->Colliders.resize(_size203);
+            uint32_t _i207;
+            for (_i207 = 0; _i207 < _size203; ++_i207)
             {
-              xfer += this->Colliders[_i201].read(iprot);
+              xfer += this->Colliders[_i207].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -3522,17 +3564,17 @@ uint32_t MCollider::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->Properties.clear();
-            uint32_t _size202;
-            ::apache::thrift::protocol::TType _ktype203;
-            ::apache::thrift::protocol::TType _vtype204;
-            xfer += iprot->readMapBegin(_ktype203, _vtype204, _size202);
-            uint32_t _i206;
-            for (_i206 = 0; _i206 < _size202; ++_i206)
+            uint32_t _size208;
+            ::apache::thrift::protocol::TType _ktype209;
+            ::apache::thrift::protocol::TType _vtype210;
+            xfer += iprot->readMapBegin(_ktype209, _vtype210, _size208);
+            uint32_t _i212;
+            for (_i212 = 0; _i212 < _size208; ++_i212)
             {
-              std::string _key207;
-              xfer += iprot->readString(_key207);
-              std::string& _val208 = this->Properties[_key207];
-              xfer += iprot->readString(_val208);
+              std::string _key213;
+              xfer += iprot->readString(_key213);
+              std::string& _val214 = this->Properties[_key213];
+              xfer += iprot->readString(_val214);
             }
             xfer += iprot->readMapEnd();
           }
@@ -3614,10 +3656,10 @@ uint32_t MCollider::write(::apache::thrift::protocol::TProtocol* oprot) const {
     xfer += oprot->writeFieldBegin("Colliders", ::apache::thrift::protocol::T_LIST, 11);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->Colliders.size()));
-      std::vector<MCollider> ::const_iterator _iter209;
-      for (_iter209 = this->Colliders.begin(); _iter209 != this->Colliders.end(); ++_iter209)
+      std::vector<MCollider> ::const_iterator _iter215;
+      for (_iter215 = this->Colliders.begin(); _iter215 != this->Colliders.end(); ++_iter215)
       {
-        xfer += (*_iter209).write(oprot);
+        xfer += (*_iter215).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -3627,11 +3669,11 @@ uint32_t MCollider::write(::apache::thrift::protocol::TProtocol* oprot) const {
     xfer += oprot->writeFieldBegin("Properties", ::apache::thrift::protocol::T_MAP, 12);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->Properties.size()));
-      std::map<std::string, std::string> ::const_iterator _iter210;
-      for (_iter210 = this->Properties.begin(); _iter210 != this->Properties.end(); ++_iter210)
+      std::map<std::string, std::string> ::const_iterator _iter216;
+      for (_iter216 = this->Properties.begin(); _iter216 != this->Properties.end(); ++_iter216)
       {
-        xfer += oprot->writeString(_iter210->first);
-        xfer += oprot->writeString(_iter210->second);
+        xfer += oprot->writeString(_iter216->first);
+        xfer += oprot->writeString(_iter216->second);
       }
       xfer += oprot->writeMapEnd();
     }
@@ -3659,35 +3701,35 @@ void swap(MCollider &a, MCollider &b) {
   swap(a.__isset, b.__isset);
 }
 
-MCollider::MCollider(const MCollider& other211) {
-  ID = other211.ID;
-  Type = other211.Type;
-  BoxColliderProperties = other211.BoxColliderProperties;
-  SphereColliderProperties = other211.SphereColliderProperties;
-  CapsuleColliderProperties = other211.CapsuleColliderProperties;
-  ConeColliderProperties = other211.ConeColliderProperties;
-  CylinderColliderProperties = other211.CylinderColliderProperties;
-  MeshColliderProperties = other211.MeshColliderProperties;
-  PositionOffset = other211.PositionOffset;
-  RotationOffset = other211.RotationOffset;
-  Colliders = other211.Colliders;
-  Properties = other211.Properties;
-  __isset = other211.__isset;
+MCollider::MCollider(const MCollider& other217) {
+  ID = other217.ID;
+  Type = other217.Type;
+  BoxColliderProperties = other217.BoxColliderProperties;
+  SphereColliderProperties = other217.SphereColliderProperties;
+  CapsuleColliderProperties = other217.CapsuleColliderProperties;
+  ConeColliderProperties = other217.ConeColliderProperties;
+  CylinderColliderProperties = other217.CylinderColliderProperties;
+  MeshColliderProperties = other217.MeshColliderProperties;
+  PositionOffset = other217.PositionOffset;
+  RotationOffset = other217.RotationOffset;
+  Colliders = other217.Colliders;
+  Properties = other217.Properties;
+  __isset = other217.__isset;
 }
-MCollider& MCollider::operator=(const MCollider& other212) {
-  ID = other212.ID;
-  Type = other212.Type;
-  BoxColliderProperties = other212.BoxColliderProperties;
-  SphereColliderProperties = other212.SphereColliderProperties;
-  CapsuleColliderProperties = other212.CapsuleColliderProperties;
-  ConeColliderProperties = other212.ConeColliderProperties;
-  CylinderColliderProperties = other212.CylinderColliderProperties;
-  MeshColliderProperties = other212.MeshColliderProperties;
-  PositionOffset = other212.PositionOffset;
-  RotationOffset = other212.RotationOffset;
-  Colliders = other212.Colliders;
-  Properties = other212.Properties;
-  __isset = other212.__isset;
+MCollider& MCollider::operator=(const MCollider& other218) {
+  ID = other218.ID;
+  Type = other218.Type;
+  BoxColliderProperties = other218.BoxColliderProperties;
+  SphereColliderProperties = other218.SphereColliderProperties;
+  CapsuleColliderProperties = other218.CapsuleColliderProperties;
+  ConeColliderProperties = other218.ConeColliderProperties;
+  CylinderColliderProperties = other218.CylinderColliderProperties;
+  MeshColliderProperties = other218.MeshColliderProperties;
+  PositionOffset = other218.PositionOffset;
+  RotationOffset = other218.RotationOffset;
+  Colliders = other218.Colliders;
+  Properties = other218.Properties;
+  __isset = other218.__isset;
   return *this;
 }
 void MCollider::printTo(std::ostream& out) const {
@@ -3837,17 +3879,17 @@ uint32_t MSceneObject::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->Properties.clear();
-            uint32_t _size213;
-            ::apache::thrift::protocol::TType _ktype214;
-            ::apache::thrift::protocol::TType _vtype215;
-            xfer += iprot->readMapBegin(_ktype214, _vtype215, _size213);
-            uint32_t _i217;
-            for (_i217 = 0; _i217 < _size213; ++_i217)
+            uint32_t _size219;
+            ::apache::thrift::protocol::TType _ktype220;
+            ::apache::thrift::protocol::TType _vtype221;
+            xfer += iprot->readMapBegin(_ktype220, _vtype221, _size219);
+            uint32_t _i223;
+            for (_i223 = 0; _i223 < _size219; ++_i223)
             {
-              std::string _key218;
-              xfer += iprot->readString(_key218);
-              std::string& _val219 = this->Properties[_key218];
-              xfer += iprot->readString(_val219);
+              std::string _key224;
+              xfer += iprot->readString(_key224);
+              std::string& _val225 = this->Properties[_key224];
+              xfer += iprot->readString(_val225);
             }
             xfer += iprot->readMapEnd();
           }
@@ -3860,14 +3902,14 @@ uint32_t MSceneObject::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Attachments.clear();
-            uint32_t _size220;
-            ::apache::thrift::protocol::TType _etype223;
-            xfer += iprot->readListBegin(_etype223, _size220);
-            this->Attachments.resize(_size220);
-            uint32_t _i224;
-            for (_i224 = 0; _i224 < _size220; ++_i224)
+            uint32_t _size226;
+            ::apache::thrift::protocol::TType _etype229;
+            xfer += iprot->readListBegin(_etype229, _size226);
+            this->Attachments.resize(_size226);
+            uint32_t _i230;
+            for (_i230 = 0; _i230 < _size226; ++_i230)
             {
-              xfer += this->Attachments[_i224].read(iprot);
+              xfer += this->Attachments[_i230].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -3880,14 +3922,14 @@ uint32_t MSceneObject::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Constraints.clear();
-            uint32_t _size225;
-            ::apache::thrift::protocol::TType _etype228;
-            xfer += iprot->readListBegin(_etype228, _size225);
-            this->Constraints.resize(_size225);
-            uint32_t _i229;
-            for (_i229 = 0; _i229 < _size225; ++_i229)
+            uint32_t _size231;
+            ::apache::thrift::protocol::TType _etype234;
+            xfer += iprot->readListBegin(_etype234, _size231);
+            this->Constraints.resize(_size231);
+            uint32_t _i235;
+            for (_i235 = 0; _i235 < _size231; ++_i235)
             {
-              xfer += this->Constraints[_i229].read(iprot);
+              xfer += this->Constraints[_i235].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -3950,11 +3992,11 @@ uint32_t MSceneObject::write(::apache::thrift::protocol::TProtocol* oprot) const
     xfer += oprot->writeFieldBegin("Properties", ::apache::thrift::protocol::T_MAP, 8);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->Properties.size()));
-      std::map<std::string, std::string> ::const_iterator _iter230;
-      for (_iter230 = this->Properties.begin(); _iter230 != this->Properties.end(); ++_iter230)
+      std::map<std::string, std::string> ::const_iterator _iter236;
+      for (_iter236 = this->Properties.begin(); _iter236 != this->Properties.end(); ++_iter236)
       {
-        xfer += oprot->writeString(_iter230->first);
-        xfer += oprot->writeString(_iter230->second);
+        xfer += oprot->writeString(_iter236->first);
+        xfer += oprot->writeString(_iter236->second);
       }
       xfer += oprot->writeMapEnd();
     }
@@ -3964,10 +4006,10 @@ uint32_t MSceneObject::write(::apache::thrift::protocol::TProtocol* oprot) const
     xfer += oprot->writeFieldBegin("Attachments", ::apache::thrift::protocol::T_LIST, 9);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->Attachments.size()));
-      std::vector<MAttachment> ::const_iterator _iter231;
-      for (_iter231 = this->Attachments.begin(); _iter231 != this->Attachments.end(); ++_iter231)
+      std::vector<MAttachment> ::const_iterator _iter237;
+      for (_iter237 = this->Attachments.begin(); _iter237 != this->Attachments.end(); ++_iter237)
       {
-        xfer += (*_iter231).write(oprot);
+        xfer += (*_iter237).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -3977,10 +4019,10 @@ uint32_t MSceneObject::write(::apache::thrift::protocol::TProtocol* oprot) const
     xfer += oprot->writeFieldBegin("Constraints", ::apache::thrift::protocol::T_LIST, 10);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->Constraints.size()));
-      std::vector< ::MMIStandard::MConstraint> ::const_iterator _iter232;
-      for (_iter232 = this->Constraints.begin(); _iter232 != this->Constraints.end(); ++_iter232)
+      std::vector< ::MMIStandard::MConstraint> ::const_iterator _iter238;
+      for (_iter238 = this->Constraints.begin(); _iter238 != this->Constraints.end(); ++_iter238)
       {
-        xfer += (*_iter232).write(oprot);
+        xfer += (*_iter238).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -4005,29 +4047,29 @@ void swap(MSceneObject &a, MSceneObject &b) {
   swap(a.__isset, b.__isset);
 }
 
-MSceneObject::MSceneObject(const MSceneObject& other233) {
-  ID = other233.ID;
-  Name = other233.Name;
-  Transform = other233.Transform;
-  Collider = other233.Collider;
-  Mesh = other233.Mesh;
-  PhysicsProperties = other233.PhysicsProperties;
-  Properties = other233.Properties;
-  Attachments = other233.Attachments;
-  Constraints = other233.Constraints;
-  __isset = other233.__isset;
+MSceneObject::MSceneObject(const MSceneObject& other239) {
+  ID = other239.ID;
+  Name = other239.Name;
+  Transform = other239.Transform;
+  Collider = other239.Collider;
+  Mesh = other239.Mesh;
+  PhysicsProperties = other239.PhysicsProperties;
+  Properties = other239.Properties;
+  Attachments = other239.Attachments;
+  Constraints = other239.Constraints;
+  __isset = other239.__isset;
 }
-MSceneObject& MSceneObject::operator=(const MSceneObject& other234) {
-  ID = other234.ID;
-  Name = other234.Name;
-  Transform = other234.Transform;
-  Collider = other234.Collider;
-  Mesh = other234.Mesh;
-  PhysicsProperties = other234.PhysicsProperties;
-  Properties = other234.Properties;
-  Attachments = other234.Attachments;
-  Constraints = other234.Constraints;
-  __isset = other234.__isset;
+MSceneObject& MSceneObject::operator=(const MSceneObject& other240) {
+  ID = other240.ID;
+  Name = other240.Name;
+  Transform = other240.Transform;
+  Collider = other240.Collider;
+  Mesh = other240.Mesh;
+  PhysicsProperties = other240.PhysicsProperties;
+  Properties = other240.Properties;
+  Attachments = other240.Attachments;
+  Constraints = other240.Constraints;
+  __isset = other240.__isset;
   return *this;
 }
 void MSceneObject::printTo(std::ostream& out) const {
@@ -4179,14 +4221,14 @@ uint32_t MSceneObjectUpdate::read(::apache::thrift::protocol::TProtocol* iprot) 
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->HandPoses.clear();
-            uint32_t _size235;
-            ::apache::thrift::protocol::TType _etype238;
-            xfer += iprot->readListBegin(_etype238, _size235);
-            this->HandPoses.resize(_size235);
-            uint32_t _i239;
-            for (_i239 = 0; _i239 < _size235; ++_i239)
+            uint32_t _size241;
+            ::apache::thrift::protocol::TType _etype244;
+            xfer += iprot->readListBegin(_etype244, _size241);
+            this->HandPoses.resize(_size241);
+            uint32_t _i245;
+            for (_i245 = 0; _i245 < _size241; ++_i245)
             {
-              xfer += this->HandPoses[_i239].read(iprot);
+              xfer += this->HandPoses[_i245].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -4199,14 +4241,14 @@ uint32_t MSceneObjectUpdate::read(::apache::thrift::protocol::TProtocol* iprot) 
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Properties.clear();
-            uint32_t _size240;
-            ::apache::thrift::protocol::TType _etype243;
-            xfer += iprot->readListBegin(_etype243, _size240);
-            this->Properties.resize(_size240);
-            uint32_t _i244;
-            for (_i244 = 0; _i244 < _size240; ++_i244)
+            uint32_t _size246;
+            ::apache::thrift::protocol::TType _etype249;
+            xfer += iprot->readListBegin(_etype249, _size246);
+            this->Properties.resize(_size246);
+            uint32_t _i250;
+            for (_i250 = 0; _i250 < _size246; ++_i250)
             {
-              xfer += this->Properties[_i244].read(iprot);
+              xfer += this->Properties[_i250].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -4219,14 +4261,14 @@ uint32_t MSceneObjectUpdate::read(::apache::thrift::protocol::TProtocol* iprot) 
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Attachments.clear();
-            uint32_t _size245;
-            ::apache::thrift::protocol::TType _etype248;
-            xfer += iprot->readListBegin(_etype248, _size245);
-            this->Attachments.resize(_size245);
-            uint32_t _i249;
-            for (_i249 = 0; _i249 < _size245; ++_i249)
+            uint32_t _size251;
+            ::apache::thrift::protocol::TType _etype254;
+            xfer += iprot->readListBegin(_etype254, _size251);
+            this->Attachments.resize(_size251);
+            uint32_t _i255;
+            for (_i255 = 0; _i255 < _size251; ++_i255)
             {
-              xfer += this->Attachments[_i249].read(iprot);
+              xfer += this->Attachments[_i255].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -4239,14 +4281,14 @@ uint32_t MSceneObjectUpdate::read(::apache::thrift::protocol::TProtocol* iprot) 
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Constraints.clear();
-            uint32_t _size250;
-            ::apache::thrift::protocol::TType _etype253;
-            xfer += iprot->readListBegin(_etype253, _size250);
-            this->Constraints.resize(_size250);
-            uint32_t _i254;
-            for (_i254 = 0; _i254 < _size250; ++_i254)
+            uint32_t _size256;
+            ::apache::thrift::protocol::TType _etype259;
+            xfer += iprot->readListBegin(_etype259, _size256);
+            this->Constraints.resize(_size256);
+            uint32_t _i260;
+            for (_i260 = 0; _i260 < _size256; ++_i260)
             {
-              xfer += this->Constraints[_i254].read(iprot);
+              xfer += this->Constraints[_i260].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -4307,10 +4349,10 @@ uint32_t MSceneObjectUpdate::write(::apache::thrift::protocol::TProtocol* oprot)
     xfer += oprot->writeFieldBegin("HandPoses", ::apache::thrift::protocol::T_LIST, 7);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->HandPoses.size()));
-      std::vector< ::MMIStandard::MHandPose> ::const_iterator _iter255;
-      for (_iter255 = this->HandPoses.begin(); _iter255 != this->HandPoses.end(); ++_iter255)
+      std::vector< ::MMIStandard::MHandPose> ::const_iterator _iter261;
+      for (_iter261 = this->HandPoses.begin(); _iter261 != this->HandPoses.end(); ++_iter261)
       {
-        xfer += (*_iter255).write(oprot);
+        xfer += (*_iter261).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -4320,10 +4362,10 @@ uint32_t MSceneObjectUpdate::write(::apache::thrift::protocol::TProtocol* oprot)
     xfer += oprot->writeFieldBegin("Properties", ::apache::thrift::protocol::T_LIST, 8);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->Properties.size()));
-      std::vector<MPropertyUpdate> ::const_iterator _iter256;
-      for (_iter256 = this->Properties.begin(); _iter256 != this->Properties.end(); ++_iter256)
+      std::vector<MPropertyUpdate> ::const_iterator _iter262;
+      for (_iter262 = this->Properties.begin(); _iter262 != this->Properties.end(); ++_iter262)
       {
-        xfer += (*_iter256).write(oprot);
+        xfer += (*_iter262).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -4333,10 +4375,10 @@ uint32_t MSceneObjectUpdate::write(::apache::thrift::protocol::TProtocol* oprot)
     xfer += oprot->writeFieldBegin("Attachments", ::apache::thrift::protocol::T_LIST, 9);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->Attachments.size()));
-      std::vector<MAttachment> ::const_iterator _iter257;
-      for (_iter257 = this->Attachments.begin(); _iter257 != this->Attachments.end(); ++_iter257)
+      std::vector<MAttachment> ::const_iterator _iter263;
+      for (_iter263 = this->Attachments.begin(); _iter263 != this->Attachments.end(); ++_iter263)
       {
-        xfer += (*_iter257).write(oprot);
+        xfer += (*_iter263).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -4346,10 +4388,10 @@ uint32_t MSceneObjectUpdate::write(::apache::thrift::protocol::TProtocol* oprot)
     xfer += oprot->writeFieldBegin("Constraints", ::apache::thrift::protocol::T_LIST, 10);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->Constraints.size()));
-      std::vector< ::MMIStandard::MConstraint> ::const_iterator _iter258;
-      for (_iter258 = this->Constraints.begin(); _iter258 != this->Constraints.end(); ++_iter258)
+      std::vector< ::MMIStandard::MConstraint> ::const_iterator _iter264;
+      for (_iter264 = this->Constraints.begin(); _iter264 != this->Constraints.end(); ++_iter264)
       {
-        xfer += (*_iter258).write(oprot);
+        xfer += (*_iter264).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -4375,31 +4417,31 @@ void swap(MSceneObjectUpdate &a, MSceneObjectUpdate &b) {
   swap(a.__isset, b.__isset);
 }
 
-MSceneObjectUpdate::MSceneObjectUpdate(const MSceneObjectUpdate& other259) {
-  ID = other259.ID;
-  Name = other259.Name;
-  Transform = other259.Transform;
-  Collider = other259.Collider;
-  Mesh = other259.Mesh;
-  PhysicsProperties = other259.PhysicsProperties;
-  HandPoses = other259.HandPoses;
-  Properties = other259.Properties;
-  Attachments = other259.Attachments;
-  Constraints = other259.Constraints;
-  __isset = other259.__isset;
+MSceneObjectUpdate::MSceneObjectUpdate(const MSceneObjectUpdate& other265) {
+  ID = other265.ID;
+  Name = other265.Name;
+  Transform = other265.Transform;
+  Collider = other265.Collider;
+  Mesh = other265.Mesh;
+  PhysicsProperties = other265.PhysicsProperties;
+  HandPoses = other265.HandPoses;
+  Properties = other265.Properties;
+  Attachments = other265.Attachments;
+  Constraints = other265.Constraints;
+  __isset = other265.__isset;
 }
-MSceneObjectUpdate& MSceneObjectUpdate::operator=(const MSceneObjectUpdate& other260) {
-  ID = other260.ID;
-  Name = other260.Name;
-  Transform = other260.Transform;
-  Collider = other260.Collider;
-  Mesh = other260.Mesh;
-  PhysicsProperties = other260.PhysicsProperties;
-  HandPoses = other260.HandPoses;
-  Properties = other260.Properties;
-  Attachments = other260.Attachments;
-  Constraints = other260.Constraints;
-  __isset = other260.__isset;
+MSceneObjectUpdate& MSceneObjectUpdate::operator=(const MSceneObjectUpdate& other266) {
+  ID = other266.ID;
+  Name = other266.Name;
+  Transform = other266.Transform;
+  Collider = other266.Collider;
+  Mesh = other266.Mesh;
+  PhysicsProperties = other266.PhysicsProperties;
+  HandPoses = other266.HandPoses;
+  Properties = other266.Properties;
+  Attachments = other266.Attachments;
+  Constraints = other266.Constraints;
+  __isset = other266.__isset;
   return *this;
 }
 void MSceneObjectUpdate::printTo(std::ostream& out) const {
@@ -4484,14 +4526,14 @@ uint32_t MSceneUpdate::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->AddedSceneObjects.clear();
-            uint32_t _size261;
-            ::apache::thrift::protocol::TType _etype264;
-            xfer += iprot->readListBegin(_etype264, _size261);
-            this->AddedSceneObjects.resize(_size261);
-            uint32_t _i265;
-            for (_i265 = 0; _i265 < _size261; ++_i265)
+            uint32_t _size267;
+            ::apache::thrift::protocol::TType _etype270;
+            xfer += iprot->readListBegin(_etype270, _size267);
+            this->AddedSceneObjects.resize(_size267);
+            uint32_t _i271;
+            for (_i271 = 0; _i271 < _size267; ++_i271)
             {
-              xfer += this->AddedSceneObjects[_i265].read(iprot);
+              xfer += this->AddedSceneObjects[_i271].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -4504,14 +4546,14 @@ uint32_t MSceneUpdate::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->ChangedSceneObjects.clear();
-            uint32_t _size266;
-            ::apache::thrift::protocol::TType _etype269;
-            xfer += iprot->readListBegin(_etype269, _size266);
-            this->ChangedSceneObjects.resize(_size266);
-            uint32_t _i270;
-            for (_i270 = 0; _i270 < _size266; ++_i270)
+            uint32_t _size272;
+            ::apache::thrift::protocol::TType _etype275;
+            xfer += iprot->readListBegin(_etype275, _size272);
+            this->ChangedSceneObjects.resize(_size272);
+            uint32_t _i276;
+            for (_i276 = 0; _i276 < _size272; ++_i276)
             {
-              xfer += this->ChangedSceneObjects[_i270].read(iprot);
+              xfer += this->ChangedSceneObjects[_i276].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -4524,14 +4566,14 @@ uint32_t MSceneUpdate::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->RemovedSceneObjects.clear();
-            uint32_t _size271;
-            ::apache::thrift::protocol::TType _etype274;
-            xfer += iprot->readListBegin(_etype274, _size271);
-            this->RemovedSceneObjects.resize(_size271);
-            uint32_t _i275;
-            for (_i275 = 0; _i275 < _size271; ++_i275)
+            uint32_t _size277;
+            ::apache::thrift::protocol::TType _etype280;
+            xfer += iprot->readListBegin(_etype280, _size277);
+            this->RemovedSceneObjects.resize(_size277);
+            uint32_t _i281;
+            for (_i281 = 0; _i281 < _size277; ++_i281)
             {
-              xfer += iprot->readString(this->RemovedSceneObjects[_i275]);
+              xfer += iprot->readString(this->RemovedSceneObjects[_i281]);
             }
             xfer += iprot->readListEnd();
           }
@@ -4544,14 +4586,14 @@ uint32_t MSceneUpdate::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->AddedAvatars.clear();
-            uint32_t _size276;
-            ::apache::thrift::protocol::TType _etype279;
-            xfer += iprot->readListBegin(_etype279, _size276);
-            this->AddedAvatars.resize(_size276);
-            uint32_t _i280;
-            for (_i280 = 0; _i280 < _size276; ++_i280)
+            uint32_t _size282;
+            ::apache::thrift::protocol::TType _etype285;
+            xfer += iprot->readListBegin(_etype285, _size282);
+            this->AddedAvatars.resize(_size282);
+            uint32_t _i286;
+            for (_i286 = 0; _i286 < _size282; ++_i286)
             {
-              xfer += this->AddedAvatars[_i280].read(iprot);
+              xfer += this->AddedAvatars[_i286].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -4564,14 +4606,14 @@ uint32_t MSceneUpdate::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->ChangedAvatars.clear();
-            uint32_t _size281;
-            ::apache::thrift::protocol::TType _etype284;
-            xfer += iprot->readListBegin(_etype284, _size281);
-            this->ChangedAvatars.resize(_size281);
-            uint32_t _i285;
-            for (_i285 = 0; _i285 < _size281; ++_i285)
+            uint32_t _size287;
+            ::apache::thrift::protocol::TType _etype290;
+            xfer += iprot->readListBegin(_etype290, _size287);
+            this->ChangedAvatars.resize(_size287);
+            uint32_t _i291;
+            for (_i291 = 0; _i291 < _size287; ++_i291)
             {
-              xfer += this->ChangedAvatars[_i285].read(iprot);
+              xfer += this->ChangedAvatars[_i291].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -4584,14 +4626,14 @@ uint32_t MSceneUpdate::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->RemovedAvatars.clear();
-            uint32_t _size286;
-            ::apache::thrift::protocol::TType _etype289;
-            xfer += iprot->readListBegin(_etype289, _size286);
-            this->RemovedAvatars.resize(_size286);
-            uint32_t _i290;
-            for (_i290 = 0; _i290 < _size286; ++_i290)
+            uint32_t _size292;
+            ::apache::thrift::protocol::TType _etype295;
+            xfer += iprot->readListBegin(_etype295, _size292);
+            this->RemovedAvatars.resize(_size292);
+            uint32_t _i296;
+            for (_i296 = 0; _i296 < _size292; ++_i296)
             {
-              xfer += iprot->readString(this->RemovedAvatars[_i290]);
+              xfer += iprot->readString(this->RemovedAvatars[_i296]);
             }
             xfer += iprot->readListEnd();
           }
@@ -4621,10 +4663,10 @@ uint32_t MSceneUpdate::write(::apache::thrift::protocol::TProtocol* oprot) const
     xfer += oprot->writeFieldBegin("AddedSceneObjects", ::apache::thrift::protocol::T_LIST, 1);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->AddedSceneObjects.size()));
-      std::vector<MSceneObject> ::const_iterator _iter291;
-      for (_iter291 = this->AddedSceneObjects.begin(); _iter291 != this->AddedSceneObjects.end(); ++_iter291)
+      std::vector<MSceneObject> ::const_iterator _iter297;
+      for (_iter297 = this->AddedSceneObjects.begin(); _iter297 != this->AddedSceneObjects.end(); ++_iter297)
       {
-        xfer += (*_iter291).write(oprot);
+        xfer += (*_iter297).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -4634,10 +4676,10 @@ uint32_t MSceneUpdate::write(::apache::thrift::protocol::TProtocol* oprot) const
     xfer += oprot->writeFieldBegin("ChangedSceneObjects", ::apache::thrift::protocol::T_LIST, 2);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->ChangedSceneObjects.size()));
-      std::vector<MSceneObjectUpdate> ::const_iterator _iter292;
-      for (_iter292 = this->ChangedSceneObjects.begin(); _iter292 != this->ChangedSceneObjects.end(); ++_iter292)
+      std::vector<MSceneObjectUpdate> ::const_iterator _iter298;
+      for (_iter298 = this->ChangedSceneObjects.begin(); _iter298 != this->ChangedSceneObjects.end(); ++_iter298)
       {
-        xfer += (*_iter292).write(oprot);
+        xfer += (*_iter298).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -4647,10 +4689,10 @@ uint32_t MSceneUpdate::write(::apache::thrift::protocol::TProtocol* oprot) const
     xfer += oprot->writeFieldBegin("RemovedSceneObjects", ::apache::thrift::protocol::T_LIST, 3);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->RemovedSceneObjects.size()));
-      std::vector<std::string> ::const_iterator _iter293;
-      for (_iter293 = this->RemovedSceneObjects.begin(); _iter293 != this->RemovedSceneObjects.end(); ++_iter293)
+      std::vector<std::string> ::const_iterator _iter299;
+      for (_iter299 = this->RemovedSceneObjects.begin(); _iter299 != this->RemovedSceneObjects.end(); ++_iter299)
       {
-        xfer += oprot->writeString((*_iter293));
+        xfer += oprot->writeString((*_iter299));
       }
       xfer += oprot->writeListEnd();
     }
@@ -4660,10 +4702,10 @@ uint32_t MSceneUpdate::write(::apache::thrift::protocol::TProtocol* oprot) const
     xfer += oprot->writeFieldBegin("AddedAvatars", ::apache::thrift::protocol::T_LIST, 5);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->AddedAvatars.size()));
-      std::vector< ::MMIStandard::MAvatar> ::const_iterator _iter294;
-      for (_iter294 = this->AddedAvatars.begin(); _iter294 != this->AddedAvatars.end(); ++_iter294)
+      std::vector< ::MMIStandard::MAvatar> ::const_iterator _iter300;
+      for (_iter300 = this->AddedAvatars.begin(); _iter300 != this->AddedAvatars.end(); ++_iter300)
       {
-        xfer += (*_iter294).write(oprot);
+        xfer += (*_iter300).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -4673,10 +4715,10 @@ uint32_t MSceneUpdate::write(::apache::thrift::protocol::TProtocol* oprot) const
     xfer += oprot->writeFieldBegin("ChangedAvatars", ::apache::thrift::protocol::T_LIST, 6);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->ChangedAvatars.size()));
-      std::vector<MAvatarUpdate> ::const_iterator _iter295;
-      for (_iter295 = this->ChangedAvatars.begin(); _iter295 != this->ChangedAvatars.end(); ++_iter295)
+      std::vector<MAvatarUpdate> ::const_iterator _iter301;
+      for (_iter301 = this->ChangedAvatars.begin(); _iter301 != this->ChangedAvatars.end(); ++_iter301)
       {
-        xfer += (*_iter295).write(oprot);
+        xfer += (*_iter301).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -4686,10 +4728,10 @@ uint32_t MSceneUpdate::write(::apache::thrift::protocol::TProtocol* oprot) const
     xfer += oprot->writeFieldBegin("RemovedAvatars", ::apache::thrift::protocol::T_LIST, 7);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->RemovedAvatars.size()));
-      std::vector<std::string> ::const_iterator _iter296;
-      for (_iter296 = this->RemovedAvatars.begin(); _iter296 != this->RemovedAvatars.end(); ++_iter296)
+      std::vector<std::string> ::const_iterator _iter302;
+      for (_iter302 = this->RemovedAvatars.begin(); _iter302 != this->RemovedAvatars.end(); ++_iter302)
       {
-        xfer += oprot->writeString((*_iter296));
+        xfer += oprot->writeString((*_iter302));
       }
       xfer += oprot->writeListEnd();
     }
@@ -4711,23 +4753,23 @@ void swap(MSceneUpdate &a, MSceneUpdate &b) {
   swap(a.__isset, b.__isset);
 }
 
-MSceneUpdate::MSceneUpdate(const MSceneUpdate& other297) {
-  AddedSceneObjects = other297.AddedSceneObjects;
-  ChangedSceneObjects = other297.ChangedSceneObjects;
-  RemovedSceneObjects = other297.RemovedSceneObjects;
-  AddedAvatars = other297.AddedAvatars;
-  ChangedAvatars = other297.ChangedAvatars;
-  RemovedAvatars = other297.RemovedAvatars;
-  __isset = other297.__isset;
+MSceneUpdate::MSceneUpdate(const MSceneUpdate& other303) {
+  AddedSceneObjects = other303.AddedSceneObjects;
+  ChangedSceneObjects = other303.ChangedSceneObjects;
+  RemovedSceneObjects = other303.RemovedSceneObjects;
+  AddedAvatars = other303.AddedAvatars;
+  ChangedAvatars = other303.ChangedAvatars;
+  RemovedAvatars = other303.RemovedAvatars;
+  __isset = other303.__isset;
 }
-MSceneUpdate& MSceneUpdate::operator=(const MSceneUpdate& other298) {
-  AddedSceneObjects = other298.AddedSceneObjects;
-  ChangedSceneObjects = other298.ChangedSceneObjects;
-  RemovedSceneObjects = other298.RemovedSceneObjects;
-  AddedAvatars = other298.AddedAvatars;
-  ChangedAvatars = other298.ChangedAvatars;
-  RemovedAvatars = other298.RemovedAvatars;
-  __isset = other298.__isset;
+MSceneUpdate& MSceneUpdate::operator=(const MSceneUpdate& other304) {
+  AddedSceneObjects = other304.AddedSceneObjects;
+  ChangedSceneObjects = other304.ChangedSceneObjects;
+  RemovedSceneObjects = other304.RemovedSceneObjects;
+  AddedAvatars = other304.AddedAvatars;
+  ChangedAvatars = other304.ChangedAvatars;
+  RemovedAvatars = other304.RemovedAvatars;
+  __isset = other304.__isset;
   return *this;
 }
 void MSceneUpdate::printTo(std::ostream& out) const {
@@ -4819,14 +4861,14 @@ uint32_t MAvatarUpdate::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->SceneObjects.clear();
-            uint32_t _size299;
-            ::apache::thrift::protocol::TType _etype302;
-            xfer += iprot->readListBegin(_etype302, _size299);
-            this->SceneObjects.resize(_size299);
-            uint32_t _i303;
-            for (_i303 = 0; _i303 < _size299; ++_i303)
+            uint32_t _size305;
+            ::apache::thrift::protocol::TType _etype308;
+            xfer += iprot->readListBegin(_etype308, _size305);
+            this->SceneObjects.resize(_size305);
+            uint32_t _i309;
+            for (_i309 = 0; _i309 < _size305; ++_i309)
             {
-              xfer += iprot->readString(this->SceneObjects[_i303]);
+              xfer += iprot->readString(this->SceneObjects[_i309]);
             }
             xfer += iprot->readListEnd();
           }
@@ -4847,14 +4889,14 @@ uint32_t MAvatarUpdate::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->Properties.clear();
-            uint32_t _size304;
-            ::apache::thrift::protocol::TType _etype307;
-            xfer += iprot->readListBegin(_etype307, _size304);
-            this->Properties.resize(_size304);
-            uint32_t _i308;
-            for (_i308 = 0; _i308 < _size304; ++_i308)
+            uint32_t _size310;
+            ::apache::thrift::protocol::TType _etype313;
+            xfer += iprot->readListBegin(_etype313, _size310);
+            this->Properties.resize(_size310);
+            uint32_t _i314;
+            for (_i314 = 0; _i314 < _size310; ++_i314)
             {
-              xfer += this->Properties[_i308].read(iprot);
+              xfer += this->Properties[_i314].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -4895,10 +4937,10 @@ uint32_t MAvatarUpdate::write(::apache::thrift::protocol::TProtocol* oprot) cons
     xfer += oprot->writeFieldBegin("SceneObjects", ::apache::thrift::protocol::T_LIST, 3);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->SceneObjects.size()));
-      std::vector<std::string> ::const_iterator _iter309;
-      for (_iter309 = this->SceneObjects.begin(); _iter309 != this->SceneObjects.end(); ++_iter309)
+      std::vector<std::string> ::const_iterator _iter315;
+      for (_iter315 = this->SceneObjects.begin(); _iter315 != this->SceneObjects.end(); ++_iter315)
       {
-        xfer += oprot->writeString((*_iter309));
+        xfer += oprot->writeString((*_iter315));
       }
       xfer += oprot->writeListEnd();
     }
@@ -4913,10 +4955,10 @@ uint32_t MAvatarUpdate::write(::apache::thrift::protocol::TProtocol* oprot) cons
     xfer += oprot->writeFieldBegin("Properties", ::apache::thrift::protocol::T_LIST, 5);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->Properties.size()));
-      std::vector<MPropertyUpdate> ::const_iterator _iter310;
-      for (_iter310 = this->Properties.begin(); _iter310 != this->Properties.end(); ++_iter310)
+      std::vector<MPropertyUpdate> ::const_iterator _iter316;
+      for (_iter316 = this->Properties.begin(); _iter316 != this->Properties.end(); ++_iter316)
       {
-        xfer += (*_iter310).write(oprot);
+        xfer += (*_iter316).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -4937,21 +4979,21 @@ void swap(MAvatarUpdate &a, MAvatarUpdate &b) {
   swap(a.__isset, b.__isset);
 }
 
-MAvatarUpdate::MAvatarUpdate(const MAvatarUpdate& other311) {
-  ID = other311.ID;
-  PostureValues = other311.PostureValues;
-  SceneObjects = other311.SceneObjects;
-  Description = other311.Description;
-  Properties = other311.Properties;
-  __isset = other311.__isset;
+MAvatarUpdate::MAvatarUpdate(const MAvatarUpdate& other317) {
+  ID = other317.ID;
+  PostureValues = other317.PostureValues;
+  SceneObjects = other317.SceneObjects;
+  Description = other317.Description;
+  Properties = other317.Properties;
+  __isset = other317.__isset;
 }
-MAvatarUpdate& MAvatarUpdate::operator=(const MAvatarUpdate& other312) {
-  ID = other312.ID;
-  PostureValues = other312.PostureValues;
-  SceneObjects = other312.SceneObjects;
-  Description = other312.Description;
-  Properties = other312.Properties;
-  __isset = other312.__isset;
+MAvatarUpdate& MAvatarUpdate::operator=(const MAvatarUpdate& other318) {
+  ID = other318.ID;
+  PostureValues = other318.PostureValues;
+  SceneObjects = other318.SceneObjects;
+  Description = other318.Description;
+  Properties = other318.Properties;
+  __isset = other318.__isset;
   return *this;
 }
 void MAvatarUpdate::printTo(std::ostream& out) const {

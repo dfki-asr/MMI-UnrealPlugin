@@ -79,7 +79,7 @@ uint32_t MAJANService_CreateAgent_args::write(::apache::thrift::protocol::TProto
   xfer += oprot->writeString(this->name);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("template", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeFieldBegin("templateAgent", ::apache::thrift::protocol::T_STRING, 2);
   xfer += oprot->writeString(this->templateAgent);
   xfer += oprot->writeFieldEnd();
 
@@ -106,7 +106,7 @@ uint32_t MAJANService_CreateAgent_pargs::write(::apache::thrift::protocol::TProt
   xfer += oprot->writeString((*(this->name)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("template", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeFieldBegin("templateAgent", ::apache::thrift::protocol::T_STRING, 2);
   xfer += oprot->writeString((*(this->templateAgent)));
   xfer += oprot->writeFieldEnd();
 

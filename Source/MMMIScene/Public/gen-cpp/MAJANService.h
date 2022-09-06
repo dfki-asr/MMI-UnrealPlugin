@@ -12,7 +12,6 @@
 #include <memory>
 #include "AJAN_types.h"
 
-
 namespace MMIStandard {
 
 #ifdef _MSC_VER
@@ -56,7 +55,7 @@ class MAJANServiceIfSingletonFactory : virtual public MAJANServiceIfFactory {
 class MAJANServiceNull : virtual public MAJANServiceIf {
  public:
   virtual ~MAJANServiceNull() {}
-  void CreateAgent(std::string& /* _return */, const std::string& /* name */, const std::string& /* template */, const MRDFGraph& /* knowledge */) {
+  void CreateAgent(std::string& /* _return */, const std::string& /* name */, const std::string& /* templateAgent */, const MRDFGraph& /* knowledge */) {
     return;
   }
   bool DeleteAgent(const std::string& /* agentName */) {
@@ -95,7 +94,7 @@ class MAJANService_CreateAgent_args {
 
   void __set_name(const std::string& val);
 
-  void __set_template(const std::string& val);
+  void __set_templateAgent(const std::string& val);
 
   void __set_knowledge(const MRDFGraph& val);
 

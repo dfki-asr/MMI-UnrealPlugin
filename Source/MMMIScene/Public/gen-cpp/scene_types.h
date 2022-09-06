@@ -297,10 +297,11 @@ void swap(MPropertyManipulation &a, MPropertyManipulation &b);
 std::ostream& operator<<(std::ostream& out, const MPropertyManipulation& obj);
 
 typedef struct _MTransformUpdate__isset {
-  _MTransformUpdate__isset() : Position(false), Rotation(false), Parent(false) {}
+  _MTransformUpdate__isset() : Position(false), Rotation(false), Parent(false), Scale(false) {}
   bool Position :1;
   bool Rotation :1;
   bool Parent :1;
+  bool Scale :1;
 } _MTransformUpdate__isset;
 
 class MTransformUpdate : public virtual ::apache::thrift::TBase {
@@ -315,6 +316,7 @@ class MTransformUpdate : public virtual ::apache::thrift::TBase {
   std::vector<double>  Position;
   std::vector<double>  Rotation;
   std::string Parent;
+  std::vector<double>  Scale;
 
   _MTransformUpdate__isset __isset;
 
@@ -323,6 +325,8 @@ class MTransformUpdate : public virtual ::apache::thrift::TBase {
   void __set_Rotation(const std::vector<double> & val);
 
   void __set_Parent(const std::string& val);
+
+  void __set_Scale(const std::vector<double> & val);
 
   bool operator == (const MTransformUpdate & rhs) const
   {
@@ -337,6 +341,10 @@ class MTransformUpdate : public virtual ::apache::thrift::TBase {
     if (__isset.Parent != rhs.__isset.Parent)
       return false;
     else if (__isset.Parent && !(Parent == rhs.Parent))
+      return false;
+    if (__isset.Scale != rhs.__isset.Scale)
+      return false;
+    else if (__isset.Scale && !(Scale == rhs.Scale))
       return false;
     return true;
   }
