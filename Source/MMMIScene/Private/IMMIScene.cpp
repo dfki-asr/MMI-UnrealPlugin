@@ -2,12 +2,14 @@
 // The content of this file has been developed in the context of the MOSIM research project.
 // Original author(s): Stephan Adam
 
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "IMMIScene.h"
 
 // TODO: remove following lines, probably unrequired
 // required, otherwise error message during compilation, no idea why
 //#undef UpdateResource
-
 #define LOCTEXT_NAMESPACE "IMMIScene"
 
 DEFINE_LOG_CATEGORY( LogMOSIM );

@@ -3,7 +3,9 @@
 // Original author(s): Stephan Adam, Janis Sprenger
 
 // This class provides the methods for handling MMUs.
-
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "MotionModelUnitAccess.h"
 #include "RemoteAdapterAccess.h"
 

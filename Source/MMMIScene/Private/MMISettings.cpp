@@ -3,7 +3,9 @@
 // Original author(s): Stephan Adam
 
 // Storage for the most important IP and Port settings of the Plugin
-
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "MMISettings.h"
 
 // constructor

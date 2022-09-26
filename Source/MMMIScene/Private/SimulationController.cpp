@@ -5,7 +5,9 @@
 // Central instance for exectuing the simulations. Collects all MAvatars and MScene Objects
 // and passes them to the UnrealSceneAccess. Initializes all MAvatars and MSceneObjects during
 // BeginPlay() and executes the Simulation in MOSIM during Tick()
-
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "SimulationController.h"
 #include "UnrealSceneAccess.h"
 #include "MMISettings.h"
@@ -48,9 +50,9 @@ ASimulationController::ASimulationController()
     // Instance of the UnrealSceneAccess
     UESceneAccess = new UnrealSceneAccess();
 
-#if WITH_EDITOR
+//#if WITH_EDITOR
 	USelection::SelectionChangedEvent.AddUObject(this, &ASimulationController::OnObjectSelected);
-#endif
+//#endif
 }
 
 ASimulationController::~ASimulationController()
@@ -80,10 +82,10 @@ void ASimulationController::BeginPlay()
 
 	if (this->AutoStart)
 	{
-		try
-		{
+		/*/try
+		    {*/
 			this->Setup();
-		}
+        /*}
 		catch (exception e)
 		{
 			UE_LOG(LogMOSIM, Error, TEXT("Setup failed. Perhaps the MOSIM framework is not "
@@ -98,7 +100,7 @@ void ASimulationController::BeginPlay()
 
 			this->initialized = false;
 			return;
-		}
+		}*/
 	}
 }
 
@@ -587,6 +589,7 @@ void ASimulationController::RegisterAllAvatarsAndObjects()
 // necessary, as the thrift servers are othwerise not terminated at the end of the simulation
 void ASimulationController::EndPlay( EEndPlayReason::Type EndPlayReason )
 {
+
     if( this->UESceneAccess )
         this->UESceneAccess->UESceneAccessServerCore->~UnrealSceneAccessServer();
 
@@ -594,12 +597,13 @@ void ASimulationController::EndPlay( EEndPlayReason::Type EndPlayReason )
     AMMIAvatar::RemoteCoSimulationAccessPortIncremented = 9011;
 }
 
-#if WITH_EDITOR
+
 
 void ASimulationController::OnObjectSelected(UObject* selectedObject)
 {
+#if WITH_EDITOR
 	if(DisplayDrawcalls)
 		RenderDrawcallsForSelectedAvatars();
+#endif
 }
 
-#endif

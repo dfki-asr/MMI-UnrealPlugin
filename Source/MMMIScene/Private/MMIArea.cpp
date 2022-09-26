@@ -3,7 +3,9 @@
 // Original author(s): Stephan Adam
 
 // Unrequired class, informs Ajan in case colliders do overlapp
-
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "MMIArea.h"
 #include "MOSIM.h"
 

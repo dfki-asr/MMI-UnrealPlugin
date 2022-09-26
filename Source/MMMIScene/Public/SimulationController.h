@@ -144,9 +144,9 @@ private:
 
 	void RenderDrawcallsForSelectedAvatars();
 
-#if WITH_EDITORONLY_DATA
+//#if WITH_EDITORONLY_DATA
 	void OnObjectSelected(UObject* Object);
-#endif
+//#endif
 
     // access to the scene
     UWorld* scene;

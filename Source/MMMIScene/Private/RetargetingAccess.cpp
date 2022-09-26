@@ -4,7 +4,9 @@
 
 // This class provides the required methods for connecting to the Retargeting service
 // and defines the methods for utilizing the Retargeting service.
-
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "RetargetingAccess.h"
 #include "MOSIM.h"
 

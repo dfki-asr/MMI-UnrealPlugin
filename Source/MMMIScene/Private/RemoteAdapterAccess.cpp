@@ -3,7 +3,9 @@
 // Original author(s): Stephan Adam
 
 // This class provides the methods for handling the connection to the Adapters.
-
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "RemoteAdapterAccess.h"
 #include "MMUAccess.h"
 #include "MotionModelUnitAccess.h"

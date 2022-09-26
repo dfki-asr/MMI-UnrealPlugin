@@ -5,7 +5,9 @@
 // Wrapper class for connecting the RemoteSceneAccessServer with the UnrealSceneAccess.
 // RemoteSceneAccess requires a shared_ptr of the class, what conflicts with the garbage collector
 // of Unreal, if an Unreal class has a pointer to the class. This makes this class necessary.
-
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "UnrealSceneAccessServer.h"
 #include "UnrealSceneAccess.h"
 #include "MMUAccess.h"
