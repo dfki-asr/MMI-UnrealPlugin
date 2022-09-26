@@ -9,7 +9,9 @@
 // UnrealSceneAccess::SceneUpdate
 // Updates with ApplyManipulations() the MSceneObjects and MMISceneObjects, if changes happened
 // during the MOSIM step
-
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "UnrealSceneAccess.h"
 #include "MMUAccess.h"
 #include "MMISceneObject.h"

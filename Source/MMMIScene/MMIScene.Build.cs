@@ -39,7 +39,7 @@ namespace UnrealBuildTool.Rules
 			PublicDependencyModuleNames.AddRange(new string[] { "Json", "JsonUtilities", "Http" });
 
 			// Customized Details Panels
-			//PublicDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
+			PublicDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 #if WITH_EDITOR
 			PublicDependencyModuleNames.AddRange(new string[] { "PropertyEditor", "Slate", "SlateCore" });
 #endif

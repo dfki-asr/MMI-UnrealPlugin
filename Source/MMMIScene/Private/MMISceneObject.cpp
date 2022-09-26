@@ -7,6 +7,9 @@
 // Makes the required properties of the parent AActor (Root Transform, Colliders, Physics) known
 // to the MOSIM framework and transforms them to the format required by MOSIM.
 
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "MMISceneObject.h"
 #include "MOSIM.h"
 #include "UnrealSceneAccess.h"

@@ -4,7 +4,9 @@
 
 // This class provides the required methods for connecting to the Skeleton Access service
 // and defines the methods for utilizing the Skeleton Access service.
-
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "SkeletonAccess.h"
 
 /**

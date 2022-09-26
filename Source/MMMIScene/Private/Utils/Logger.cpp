@@ -1,4 +1,7 @@
 #include "Utils/Logger.h"
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include <windows.h>
 
 #include <vector>

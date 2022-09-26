@@ -10,6 +10,9 @@
 // Connects via MMUAccess to the MOSIM framework, loads and initializes the CoSimulationMMU
 // Connects to the required services (SkeletonAccess and Retargeting)
 
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "MMIAvatar.h"
 #include "MOSIM.h"
 #include "Utils/Logger.h"
@@ -93,8 +96,13 @@ AMMIAvatar::AMMIAvatar(const FObjectInitializer& ObjectInitializer)
     // If file is found, set first found file as default value for ReferencePostureFile
     FJsonSerializableArray FileNames;
     const TCHAR* extension = _T("*.mos");
+    //Niklas Test für Environment VAR.
+    const TCHAR* mosim = _T("MOSIM_TARGET_PATH");
+    FString path = FGenericPlatformMisc::GetEnvironmentVariable(mosim);
+    UE_LOG( LogMOSIM, Display, TEXT( "Path string is: %s" ), *path );
     IFileManager::Get().FindFilesRecursive( FileNames, *( FPaths::ProjectContentDir() ), extension,
                                             true, false, false );
+
     if( FileNames.Num() > 0 )
     {
         ReferencePostureFile.FilePath = FileNames[0];

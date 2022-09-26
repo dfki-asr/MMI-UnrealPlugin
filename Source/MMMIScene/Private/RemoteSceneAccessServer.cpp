@@ -5,7 +5,9 @@
 // Thrift server that provides the remote access to the Unreal scene. Required by Ajan.
 // The methods answerign the client requests are defined in the UnrealSceneAccessServer class,
 // which redirects them to the UnrealSceneAccess.
-
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "RemoteSceneAccessServer.h"
 #include "MMUAccess.h"
 #include "UnrealSceneAccessServer.h"

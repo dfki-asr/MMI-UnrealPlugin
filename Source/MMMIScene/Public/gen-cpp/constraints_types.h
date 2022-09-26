@@ -6,7 +6,9 @@
  */
 #ifndef constraints_TYPES_H
 #define constraints_TYPES_H
-
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include <iosfwd>
 
 #include <thrift/Thrift.h>

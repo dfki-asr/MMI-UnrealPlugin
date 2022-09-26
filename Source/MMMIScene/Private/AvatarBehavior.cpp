@@ -5,6 +5,9 @@
 // Helper class for executing hard coded behaviors (series of MInstructions) without applying Ajan
 // Only for testing purposes, unrequired as soon as Ajan is working
 
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "AvatarBehavior.h"
 #include "MOSIM.h"
 #include "SimulationController.h"

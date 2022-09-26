@@ -5,7 +5,9 @@
 // This class provides the methods for connecting to the Register and
 // loading and initializing MMUs. Summarizes the methods from
 // RemoteAdapterAccess and MotionModelUnitAccess.
-
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "MMUAccess.h"
 #include "MOSIM.h"
 #include <Combaseapi.h>

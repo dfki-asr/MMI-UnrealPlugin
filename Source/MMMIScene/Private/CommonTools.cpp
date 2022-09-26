@@ -2,6 +2,9 @@
 // The content of this file has been developed in the context of the MOSIM research project.
 // Original author(s): Ulan Akmatbekov
 
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "CommonTools.h"
 
 using namespace std;

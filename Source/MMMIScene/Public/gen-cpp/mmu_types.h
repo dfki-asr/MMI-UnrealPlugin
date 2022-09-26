@@ -6,7 +6,6 @@
  */
 #ifndef mmu_TYPES_H
 #define mmu_TYPES_H
-
 #include <iosfwd>
 
 #include <thrift/Thrift.h>
