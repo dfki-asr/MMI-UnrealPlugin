@@ -18,6 +18,9 @@
 #include "MMUAccess.h"
 
 #include "Engine.h"
+#include <format>
+#include "CommonTools.h"
+
 //used for culture invariant float to string conversions.
 #include <boost/lexical_cast.hpp>
 
@@ -146,6 +149,44 @@ UInstructionWrapper* AAvatarBehavior::WalkInstruction(
 
 
 	return UInstructionWrapper::Create(walkInstruction);
+}
+
+UInstructionWrapper* AAvatarBehavior::ResponsiveWalkInstruction(
+    AMMIAvatar* avatar, FVector walkDirection,
+    UInstructionWrapper* previousInstruction /*= nullptr*/, float duration /*= 0*/,
+    float delay /*= 0.01f*/, float velocity /*= 1.0f*/, bool reuseEnvironment /*= true*/,
+    FString instrID /* = "" */ )
+{
+    MInstruction walkInstruction;
+    std::string _instrID = std::string( TCHAR_TO_UTF8( *instrID ) );
+
+    if( _instrID == "" )
+    {
+        walkInstruction.__set_ID( MMUAccess::GetNewGuid() );
+    }
+    else
+    {
+        walkInstruction.__set_ID( _instrID );
+	}
+    
+    walkInstruction.__set_MotionType( "Locomotion/Responsive" );
+    walkInstruction.__set_Name( "Walking to target location" );
+    walkInstruction.__set_AvatarID( avatar->AvatarID );
+
+	MVector3 dir = ToMVec3( walkDirection );
+
+
+    map<string, string> walkProperties = {
+            { "MovementDirection", string_format( "%.3f, %.3f, %.3f", dir.X, dir.Y, dir.Z ) },
+        { "Velocity", boost::lexical_cast<std::string>( velocity ) },
+    };
+    
+    walkInstruction.__set_Properties( walkProperties );
+
+    scheduleNewInstruction( avatar, walkInstruction, previousInstruction, duration, delay );
+    string _val = walkProperties.at( "MovementDirection" );
+
+    return UInstructionWrapper::Create( walkInstruction );
 }
 
 UInstructionWrapper* AAvatarBehavior::ReachInstruction(AMMIAvatar* avatar, AActor* reachTarget, Hand hand,
@@ -361,13 +402,13 @@ void AAvatarBehavior::ExecuteInstructions(AMMIAvatar* avatar)
 		return;
 
 	SimContr->ExecuteInstructions(avatar);
-	log("Executed instructions for an avatar with name " + avatar->baseName);
+	//log("Executed instructions for an avatar with name " + avatar->baseName);
 }
 
 void AAvatarBehavior::ExecuteInstructionsForAll()
 {
 	SimContr->ExecuteInstructionsForAll();
-	log("Executed instructions for all avatars");
+	//log("Executed instructions for all avatars");
 }
 
 void AAvatarBehavior::CleanInstructions(AMMIAvatar* avatar)
@@ -470,6 +511,18 @@ void AAvatarBehavior::scheduleNewInstruction(AMMIAvatar* avatar, MInstruction& n
 			newInstruction.ID.c_str(), mmiConstants.MSimulationEvent_Start.c_str(), duration)); // or maybe I should put prevId.ID + (delay + duration)
 	}
 
-	// insert new instruction for the chosen avatar in the end of a queue
-	instructions.push_back(newInstruction);
+	bool update = false;
+	for( int i = 0; i < instructions.size(); i++ )
+    {
+        if( instructions[i].ID == newInstruction.ID )
+        {
+            update = true;
+            instructions[i] = newInstruction;
+		}
+	}
+    if( !update )
+    {
+        // insert new instruction for the chosen avatar in the end of a queue
+        instructions.push_back( newInstruction );
+    }
 }

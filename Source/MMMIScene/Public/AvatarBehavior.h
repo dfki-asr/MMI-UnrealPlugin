@@ -19,6 +19,9 @@
 #include "Containers/Map.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Math/Vector.h"
+
+
 #include "AvatarBehavior.generated.h"
 
 class AMMIAvatar;
@@ -64,6 +67,14 @@ public:
 		UInstructionWrapper* previousInstruction = nullptr,
 		float duration = 0, float delay = 0.01f, float velocity = 1.0f,
 		bool reuseEnvironment = true);
+
+    UFUNCTION( BlueprintCallable )
+	UPARAM( DisplayName = "Instruction" )
+	UInstructionWrapper* ResponsiveWalkInstruction(
+            AMMIAvatar* avatar, FVector walkDirection,
+            UInstructionWrapper* previousInstruction = nullptr, float duration = 0,
+            float delay = 0.01f, float velocity = 1.0f, bool reuseEnvironment = true,
+            FString instrID = "" );
 
 	/*** Schedule a reach instruction
 	* @param avatar - An avatar to run the instruction

@@ -107,11 +107,12 @@ void ASimulationController::Setup()
     // get the world
     scene = this->GetWorld();
 
-    // collect all avatars and objects
-    this->RegisterAllAvatarsAndObjects();
-
     // start the scene access server
     this->UESceneAccess->InitializeServers();
+
+
+    // collect all avatars and objects
+    this->RegisterAllAvatarsAndObjects();
 
 	CurrentSceneID = MMUAccess::GetNewGuid();
 
