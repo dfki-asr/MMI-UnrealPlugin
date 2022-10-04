@@ -1,8 +1,13 @@
 //experimental class for logging
+#include "CoreMinimal.h"
+#include <string>
+#include <map>
+#include <vector>
 
 #pragma once
 
 #include <string>
+
 
 enum Log_level
 {

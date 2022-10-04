@@ -1,9 +1,11 @@
 #include "Utils/Logger.h"
-#ifndef NOMINMAX
+
+
+/*
+* #ifndef NOMINMAX
 #define NOMINMAX
 #endif
-#include <windows.h>
-
+//#include <windows.h>
 #include <vector>
 #include <chrono>
 #include <ctime> 
@@ -26,13 +28,23 @@
 #define LIGHTMAGENTA	13
 #define YELLOW			14
 #define WHITE			15
+*/
+
+#include "EngineUtils.h"
+#include "Engine.h"
+#include "CommonTools.h"
 
 
-using namespace std;
+
+//using namespace std;
 Log_level Logger::logLevel=L_INFO;
 
 void Logger::printLog(const Log_level level, const std::string & message)
 {
+
+	UE_LOG( LogMOSIM, Warning, TEXT( "%s" ), UTF8_TO_TCHAR(message.c_str()) );
+
+    /*
 	std::FILE* output = (level == L_ERROR ? stderr : stdout);
 	if (level <= logLevel)
 	{
@@ -61,5 +73,6 @@ void Logger::printLog(const Log_level level, const std::string & message)
 		SetConsoleTextAttribute(hConsole, WHITE);
 	
 	}
+	*/
 }
 

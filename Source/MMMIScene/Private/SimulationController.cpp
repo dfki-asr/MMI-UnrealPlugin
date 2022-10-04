@@ -320,8 +320,12 @@ void ASimulationController::Tick( float DeltaTime )
 
 void ASimulationController::DoStep( float time )
 {
+    clock_t begin, begin_, scene_, doStep, doStep_, apply_;
+    begin = std::clock();
+
     // Scene synchronization of each MMU Access
     this->PushScene();
+    scene_ = std::clock();
 
 	bool invalidateDebug = false;
 
@@ -339,10 +343,12 @@ void ASimulationController::DoStep( float time )
 
             for( int i = 0; i < avatar->MMUAccessPtr->MotionModelUnits.size(); i++ )
             {
+                doStep = std::clock();
                 avatar->MMUAccessPtr->MotionModelUnits[i]->DoStep( simRes, time, simstate );
+                doStep_ = std::clock();
                 break;
             }
-
+            apply_ = std::clock();
             // pass channel data to the remote skeleton access
             avatar->skeletonAccessPtr->SetChannelData( simstate.Current );
 
@@ -369,6 +375,15 @@ void ASimulationController::DoStep( float time )
             this->resultsMap.clear();
         }
     }
+    begin_ = std::clock();
+    float t1 = float( begin_ - begin ) / CLOCKS_PER_SEC;
+    float t2 = float( scene_ - begin ) / CLOCKS_PER_SEC;
+    float t3 = float( doStep - scene_ ) / CLOCKS_PER_SEC;
+    float t4 = float( doStep_ - doStep ) / CLOCKS_PER_SEC;
+    float t5 = float( begin_ - apply_ ) / CLOCKS_PER_SEC;
+    UE_LOG( LogMOSIM, Display, TEXT( "Timings: %.3f, scene: %.3f, read: %.3f dostep: %.3f, apply: %.3f" ),
+            t1, t2, t3, t4, t5
+             );
 
     #if WITH_EDITOR
 	if (invalidateDebug && DisplayDrawcalls)

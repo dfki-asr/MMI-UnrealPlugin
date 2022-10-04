@@ -18,6 +18,7 @@
 #include "Utils/Logger.h"
 #include <algorithm>
 
+
 MMUAccess::MMUAccess()
 {
     // create the session ID
@@ -392,7 +393,8 @@ bool MMUAccess::InitializeSpecificMMU( int timeout, const MAvatarDescription& Av
 void MMUAccess::PushScene( bool transmitFullScene )
 {
     MSceneUpdate sceneUpdates;
-
+    clock_t start, end, start_send; 
+    start = std::clock();
     if( !transmitFullScene )
         this->SceneAccess->GetSceneChanges( sceneUpdates );
     else
@@ -405,12 +407,18 @@ void MMUAccess::PushScene( bool transmitFullScene )
     };
 
     vector<thread*> threads;
-
+    start_send = std::clock();
     for( RemoteAdapterAccess* adapter : this->Adapters )
     {
-        threads.push_back( new thread( lambdaExp, adapter ) );
+        if( adapter->GetAdapterName() != "PythonAdapter" )
+        {
+            threads.push_back( new thread( lambdaExp, adapter ) );
+        }
     }
     MMUAccess::StopThreads( threads );
+    end = std::clock();
+    Logger::printLog( Log_level::L_DEBUG,
+                      "Push Scene " + std::to_string( float( end - start ) / CLOCKS_PER_SEC ) + " push " + std::to_string(float(end - start_send) / CLOCKS_PER_SEC));
 }
 
 // create checkpoints
