@@ -197,7 +197,7 @@ void ASimulationController::Setup()
             UE_LOG( LogMOSIM, Warning, TEXT("%s"), *message);
             GEngine->AddOnScreenDebugMessage( static_cast<uint64>( this->GetUniqueID() ), 5.0f,
                                               FColor::Red, message );
-            return;
+            //return;
         }
 		else
 		{
