@@ -92,32 +92,6 @@ AMMIAvatar::AMMIAvatar(const FObjectInitializer& ObjectInitializer)
     // set the collison for the whole actor
     this->SetActorEnableCollision( true );
 
-    // Search for *.mos files in project Content folder
-    // If file is found, set first found file as default value for ReferencePostureFile
-    FJsonSerializableArray FileNames;
-    const TCHAR* extension = _T("*.mos");
-    //Niklas Test für Environment VAR.
-    const TCHAR* mosim = _T("MOSIM_TARGET_PATH");
-    FString path = FGenericPlatformMisc::GetEnvironmentVariable(mosim);
-    UE_LOG( LogMOSIM, Display, TEXT( "Path string is: %s" ), *path );
-    IFileManager::Get().FindFilesRecursive( FileNames, *( FPaths::ProjectContentDir() ), extension,
-                                            true, false, false );
-
-    if( FileNames.Num() > 0 )
-    {
-        ReferencePostureFile.FilePath = FileNames[0];
-        FString names;
-        for( FString file : FileNames )
-        {
-            names = names + file + ", ";
-        }
-        UE_LOG( LogMOSIM, Display, TEXT( "Found *.mos file: %s" ), *names );
-    }
-    else
-    { 
-        UE_LOG( LogMOSIM, Display,
-                TEXT( "Did not find any .mos files. Leave ReferencePostureFile empty." ) );
-    }
 }
 
 void AMMIAvatar::OnConstruction( const FTransform& Transform )
@@ -206,17 +180,17 @@ bool AMMIAvatar::Setup( MIPAddress registerAddress, string _sessionID,
     try
     {
         // Loading the reference zero posture.
-        MAvatarPosture zeroP = this->LoadAvatarPosture( ReferencePostureFile.FilePath );
+        MAvatarPosture zeroP = this->LoadAvatarPosture( FPaths::ProjectContentDir() + ReferencePostureFile );
         this->GlobalReferencePosture = zeroP;
         UE_LOG( LogMOSIM, Display, TEXT( " Successfully loaded AvatarDescription %s" ),
-                *ReferencePostureFile.FilePath );
+                *ReferencePostureFile );
     }
     catch( exception e )
     {
         // In case of an error, we should actually stop the program and notify the user, otherwise
         // the software will exit with a access violation exception and no information.
         string message = "Failed to load the reference posture " +
-                         string( TCHAR_TO_UTF8( *ReferencePostureFile.FilePath ) ) + "!";
+                         string( TCHAR_TO_UTF8( *ReferencePostureFile ) ) + "!";
         runtime_error( message.c_str() );
         UE_LOG( LogMOSIM, Error, TEXT( "%s" ), *FString( message.c_str() ) );
         this->isInitialized = false;

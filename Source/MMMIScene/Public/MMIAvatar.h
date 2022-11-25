@@ -66,8 +66,8 @@ public:
 //    FString AvatarID;
 
     // Relative path of the reference posture file for MOSIM retargeting service.
-    UPROPERTY( EditAnywhere, Category = "MOSIM Properties", Meta = ( FilePathFilter = "mos" ) )
-    FFilePath ReferencePostureFile;
+    UPROPERTY( EditAnywhere, Category = "MOSIM Properties")//, Meta = ( FilePathFilter = "mos" ) )
+    FString ReferencePostureFile;
 
     // add bones of the avatar as scene objects
     bool AddBoneSceneObjects;
@@ -197,6 +197,7 @@ protected:
 
 private:
     bool isInitialized;
+    FString actualConfigFilePath;
 };
 
 int AMMIAvatar::counter = 0;
