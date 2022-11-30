@@ -398,6 +398,49 @@ UInstructionWrapper* AAvatarBehavior::MoveInstruction(AMMIAvatar* avatar, AActor
 	return UInstructionWrapper::Create(moveInstruction);
 }
 
+UInstructionWrapper* AAvatarBehavior::NNLocomotion(
+    AMMIAvatar* avatar, FVector walkingDirection, FVector gazeDirection, FVector facingDirection,
+    UInstructionWrapper* previousInstruction /*= nullptr*/, float duration /*= 0*/,
+    float delay /*= 0.01f*/, float velocity /*= 1.0*/, float runningThreshold /*= 1.7*/,
+    bool running /*= false */ )
+{
+    if( checkNullArgument( avatar, "Avatar", "NNLocomotion" ) )
+        return nullptr;
+
+    MInstruction NNLocomotion;
+    NNLocomotion.__set_ID( MMUAccess::GetNewGuid() );
+    NNLocomotion.__set_MotionType( "locomotion/locomotion" );
+    NNLocomotion.__set_Name( "NNLocomotion" );
+    NNLocomotion.__set_AvatarID( avatar->AvatarID );
+
+    MVector3 walkdir = ToMVec3( walkingDirection );
+    MVector3 gazedir = ToMVec3( gazeDirection );
+    MVector3 facedir = ToMVec3( facingDirection );
+
+    map<string, string> NNProperties = {
+        { "WalkingDirection",
+          string_format( "%.3f, %.3f, %.3f", walkdir.X, walkdir.Y, walkdir.Z ) },
+        { "WalkingVelocity", boost::lexical_cast<std::string>( velocity ) },
+        { "GazeDirection", string_format( "%.3f, %.3f, %.3f", gazedir.X, gazedir.Y, gazedir.Z ) },
+        { "RunningThreshold", boost::lexical_cast<std::string>( runningThreshold ) },
+        { "Running", /*boost::lexical_cast<std::string>( running )*/ "false" },
+        { "FacingDirection",
+          string_format( "%.3f, %.3f, %.3f", facedir.X, facedir.Y, facedir.Z ) } };
+    NNLocomotion.__set_Properties( NNProperties );
+
+    scheduleNewInstruction( avatar, NNLocomotion, previousInstruction, duration, delay );
+
+    if( duration > 0 )
+        log( string_format(
+            "Scheduled NNLocomotion Instruction for %s to target object %s for %.2f seconds",
+            avatar->baseName.c_str(), duration ) );
+    else
+        log( string_format( "Scheduled NNLocomotion Instruction for %s.",
+                            avatar->baseName.c_str() ) );
+
+    return UInstructionWrapper::Create( NNLocomotion );
+}
+
 
 void AAvatarBehavior::ExecuteInstructions(AMMIAvatar* avatar)
 {

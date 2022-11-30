@@ -143,6 +143,15 @@ public:
 	UInstructionWrapper* MoveInstruction(AMMIAvatar* avatar, AActor* targetObject, AActor* targetDestination, Hand hand,
 		UInstructionWrapper* previousInstruction = nullptr, float duration = 0, float delay = 0.01f);
 
+	UFUNCTION( BlueprintCallable )
+    UPARAM( DisplayName = "Instruction" )
+    UInstructionWrapper* NNLocomotion( AMMIAvatar* avatar, FVector walkingDirection,
+                                        FVector gazeDirection, FVector facingDirection,
+                                        UInstructionWrapper* previousInstruction = nullptr,
+                                        float duration = 0, float delay = 0.01f,
+                                        float velocity = 1.0, float runningThreshold = 1.7,
+                                        bool running = false );
+
 	/*** Execute all scheduled instructions for specific avatar */
 	UFUNCTION(BlueprintCallable)
 	void ExecuteInstructions(AMMIAvatar* avatar);
