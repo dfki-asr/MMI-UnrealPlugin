@@ -37,6 +37,8 @@
 #include "Engine.h"
 #include "CommonTools.h"
 
+#include "avatar_types.h"
+
 // initialize static variables
 int AMMIAvatar::RemoteCoSimulationAccessPortIncremented =
     MMISettings::GetInstance()->RemoteCoSimulationAccessPort;
@@ -60,6 +62,11 @@ AMMIAvatar::AMMIAvatar(const FObjectInitializer& ObjectInitializer)
       retargetingAccessPtr( nullptr ),
       isInitialized( false )
 {
+
+    for(int i = 0; i < this->nJoints; i++)
+    {
+        this->_MJointType_VALUES_TO_NAMES.insert_or_assign( i, _kMJointTypeNames[i]);
+    }
     // set the base name (name of the Avatar without automatic extensions by Unreal fro making the
     // Name unique (e.g "_2"))
     // applied in the AvatarBehavior class for looking for the behavior
@@ -128,6 +135,12 @@ void AMMIAvatar::SetAvatarID( FString id )
     this->MAvatar.Description.AvatarID = this->AvatarID;
     this->MAvatar.Description.ZeroPosture.AvatarID = this->AvatarID;
 }
+
+void AMMIAvatar::SetBehavior( UAvatarBehavior* b )
+{
+    this->behavior = b;
+}
+
 
 
 

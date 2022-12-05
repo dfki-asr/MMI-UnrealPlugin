@@ -18,7 +18,7 @@
 #include <concurrent_unordered_map.h>
 
 #include "Windows\AllowWindowsPlatformTypes.h"
-#include "gen-cpp/mmu_types.h"
+#include "mmu_types.h"
 #include "Windows\HideWindowsPlatformTypes.h"
 #include "MOSIM.h"
 #include "MMISceneObject.h"
@@ -34,7 +34,7 @@ using namespace Concurrency;
 class AMMIAvatar;
 class UnrealSceneAccess;
 class MMISettings;
-class AAvatarBehavior;
+class UAvatarBehavior;
 
 UCLASS( HideCategories = ( Input, Actor, LOD ) )
 class MMISCENE_API ASimulationController : public AActor
@@ -76,7 +76,7 @@ public:
     UnrealSceneAccess* UESceneAccess;
 
     // Access to the Instructions, in case ajan is not coupled
-    AAvatarBehavior* Behavior;
+    UAvatarBehavior* Behavior;
 
 	UPROPERTY(EditAnywhere, Category = "Debugging")
 	bool DisplayDrawcalls;

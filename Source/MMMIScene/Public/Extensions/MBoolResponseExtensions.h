@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <gen-cpp/core_types.h>
+#include <core_types.h>
 #include <string>
 
 using namespace MMIStandard;

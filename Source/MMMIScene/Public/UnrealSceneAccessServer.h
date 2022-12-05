@@ -11,9 +11,9 @@
 #include "MMISettings.h"
 
 #include "Windows\AllowWindowsPlatformTypes.h"
-#include "gen-cpp/MSceneAccess.h"
-#include "gen-cpp/MSynchronizableScene.h"
-#include "gen-cpp/scene_types.h"
+#include "MSceneAccess.h"
+#include "MSynchronizableScene.h"
+#include "scene_types.h"
 #include "Windows\HideWindowsPlatformTypes.h"
 
 #include <unordered_map>

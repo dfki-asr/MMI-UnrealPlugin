@@ -9,8 +9,8 @@
 #include <string>
 
 #include "Windows\AllowWindowsPlatformTypes.h"
-#include "gen-cpp/MotionModelUnit.h"
-#include "gen-cpp/register_types.h"
+#include "MotionModelUnit.h"
+#include "register_types.h"
 #include "Windows\HideWindowsPlatformTypes.h"
 
 using namespace std;

@@ -4,7 +4,7 @@
 
 #pragma once
 #include <vector>
-#include "gen-cpp/scene_types.h"
+#include "scene_types.h"
 
 using namespace std;
 using namespace MMIStandard;

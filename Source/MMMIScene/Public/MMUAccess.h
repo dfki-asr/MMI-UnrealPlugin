@@ -9,10 +9,10 @@
 #pragma once
 
 #include "Windows\AllowWindowsPlatformTypes.h"
-#include "gen-cpp/MSkeletonAccess.h"
-#include "gen-cpp/register_types.h"
-#include "gen-cpp/MMIRegisterService.h"
-#include "gen-cpp/MSceneAccess.h"
+#include "MSkeletonAccess.h"
+#include "register_types.h"
+#include "MMIRegisterService.h"
+#include "MSceneAccess.h"
 #include "Windows\HideWindowsPlatformTypes.h"
 
 #include "MotionModelUnitAccess.h"
@@ -26,7 +26,7 @@ using namespace MMIStandard;
 
 class RemoteAdapterAccess;
 
-class MMUAccess
+class MMISCENE_API MMUAccess
 {
     // private fields
 protected:

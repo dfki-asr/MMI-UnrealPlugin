@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "gen-cpp/scene_types.h"
+#include "scene_types.h"
 #include "Math/Vector.h"
 #include "Math/Quat.h"
 #include <vector>

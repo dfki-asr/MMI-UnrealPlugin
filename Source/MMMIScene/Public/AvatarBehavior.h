@@ -11,31 +11,31 @@
 #include <map>
 
 #include "Windows/AllowWindowsPlatformTypes.h"
-#include "gen-cpp/mmu_types.h"
-#include "gen-cpp/mmi_constants.h"
+#include "mmu_types.h"
+#include "mmi_constants.h"
 #include "InstructionWrapper.h"
 #include "Windows/HideWindowsPlatformTypes.h"
 #include "BlueprintTools.h"
 #include "Containers/Map.h"
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "Components/ActorComponent.h"
 #include "Math/Vector.h"
 
 
 #include "AvatarBehavior.generated.h"
 
-class AMMIAvatar;
+class UActorComponent;
 class UMMISceneObject;
 class ASimulationController;
 
-UCLASS()
-class MMISCENE_API AAvatarBehavior : public AActor
+UCLASS( ClassGroup = ( MOSIM ), meta = ( BlueprintSpawnableComponent ) )
+class MMISCENE_API UAvatarBehavior : public UActorComponent
 {
     GENERATED_BODY()
 
 public:
     // Sets default values for this actor's properties
-    AAvatarBehavior();
+    UAvatarBehavior();
 
 #pragma region Blueprint functions
 	/*** Schedule an idle instruction
@@ -49,124 +49,22 @@ public:
 	UInstructionWrapper* IdleInstruction(AMMIAvatar* avatar,
 		 UInstructionWrapper* previousInstruction = nullptr, float duration = 0, float delay = 0.01f);
 
-	/*** Schedule a walk instruction
-	* @param avatar - An avatar to run the instruction
-	* @param walkTarget - The walk destination as a reference to an AActor with a MMISceneObject component
-	* @param previousInstruction - The reference to previous instruction. If not passed, this instruction will be chained to the last scheduled instruction.
-	* @param duration - The duration of instruction in seconds. Forces the end condition for instruction if set to value greater than zero.
-	* @param delay - The delay between current and previous instructions in seconds
-	* @param velocity - The walking speed of the character
-	* @param reuseEnvironment - If set to false, rebuild the scene in path planner
-	* @param areaCosts - The map of navigation area names with overriden costs.
-	* If reuseEnvironment parameter is set to false, overriden values will reset to defaults.
-	* @return The instruction data. Can be chained to next instructions.*/
-	UFUNCTION(BlueprintCallable, meta = (AutoCreateRefTerm="areaCosts"))
-	UPARAM(DisplayName = "Instruction")
-	UInstructionWrapper* WalkInstruction(AMMIAvatar* avatar, AActor* walkTarget,
-		const TMap<TEnumAsByte<NavMeshArea>, float>& areaCosts,
-		UInstructionWrapper* previousInstruction = nullptr,
-		float duration = 0, float delay = 0.01f, float velocity = 1.0f,
-		bool reuseEnvironment = true);
-
-    UFUNCTION( BlueprintCallable )
-	UPARAM( DisplayName = "Instruction" )
-	UInstructionWrapper* ResponsiveWalkInstruction(
-            AMMIAvatar* avatar, FVector walkDirection,
-            UInstructionWrapper* previousInstruction = nullptr, float duration = 0,
-            float delay = 0.01f, float velocity = 1.0f, bool reuseEnvironment = true,
-            FString instrID = "" );
-
-	/*** Schedule a reach instruction
-	* @param avatar - An avatar to run the instruction
-	* @param reachTarget - The object to reach as a reference to an AActor with a MMISceneObject component
-	* @param hand - The hand to use to reach the object
-	* @param previousInstruction - The reference to previous instruction. If not passed, this instruction will be chained to the last scheduled instruction.
-	* @param duration - The duration of instruction in seconds. Forces the end condition for instruction if set to value greater than zero.
-	* @param delay - The delay between current and previous instructions in seconds
-	* @return The instruction data. Can be chained to next instructions.*/
-	UFUNCTION(BlueprintCallable)
-	UPARAM(DisplayName = "Instruction")
-	UInstructionWrapper* ReachInstruction(AMMIAvatar* avatar, AActor* reachTarget, Hand hand,
-		UInstructionWrapper* previousInstruction = nullptr, float duration = 0, float delay = 0.01f);
-
-	//ToDo: perhaps there is no need in grasp instruction without the preceding reach instruction
-	// May add reach instruction functionality inside grasp instruction
-
-	/*** Schedule a grasp instruction
-	* @param avatar - An avatar to run the instruction
-	* @param graspTarget - The object to grasp as a reference to an AActor with a MMISceneObject component
-	* @param hand - The hand to use to grasp the object
-	* @param previousInstruction - The reference to previous instruction. If not passed, this instruction will be chained to the last scheduled instruction.
-	* @param duration - The duration of instruction in seconds. Forces the end condition for instruction if set to value greater than zero.
-	* @param delay - The delay between current and previous instructions in seconds
-	* @return The instruction data. Can be chained to next instructions.*/
-	UFUNCTION(BlueprintCallable)
-	UPARAM(DisplayName = "Instruction")
-	UInstructionWrapper* GraspInstruction(AMMIAvatar* avatar, AActor* graspTarget, Hand hand,
-		UInstructionWrapper* previousInstruction = nullptr, float duration = 0, float delay = 0.01f);
-
-	/*** Schedule a release instruction
-	* @param avatar - An avatar to run the instruction
-	* @param hand - The hand to free
-	* @param previousInstruction - The reference to previous instruction. If not passed, this instruction will be chained to the last scheduled instruction.
-	* @param duration - The duration of instruction in seconds. Forces the end condition for instruction if set to value greater than zero.
-	* @param delay - The delay between current and previous instructions in seconds
-	* @return The instruction data. Can be chained to next instructions.*/
-	UFUNCTION(BlueprintCallable)
-	UPARAM(DisplayName = "Instruction")
-	UInstructionWrapper* ReleaseInstruction(AMMIAvatar* avatar, Hand hand, 
-		UInstructionWrapper* previousInstruction = nullptr, float duration = 0, float delay = 0.01f);
-
-	/*** Schedule a carry instruction
-	* @param avatar - An avatar to run the instruction
-	* @param carryTarget - The object to carry as a reference to an AActor with a MMISceneObject component
-	* @param hand - The hand to use to carry a target object
-	* @param previousInstruction - The reference to previous instruction. If not passed, this instruction will be chained to the last scheduled instruction.
-	* @param duration - The duration of instruction in seconds. Forces the end condition for instruction if set to value greater than zero.
-	* @param delay - The delay between current and previous instructions in seconds
-	* @return The instruction data. Can be chained to next instructions.*/
-	UFUNCTION(BlueprintCallable)
-	UPARAM(DisplayName = "Instruction")
-	UInstructionWrapper* CarryInstruction(AMMIAvatar* avatar, AActor* carryTarget, Hand hand,
-		UInstructionWrapper* previousInstruction, float duration = 0, float delay = 0.01f);
-
-	/*** Schedule a move instruction
-	* @param avatar - An avatar to run the instruction
-	* @param targetObject - The object to carry as a reference to an AActor with a MMISceneObject component
-	* @param targetDestination - The final location as a reference to an AActor with a MMISceneObject component
-	* @param previousInstruction - The reference to previous instruction. If not passed, this instruction will be chained to the last scheduled instruction.
-	* @param duration - The duration of instruction in seconds. Forces the end condition for instruction if set to value greater than zero.
-	* @param delay - The delay between current and previous instructions in seconds
-	* @return The instruction data. Can be chained to next instructions.*/
-	UFUNCTION(BlueprintCallable)
-	UPARAM(DisplayName = "Instruction")
-	UInstructionWrapper* MoveInstruction(AMMIAvatar* avatar, AActor* targetObject, AActor* targetDestination, Hand hand,
-		UInstructionWrapper* previousInstruction = nullptr, float duration = 0, float delay = 0.01f);
-
-	UFUNCTION( BlueprintCallable )
-    UPARAM( DisplayName = "Instruction" )
-    UInstructionWrapper* NNLocomotion( AMMIAvatar* avatar, FVector walkingDirection,
-                                        FVector gazeDirection, FVector facingDirection,
-                                        UInstructionWrapper* previousInstruction = nullptr,
-                                        float duration = 0, float delay = 0.01f,
-                                        float velocity = 1.0, float runningThreshold = 1.7,
-                                        bool running = false );
-
 	/*** Execute all scheduled instructions for specific avatar */
 	UFUNCTION(BlueprintCallable)
 	void ExecuteInstructions(AMMIAvatar* avatar);
 
 	/*** Execute all scheduled instructions for all avatars */
-	UFUNCTION(BlueprintCallable)
-	void ExecuteInstructionsForAll();
+	//UFUNCTION(BlueprintCallable)
+	//void ExecuteInstructionsForAll();
 
 	/*** Clean instructions list for specific avatar */
 	UFUNCTION(BlueprintCallable)
 	void CleanInstructions(AMMIAvatar* avatar);
 
 	/*** Clean instructions list for all avatars */
-	UFUNCTION(BlueprintCallable)
-	void CleanInstructionsForAll();
+	//UFUNCTION(BlueprintCallable)
+	//void CleanInstructionsForAll();
+        
 
 #pragma endregion
 
@@ -178,8 +76,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Logging")
 	float LogDisplayTime;
 
+	// Get the instruction list
+	std::vector<MMIStandard::MInstruction>& GetInstructions();
+
 	// storage for the list of instructions for each avatar
-	std::map<AMMIAvatar*, std::vector<MMIStandard::MInstruction>> InstructionMap;
+	// std::map<AMMIAvatar*, std::vector<MMIStandard::MInstruction>> InstructionMap;
 
 protected:
 
@@ -187,9 +88,12 @@ protected:
     virtual void BeginPlay() override;
 
 	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+    //virtual void TickComponent( float DeltaTime, ELevelTick TickType,
+    //                            FActorComponentTickFunction* ThisTickFunction ) override;
 
-private:
+	std::vector<MMIStandard::MInstruction> instructionList;
+
+protected:
 
 	enum Verbosity
 	{
@@ -200,6 +104,23 @@ private:
 	void log(const char* messagePtr, Verbosity verbosity = Verbosity::Display) const;
 	void log(const std::string& messageStr, Verbosity verbosity = Verbosity::Display) const;
 	void log(const FString& message, Verbosity verbosity = Verbosity::Display) const;
+
+	template <typename... Args>
+        std::string string_format( const std::string& format, Args... args )
+        {
+            //// https://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf
+            int size_s =
+                std::snprintf( nullptr, 0, format.c_str(), args... ) + 1;  // Extra space for '\0'
+            if( size_s <= 0 )
+            {
+                throw std::runtime_error( "Error during formatting." );
+            }
+            auto size = static_cast<size_t>( size_s );
+            auto buf = std::make_unique<char[]>( size );
+            std::snprintf( buf.get(), size, format.c_str(), args... );
+            return std::string( buf.get(),
+                                buf.get() + size - 1 );  // We don't want the '\0' inside
+        }
 
 	/** Check the rule, log and stop execution if true*/
 	bool checkFailure(bool failureRule, const std::string& logMessage);
@@ -218,3 +139,14 @@ private:
 
 	MMIStandard::mmiConstants mmiConstants;
 };
+
+/*template<typename ... Args> //Copypasted from https://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf
+std::string string_format(const std::string& format, Args ... args)
+{
+	int size_s = std::snprintf(nullptr, 0, format.c_str(), args ...) + 1; // Extra space for '\0'
+	if (size_s <= 0) { throw std::runtime_error("Error during formatting."); }
+	auto size = static_cast<size_t>(size_s);
+	auto buf = std::make_unique<char[]>(size);
+	std::snprintf(buf.get(), size, format.c_str(), args ...);
+	return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
+}*/

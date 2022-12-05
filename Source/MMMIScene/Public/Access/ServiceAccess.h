@@ -4,7 +4,7 @@
 
 #pragma once
 #include "ServiceAccesIf.h"
-#include <gen-cpp/core_types.h>
+#include <core_types.h>
 #include <unordered_map>
 
 using namespace MMIStandard;

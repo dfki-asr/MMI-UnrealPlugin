@@ -13,9 +13,9 @@
 #pragma once
 
 #include "Windows\AllowWindowsPlatformTypes.h"
-#include "gen-cpp/avatar_types.h"
-#include "gen-cpp/MCoSimulationAccess.h"
-#include "gen-cpp/MSkeletonAccess.h"
+#include "avatar_types.h"
+#include "MCoSimulationAccess.h"
+#include "MSkeletonAccess.h"
 #include "Windows\HideWindowsPlatformTypes.h"
 
 #include "CoreMinimal.h"
@@ -34,6 +34,8 @@
 
 #include "UObject/UObjectGlobals.h"
 
+#include "AvatarBehavior.h"
+
 #include "MMIAvatar.generated.h"
 
 // forward declarations
@@ -43,6 +45,7 @@ class MMUAccess;
 class RetargetingAccess;
 class SkeletonAccess;
 class MMISettings;
+class UAvatarBehavior;
 
 using namespace std;
 using namespace MMIStandard;
@@ -68,6 +71,11 @@ public:
     // Relative path of the reference posture file for MOSIM retargeting service.
     UPROPERTY( EditAnywhere, Category = "MOSIM Properties")//, Meta = ( FilePathFilter = "mos" ) )
     FString ReferencePostureFile;
+
+
+        // Relative path of the reference posture file for MOSIM retargeting service.
+    UAvatarBehavior* behavior;
+
 
     // add bones of the avatar as scene objects
     bool AddBoneSceneObjects;
@@ -164,20 +172,10 @@ public:
 
     UFUNCTION( BlueprintCallable, Category = "MOSIM|Functions" )
     void SetAvatarID(FString id);
+
+        UFUNCTION( BlueprintCallable, Category = "MOSIM|Functions" )
+    void SetBehavior( UAvatarBehavior* b );
    
-    static int counter;
-
-    UFUNCTION( BlueprintCallable, Category = "MOSIM|Functions" )
-        static FString GetNextID()
-    {
-            counter++;
-        return FString::Printf( TEXT( "MOSIM_%d" ), counter );
-
-
-
-    }
-
-
 
     virtual void PostInitializeComponents() override;
     virtual void OnConstruction( const FTransform& Transform ) override;
@@ -198,6 +196,74 @@ protected:
 private:
     bool isInitialized;
     FString actualConfigFilePath;
-};
 
-int AMMIAvatar::counter = 0;
+    
+    std::map<int, const char*> _MJointType_VALUES_TO_NAMES;
+    int nJoints = 66;
+    const char* _kMJointTypeNames[66] = { "Undefined",
+                                        "LeftBallTip",
+                                        "LeftBall",
+                                        "LeftAnkle",
+                                        "LeftKnee",
+                                        "LeftHip",
+                                        "RightBallTip",
+                                        "RightBall",
+                                        "RightAnkle",
+                                        "RightKnee",
+                                        "RightHip",
+                                        "PelvisCentre",
+                                        "S1L5Joint",
+                                        "T12L1Joint",
+                                        "T1T2Joint",
+                                        "C4C5Joint",
+                                        "HeadJoint",
+                                        "HeadTip",
+                                        "MidEye",
+                                        "LeftShoulder",
+                                        "LeftElbow",
+                                        "LeftWrist",
+                                        "RightShoulder",
+                                        "RightElbow",
+                                        "RightWrist",
+                                        "LeftThumbMid",
+                                        "LeftThumbMeta",
+                                        "LeftThumbCarpal",
+                                        "LeftThumbTip",
+                                        "LeftIndexMeta",
+                                        "LeftIndexProximal",
+                                        "LeftIndexDistal",
+                                        "LeftIndexTip",
+                                        "LeftMiddleMeta",
+                                        "LeftMiddleProximal",
+                                        "LeftMiddleDistal",
+                                        "LeftMiddleTip",
+                                        "LeftRingMeta",
+                                        "LeftRingProximal",
+                                        "LeftRingDistal",
+                                        "LeftRingTip",
+                                        "LeftLittleMeta",
+                                        "LeftLittleProximal",
+                                        "LeftLittleDistal",
+                                        "LeftLittleTip",
+                                        "RightThumbMid",
+                                        "RightThumbMeta",
+                                        "RightThumbCarpal",
+                                        "RightThumbTip",
+                                        "RightIndexMeta",
+                                        "RightIndexProximal",
+                                        "RightIndexDistal",
+                                        "RightIndexTip",
+                                        "RightMiddleMeta",
+                                        "RightMiddleProximal",
+                                        "RightMiddleDistal",
+                                        "RightMiddleTip",
+                                        "RightRingMeta",
+                                        "RightRingProximal",
+                                        "RightRingDistal",
+                                        "RightRingTip",
+                                        "RightLittleMeta",
+                                        "RightLittleProximal",
+                                        "RightLittleDistal",
+                                        "RightLittleTip",
+                                        "Root" };
+};

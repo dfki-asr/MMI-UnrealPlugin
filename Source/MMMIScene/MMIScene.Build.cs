@@ -33,9 +33,13 @@ namespace UnrealBuildTool.Rules
 					"CoreUObject",
 					"Engine",
 					"InputCore",
+					"MMIFramework"
 				}
 				);
-            // Http, Json for MMIAvatar, Ajan and Task List Editor
+
+			//PublicIncludePaths.AddRange(new string[] { "Plugins/UE4_MOSIM/Source/MMMIScene/Public", "Plugins/UE4_MOSIM/Source/MMMIScene/Classes" });
+
+			// Http, Json for MMIAvatar, Ajan and Task List Editor
 			PublicDependencyModuleNames.AddRange(new string[] { "Json", "JsonUtilities", "Http" });
 
 			// Customized Details Panels
@@ -47,15 +51,15 @@ namespace UnrealBuildTool.Rules
 
 			PrivateDependencyModuleNames.AddRange(
 				new string[]
-				{        }
-				);
+				{                 
+					"MMIFramework"
+				});
 
 			DynamicallyLoadedModuleNames.AddRange(
 				new string[]
 				{
 				}
 				);
-
             // add third party libraries
             if (Target.Platform == UnrealTargetPlatform.Win64)
             {                

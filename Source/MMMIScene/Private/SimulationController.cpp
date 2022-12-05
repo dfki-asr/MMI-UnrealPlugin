@@ -78,8 +78,6 @@ void ASimulationController::BeginPlay()
 {
     Super::BeginPlay();
 
-    AMMIAvatar::counter = 0;
-
 	if (this->AutoStart)
 	{
 		/*/try
@@ -185,6 +183,7 @@ void ASimulationController::Setup()
    // if( !AreNotAjanAgents.empty() )
     //{
         // get the avatarBehavior
+    /*
 		AActor* simActor = UGameplayStatics::GetActorOfClass(scene, AAvatarBehavior::StaticClass());
 		Behavior = Cast<AAvatarBehavior>(simActor);
 
@@ -205,13 +204,18 @@ void ASimulationController::Setup()
 				TEXT("ASimulationController(): AAvatarBehavior class found."));
 		}
    // }
+   */
 
     this->initialized = true;
 }
 
 void ASimulationController::ExecuteInstructions(AMMIAvatar* avatar)
 {
-    auto& instructions = Behavior->InstructionMap[avatar];
+    if( !avatar->behavior)
+    {
+        return;
+    }
+    auto& instructions = avatar->behavior->GetInstructions();
 
 	MBoolResponse retBool;
 
@@ -247,11 +251,10 @@ void ASimulationController::ExecuteInstructions(AMMIAvatar* avatar)
 
 void ASimulationController::ExecuteInstructionsForAll()
 {
-	for (auto it = Behavior->InstructionMap.begin(); it != Behavior->InstructionMap.end(); ++it)
-	{
-		AMMIAvatar* avatar = it->first;
-		ExecuteInstructions(avatar);
-	}
+    for( auto it = Avatars.begin(); it != Avatars.end(); ++it )
+    {
+        ExecuteInstructions(*it);
+    }
 }
 
 void ASimulationController::StopCurrentInstruction(AMMIAvatar* avatar)
@@ -276,11 +279,10 @@ void ASimulationController::StopCurrentInstruction(AMMIAvatar* avatar)
 
 void ASimulationController::StopAllCurrentInstructions()
 {
-	for (auto it = Behavior->InstructionMap.begin(); it != Behavior->InstructionMap.end(); ++it)
-	{
-		AMMIAvatar* avatar = it->first;
-		StopCurrentInstruction(avatar);
-	}
+    for( auto it = Avatars.begin(); it != Avatars.end(); ++it )
+    {
+        StopCurrentInstruction( *it );
+    }
 }
 
 // Called every frame

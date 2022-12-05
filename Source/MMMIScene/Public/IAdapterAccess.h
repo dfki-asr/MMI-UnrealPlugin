@@ -9,7 +9,7 @@
 #include <unordered_map>
 
 #include "Windows\AllowWindowsPlatformTypes.h"
-#include "gen-cpp/register_types.h"
+#include "register_types.h"
 #include "Windows\HideWindowsPlatformTypes.h"
 
 using namespace std;

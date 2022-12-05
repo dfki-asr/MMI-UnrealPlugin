@@ -3,7 +3,7 @@
 // Original author(s): Andreas Kaiser, Niclas Delfs, Stephan Adam
 
 #pragma once
-#include "gen-cpp/scene_types.h"
+#include "scene_types.h"
 
 
 using namespace std;

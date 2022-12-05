@@ -9,7 +9,7 @@
 #pragma once
 
 #include "Windows\AllowWindowsPlatformTypes.h"
-#include "gen-cpp/core_types.h"
+#include "core_types.h"
 #include "Windows\HideWindowsPlatformTypes.h"
 
 #include "Windows\AllowWindowsPlatformTypes.h"

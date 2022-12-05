@@ -10,7 +10,7 @@
 
 #include "Windows\AllowWindowsPlatformTypes.h"
 #include "ThriftClient/ThriftClient.h"
-#include "gen-cpp/MMIAdapter.h"
+#include "MMIAdapter.h"
 #include "Windows\HideWindowsPlatformTypes.h"
 
 using namespace MMIStandard;

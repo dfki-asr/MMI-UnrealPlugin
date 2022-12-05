@@ -3,17 +3,17 @@
 // Original author(s): Andreas Kaiser, Niclas Delfs, Stephan Adam
 
 #pragma once
-#include "gen-cpp/scene_types.h"
+#include "scene_types.h"
 //#include "MMIStandard/scene_types.h"
-#include "gen-cpp/services_types.h"
+#include "services_types.h"
 #include "ThriftClient/ThriftClient.h"
-#include "gen-cpp/MInverseKinematicsService.h"
-#include "gen-cpp/MPathPlanningService.h"
-#include "gen-cpp/MGraspPoseService.h"
-#include "gen-cpp/MRetargetingService.h"
-#include "gen-cpp/MBlendingService.h"
-#include "gen-cpp/MCollisionDetectionService.h"
-#include "gen-cpp/MGraspPoseService.h"
+#include "MInverseKinematicsService.h"
+#include "MPathPlanningService.h"
+#include "MGraspPoseService.h"
+#include "MRetargetingService.h"
+#include "MBlendingService.h"
+#include "MCollisionDetectionService.h"
+#include "MGraspPoseService.h"
 
 using namespace MMIStandard;
 using namespace std;

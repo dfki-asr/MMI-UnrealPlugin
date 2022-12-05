@@ -5,11 +5,11 @@
 #define NOMINMAX
 #endif
 #include "Access/ServiceAccess.h"
-#include "gen-cpp/MMIRegisterService.h"
-#include "gen-cpp/MGraspPoseService.h"
-#include "gen-cpp/MCollisionDetectionService.h"
-#include "gen-cpp/MPathPlanningService.h"
-#include "gen-cpp/MInverseKinematicsService.h"
+#include "MMIRegisterService.h"
+#include "MGraspPoseService.h"
+#include "MCollisionDetectionService.h"
+#include "MPathPlanningService.h"
+#include "MInverseKinematicsService.h"
 #include "ThriftClient/ThriftClient.h"
 #include "Utils/Logger.h"
 //used for culture invariant float to string conversions

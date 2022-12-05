@@ -8,14 +8,14 @@
 #pragma once
 
 #include "Windows\AllowWindowsPlatformTypes.h"
-#include "gen-cpp/MSkeletonAccess.h"
+#include "MSkeletonAccess.h"
 #include "ThriftClient/ThriftClient.h"
 
-#include "gen-cpp/avatar_constants.h"
-#include "gen-cpp/avatar_types.h"
+#include "avatar_constants.h"
+#include "avatar_types.h"
 
-#include "gen-cpp/register_types.h"
-#include "gen-cpp/MMIRegisterService.h"
+#include "register_types.h"
+#include "MMIRegisterService.h"
 #include "Windows\HideWindowsPlatformTypes.h"
 
 #include <iostream>

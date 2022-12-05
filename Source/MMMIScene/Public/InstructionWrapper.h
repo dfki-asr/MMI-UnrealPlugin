@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "gen-cpp/mmu_types.h"
+#include "mmu_types.h"
 #include "InstructionWrapper.generated.h"
 
 UCLASS(BlueprintType)

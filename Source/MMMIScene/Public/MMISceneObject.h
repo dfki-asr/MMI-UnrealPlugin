@@ -17,7 +17,7 @@
 #include "PhysicsEngine/BodyInstance.h"
 
 #include "Windows\AllowWindowsPlatformTypes.h"
-#include "gen-cpp/scene_types.h"
+#include "scene_types.h"
 #include "Windows\HideWindowsPlatformTypes.h"
 
 #include "MMISceneObject.generated.h"
