@@ -339,7 +339,7 @@ void ASimulationController::DoStep( float time )
         {
             MSimulationState simstate = MSimulationState();
             simstate.Current = avatar->ReadCurrentPosture();
-            simstate.Initial = avatar->ReadCurrentPosture();
+            simstate.Initial = simstate.Current;
 
             MSimulationResult simRes = MSimulationResult();
 
@@ -378,12 +378,13 @@ void ASimulationController::DoStep( float time )
         }
     }
     begin_ = std::clock();
-    float t1 = float( begin_ - begin ) / CLOCKS_PER_SEC;
-    float t2 = float( scene_ - begin ) / CLOCKS_PER_SEC;
-    float t3 = float( doStep - scene_ ) / CLOCKS_PER_SEC;
-    float t4 = float( doStep_ - doStep ) / CLOCKS_PER_SEC;
-    float t5 = float( begin_ - apply_ ) / CLOCKS_PER_SEC;
-    UE_LOG( LogMOSIM, Display, TEXT( "Timings: %.3f, scene: %.3f, read: %.3f dostep: %.3f, apply: %.3f" ),
+    float t1 = float( begin_ - begin ) / CLOCKS_PER_SEC;    // total
+    float t2 = float( scene_ - begin ) / CLOCKS_PER_SEC;    // scene
+    float t3 = float( doStep - scene_ ) / CLOCKS_PER_SEC;   // read
+    float t4 = float( doStep_ - doStep ) / CLOCKS_PER_SEC;  // dostep
+    float t5 = float( begin_ - apply_ ) / CLOCKS_PER_SEC;   // apply
+    UE_LOG( LogMOSIM, Display,
+            TEXT( "Timings: %.3f, scene: %.3f, read: %.3f dostep: %.3f, apply: %.3f" ),
             t1, t2, t3, t4, t5
              );
 

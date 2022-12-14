@@ -626,11 +626,11 @@ MAvatarPostureValues AMMIAvatar::ReadCurrentPosture()
             // scaling see above.
             loc = loc / 100;
 
-            cj.Position.X = -loc.X;
+            cj.Position.X = loc.Y;
             cj.Position.Y = loc.Z;
-            cj.Position.Z = loc.Y;
+            cj.Position.Z = loc.X;
 
-            rot = FRotator( 0, 0, -90 ).Quaternion() * rot;
+            rot = FRotator(0, 90, 0).Quaternion() * FRotator( 0, 0, -90 ).Quaternion() * rot;
 
             cj.Rotation.X = -rot.X;
             cj.Rotation.Y = -rot.Y;
@@ -678,15 +678,16 @@ void AMMIAvatar::ApplyPostureValues( MAvatarPostureValues vals )
             {
                 auto actorPos = ToFVec3( j.Position );
                 actorPos.Z += this->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+                FHitResult hitres;
+                this->SetActorLocationAndRotation( actorPos, ToFQuat( j.Rotation ), false, &hitres,
+                                                    ETeleportType::TeleportPhysics );
 
-                this->SetActorLocation(actorPos);
-                this->SetActorRotation(ToFQuat(j.Rotation));
             }
             else
             {
 				FVector loc;
-                loc.X = -j.Position.X;
-                loc.Y = j.Position.Z;
+                loc.X = j.Position.Z;
+                loc.Y = j.Position.X;
                 loc.Z = j.Position.Y;
                 loc = loc * 100;
 
@@ -697,7 +698,7 @@ void AMMIAvatar::ApplyPostureValues( MAvatarPostureValues vals )
                 rot.W = j.Rotation.W;
                 // The additional rotation is relevant! For some reason, this seems to be invariant
                 // to the global orientation of the character.
-                rot = FRotator( 0, 0, 90 ).Quaternion() * rot;
+                rot = FRotator( 0, -90, 0 ).Quaternion() * FRotator( 0, 0, 90 ).Quaternion() * rot;
 
                 this->MOSIMMesh->SetBoneRotationByName( FName( UTF8_TO_TCHAR( j.ID.c_str() ) ),
                                                    rot.Rotator(), EBoneSpaces::WorldSpace );
