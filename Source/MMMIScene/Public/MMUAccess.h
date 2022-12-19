@@ -40,7 +40,6 @@ protected:
     };
 
     vector<MMUDescription> MMUDescriptions;
-
 public:
     string SessionId;
     string AvatarID;
@@ -123,3 +122,4 @@ struct AdapterAccessMutexesStruct
     mutex unityMtx;
     mutex coSimMtx;
 };
+

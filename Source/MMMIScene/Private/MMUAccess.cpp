@@ -417,8 +417,8 @@ void MMUAccess::PushScene( bool transmitFullScene )
     }
     MMUAccess::StopThreads( threads );
     end = std::clock();
-    Logger::printLog( Log_level::L_DEBUG,
-                      "Push Scene " + std::to_string( float( end - start ) / CLOCKS_PER_SEC ) + " push " + std::to_string(float(end - start_send) / CLOCKS_PER_SEC));
+    //Logger::printLog( Log_level::L_DEBUG,
+    //                  "Push Scene " + std::to_string( float( end - start ) / CLOCKS_PER_SEC ) + " push " + std::to_string(float(end - start_send) / CLOCKS_PER_SEC));
 }
 
 // create checkpoints

@@ -322,19 +322,24 @@ void ASimulationController::Tick( float DeltaTime )
 
 void ASimulationController::DoStep( float time )
 {
-    clock_t begin, begin_, scene_, doStep, doStep_, apply_;
+    clock_t begin, begin_, scene_, apply_;
     begin = std::clock();
 
     // Scene synchronization of each MMU Access
     this->PushScene();
     scene_ = std::clock();
 
-	bool invalidateDebug = false;
+	//bool invalidateDebug = false;
 
     // Do the Co Simulation for each Avatar
     // Create a map which contains the avatar states for each MMU
-    for( AMMIAvatar* avatar : this->Avatars )  // could be parallelized in multiple threads
+
+    auto lambdaExp = [this]( const int& i, float time, float scene_ )
     {
+        clock_t doStep, doStep_;
+        AMMIAvatar* avatar = this->Avatars[i];
+        // for( AMMIAvatar* avatar : this->Avatars )  // could be parallelized in multiple threads
+        //{
         if( avatar->running )
         {
             MSimulationState simstate = MSimulationState();
@@ -350,12 +355,11 @@ void ASimulationController::DoStep( float time )
                 doStep_ = std::clock();
                 break;
             }
-            apply_ = std::clock();
             // pass channel data to the remote skeleton access
-            avatar->skeletonAccessPtr->SetChannelData( simstate.Current );
+            avatar->skeletonAccessPtr->SetChannelData( simRes.Posture );
 
             // Add the results
-            this->resultsMap.insert( pair<AMMIAvatar*, MSimulationResult>{avatar, simRes} );
+            this->resultsMap.insert( pair<AMMIAvatar*, MSimulationResult>{ avatar, simRes } );
 
             for( string st : simRes.LogData )
             {
@@ -363,34 +367,51 @@ void ASimulationController::DoStep( float time )
                 UE_LOG( LogMOSIM, Display, TEXT( "%s" ), *fstr );
             }
 
-			if (simRes.DrawingCalls.size() > 0)
-			{
-				lastDrawcalls[avatar] = simRes.DrawingCalls;
-				invalidateDebug = true;
-			}
-
-            // apply the results
-            this->ApplySceneUpdate();
-
-
-            // clear all results, as this is no archive
-            this->resultsMap.clear();
+            if( simRes.DrawingCalls.size() > 0 )
+            {
+                lastDrawcalls[avatar] = simRes.DrawingCalls;
+                // invalidateDebug = true;
+            }
         }
+        float t3 = float( doStep - scene_ ) / CLOCKS_PER_SEC;   // read
+        float t4 = float( doStep_ - doStep ) / CLOCKS_PER_SEC;  // dostep
+        UE_LOG( LogMOSIM, Display,
+                TEXT( "Timings avatar: read: %.3f dostep: %.3f" ), t3, t4 );
+
+    };
+    vector<thread*> ThreadVector = vector<thread*>();
+
+    for( int i = 0; i < this->Avatars.size(); i++ )
+    {
+        ThreadVector.push_back( new thread( lambdaExp, i, time, scene_ ) );
     }
+    for( thread* threadInstance : ThreadVector )
+    {
+        threadInstance->join();
+          delete threadInstance;
+    }
+
+    apply_ = std::clock();
+
+    // apply the results
+    this->ApplySceneUpdate();
+
+    // clear all results, as this is no archive
+    this->resultsMap.clear();
+
+
     begin_ = std::clock();
-    float t1 = float( begin_ - begin ) / CLOCKS_PER_SEC;    // total
-    float t2 = float( scene_ - begin ) / CLOCKS_PER_SEC;    // scene
-    float t3 = float( doStep - scene_ ) / CLOCKS_PER_SEC;   // read
-    float t4 = float( doStep_ - doStep ) / CLOCKS_PER_SEC;  // dostep
-    float t5 = float( begin_ - apply_ ) / CLOCKS_PER_SEC;   // apply
+    float t1 = float( begin_ - begin ) / CLOCKS_PER_SEC;  // total
+    float t2 = float( scene_ - begin ) / CLOCKS_PER_SEC;  // scene
+    float t5 = float( begin_ - apply_ ) / CLOCKS_PER_SEC;  // apply
+
     UE_LOG( LogMOSIM, Display,
-            TEXT( "Timings: %.3f, scene: %.3f, read: %.3f dostep: %.3f, apply: %.3f" ),
-            t1, t2, t3, t4, t5
-             );
+            TEXT( "   Timings end: %.3f, scene: %.3f, apply: %.3f" ), t1, t2, t5);
+
 
     #if WITH_EDITOR
-	if (invalidateDebug && DisplayDrawcalls)
-		RenderDrawcallsForSelectedAvatars();
+	//if (invalidateDebug && DisplayDrawcalls)
+	//	RenderDrawcallsForSelectedAvatars();
     #endif
     
 }
@@ -451,6 +472,7 @@ void ASimulationController::PushScene()
 {
     // Synchronizes the scene in before each update
 
+    /*
     auto lambdaExp = [this]( const int& i ) {
         //if( this->frameNumber == 0 )
         if( !this->Avatars[i]->InitialSceneSynch)
@@ -463,14 +485,26 @@ void ASimulationController::PushScene()
             this->Avatars[i]->MMUAccessPtr->PushScene( false );
         }
     };
+    
 
     vector<thread*> ThreadVector = vector<thread*>();
+    */
 
     for( int i = 0; i < this->Avatars.size(); i++ )
     {
-        ThreadVector.push_back( new thread( lambdaExp, i ) );
+        if( !this->Avatars[i]->InitialSceneSynch )
+        {
+            this->Avatars[i]->InitialSceneSynch = true;
+            this->Avatars[i]->MMUAccessPtr->PushScene( true );
+        }
+        else
+        {
+            this->Avatars[i]->MMUAccessPtr->PushScene( false );
+        }
+        break;
+        //ThreadVector.push_back( new thread( lambdaExp, i ) );
     }
-    MMUAccess::StopThreads( ThreadVector );
+    //MMUAccess::StopThreads( ThreadVector );
 
     // Clear the events since the current events have been already synchronized
     this->UESceneAccess->Clear_SceneUpdate();

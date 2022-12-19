@@ -43,6 +43,10 @@
 int AMMIAvatar::RemoteCoSimulationAccessPortIncremented =
     MMISettings::GetInstance()->RemoteCoSimulationAccessPort;
 
+FQuat AMMIAvatar::UE2MOSIM = FRotator( 0, 90, 0 ).Quaternion() * FRotator( 0, 0, -90 ).Quaternion();
+FQuat AMMIAvatar::MOSIM2UE = FRotator( 0, -90, 0 ).Quaternion() * FRotator( 0, 0, 90 ).Quaternion();
+
+
 // Sets default values
 AMMIAvatar::AMMIAvatar(const FObjectInitializer& ObjectInitializer)
     : Super( ObjectInitializer.DoNotCreateDefaultSubobject( ACharacter::MeshComponentName ) ), 
@@ -630,7 +634,7 @@ MAvatarPostureValues AMMIAvatar::ReadCurrentPosture()
             cj.Position.Y = loc.Z;
             cj.Position.Z = loc.X;
 
-            rot = FRotator(0, 90, 0).Quaternion() * FRotator( 0, 0, -90 ).Quaternion() * rot;
+            rot = AMMIAvatar::UE2MOSIM * rot;
 
             cj.Rotation.X = -rot.X;
             cj.Rotation.Y = -rot.Y;
@@ -698,7 +702,7 @@ void AMMIAvatar::ApplyPostureValues( MAvatarPostureValues vals )
                 rot.W = j.Rotation.W;
                 // The additional rotation is relevant! For some reason, this seems to be invariant
                 // to the global orientation of the character.
-                rot = FRotator( 0, -90, 0 ).Quaternion() * FRotator( 0, 0, 90 ).Quaternion() * rot;
+                rot = AMMIAvatar::MOSIM2UE * rot;
 
                 this->MOSIMMesh->SetBoneRotationByName( FName( UTF8_TO_TCHAR( j.ID.c_str() ) ),
                                                    rot.Rotator(), EBoneSpaces::WorldSpace );
