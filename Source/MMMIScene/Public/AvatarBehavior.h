@@ -46,12 +46,12 @@ public:
 	* @return The instruction data. Can be chained to next instructions.*/
 	UFUNCTION(BlueprintCallable)
 	UPARAM(DisplayName = "Instruction")
-	UInstructionWrapper* IdleInstruction(AMMIAvatar* avatar,
+	UInstructionWrapper* IdleInstruction(UMosimAvatar* avatar,
 		 UInstructionWrapper* previousInstruction = nullptr, float duration = 0, float delay = 0.01f);
 
 	/*** Execute all scheduled instructions for specific avatar */
 	UFUNCTION(BlueprintCallable)
-	void ExecuteInstructions(AMMIAvatar* avatar);
+	void ExecuteInstructions(UMosimAvatar* avatar);
 
 	/*** Execute all scheduled instructions for all avatars */
 	//UFUNCTION(BlueprintCallable)
@@ -59,7 +59,7 @@ public:
 
 	/*** Clean instructions list for specific avatar */
 	UFUNCTION(BlueprintCallable)
-	void CleanInstructions(AMMIAvatar* avatar);
+	void CleanInstructions(UMosimAvatar* avatar);
 
 	/*** Clean instructions list for all avatars */
 	//UFUNCTION(BlueprintCallable)
@@ -80,7 +80,7 @@ public:
 	std::vector<MMIStandard::MInstruction>& GetInstructions();
 
 	// storage for the list of instructions for each avatar
-	// std::map<AMMIAvatar*, std::vector<MMIStandard::MInstruction>> InstructionMap;
+	// std::map<UMosimAvatar*, std::vector<MMIStandard::MInstruction>> InstructionMap;
 
 protected:
 
@@ -130,7 +130,7 @@ protected:
 	bool checkNullComponent(void* ptr, const std::string& actor, const std::string& function);
 
 	/** Schedule new instruction after the end of previous instruction with delay*/
-	void scheduleNewInstruction(AMMIAvatar* avatar, MMIStandard::MInstruction& newInstruction,
+	void scheduleNewInstruction(UMosimAvatar* avatar, MMIStandard::MInstruction& newInstruction,
 		UInstructionWrapper* previousInstruction, float duration, float delay);
 
 

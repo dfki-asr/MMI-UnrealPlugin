@@ -58,7 +58,7 @@ ASimulationController::ASimulationController()
 ASimulationController::~ASimulationController()
 {
     // set the SceneAccess pointer in all registered avatars and mmisceneobjects to nullptr
-    for( AMMIAvatar* avatarInUEAccess : this->UESceneAccess->GetMMIAvatarsVector() )
+    for( UMosimAvatar* avatarInUEAccess : this->UESceneAccess->GetMMIAvatarsVector() )
     {
         avatarInUEAccess->SceneAccess = nullptr;
         avatarInUEAccess->SimController = nullptr;
@@ -120,8 +120,8 @@ void ASimulationController::Setup()
     this->Avatars = this->UESceneAccess->GetMMIAvatarsVector();
 
     // register, whether all avatars are ajan agents
-    //concurrent_vector<AMMIAvatar*> AreAjanAgents = concurrent_vector<AMMIAvatar*>();
-    //concurrent_vector<AMMIAvatar*> AreNotAjanAgents = concurrent_vector<AMMIAvatar*>();
+    //concurrent_vector<UMosimAvatar*> AreAjanAgents = concurrent_vector<UMosimAvatar*>();
+    //concurrent_vector<UMosimAvatar*> AreNotAjanAgents = concurrent_vector<UMosimAvatar*>();
 
     // generate mutex for controlling the write access to the vectors above
     // generate mutex for controlling the skeleton access
@@ -132,7 +132,7 @@ void ASimulationController::Setup()
     int ajanClPortCounter = 8083;
 
     bool avatarLoadSuccess = false;
-    for( AMMIAvatar* avatar : this->Avatars )
+    for( UMosimAvatar* avatar : this->Avatars )
     {
         UE_LOG( LogMOSIM, Display, TEXT( "AjanCLPort: %i" ), ajanClPortCounter );
 
@@ -209,7 +209,7 @@ void ASimulationController::Setup()
     this->initialized = true;
 }
 
-void ASimulationController::ExecuteInstructions(AMMIAvatar* avatar)
+void ASimulationController::ExecuteInstructions(UMosimAvatar* avatar)
 {
     if( !avatar->behavior)
     {
@@ -257,7 +257,7 @@ void ASimulationController::ExecuteInstructionsForAll()
     }
 }
 
-void ASimulationController::StopCurrentInstruction(AMMIAvatar* avatar)
+void ASimulationController::StopCurrentInstruction(UMosimAvatar* avatar)
 {
     MBoolResponse retBool;
     for( int i = 0; i < avatar->MMUAccessPtr->MotionModelUnits.size(); i++ )
@@ -337,8 +337,8 @@ void ASimulationController::DoStep( float time )
     auto lambdaExp = [this]( const int& i, float time, float scene_ )
     {
         clock_t doStep, doStep_;
-        AMMIAvatar* avatar = this->Avatars[i];
-        // for( AMMIAvatar* avatar : this->Avatars )  // could be parallelized in multiple threads
+        UMosimAvatar* avatar = this->Avatars[i];
+        // for( UMosimAvatar* avatar : this->Avatars )  // could be parallelized in multiple threads
         //{
         if( avatar->running )
         {
@@ -359,7 +359,7 @@ void ASimulationController::DoStep( float time )
             avatar->skeletonAccessPtr->SetChannelData( simRes.Posture );
 
             // Add the results
-            this->resultsMap.insert( pair<AMMIAvatar*, MSimulationResult>{ avatar, simRes } );
+            this->resultsMap.insert( pair<UMosimAvatar*, MSimulationResult>{ avatar, simRes } );
 
             for( string st : simRes.LogData )
             {
@@ -514,7 +514,7 @@ void ASimulationController::ApplySceneUpdate()
 {
     vector<MSceneManipulation> sceneManipulations = vector<MSceneManipulation>();
 
-    for( pair<AMMIAvatar*, MSimulationResult> coSimulationResult : this->resultsMap )
+    for( pair<UMosimAvatar*, MSimulationResult> coSimulationResult : this->resultsMap )
     {
         // Assign the posture of the avatar
         coSimulationResult.first->ApplyPostureValues( coSimulationResult.second.Posture );
@@ -538,7 +538,7 @@ void ASimulationController::ApplySceneUpdate()
     // this->ApplyRemoteSceneUpdates();
 }
 
-void ASimulationController::RegisterNewAvatar( AMMIAvatar* avatar )
+void ASimulationController::RegisterNewAvatar( UMosimAvatar* avatar )
 {
     if (this->UESceneAccess == nullptr) {
         return;
@@ -605,14 +605,17 @@ void ASimulationController::RegisterAllAvatarsAndObjects()
 {
     // collect all avatars
     scene = this->GetWorld();
-    for( TActorIterator<AMMIAvatar> ActorItr( scene ); ActorItr; ++ActorItr )
+    // TODO: This does not work properly with Mosim Avatar Components anymore. 
+    /*
+    for( TActorIterator<UMosimAvatar> ActorItr( scene ); ActorItr; ++ActorItr )
     {
-        UE_LOG( LogMOSIM, Display, TEXT( "AMMIAvatar with name %s found." ),
+        UE_LOG( LogMOSIM, Display, TEXT( "UMosimAvatar with name %s found." ),
                 *FString( ActorItr->MAvatar.Name.c_str() ) );
         // Register Avatar at the Unreal Scene Access
         RegisterNewAvatar(*ActorItr);
         //this->UESceneAccess->AddMMIAvatar( ActorItr->MAvatar.ID, *ActorItr );
     }
+    */
 
     // collect all MMISceneObjects
     for( TActorIterator<AActor> USceneObjItr( scene ); USceneObjItr; ++USceneObjItr )
@@ -647,7 +650,7 @@ void ASimulationController::EndPlay( EEndPlayReason::Type EndPlayReason )
         this->UESceneAccess->UESceneAccessServerCore->~UnrealSceneAccessServer();
 
     // set back the port counter to the original value
-    AMMIAvatar::RemoteCoSimulationAccessPortIncremented = 9011;
+    UMosimAvatar::RemoteCoSimulationAccessPortIncremented = 9011;
 }
 
 

@@ -22,7 +22,7 @@
 #include "Windows\HideWindowsPlatformTypes.h"
 #include "MOSIM.h"
 #include "MMISceneObject.h"
-#include "MMIAvatar.h"
+#include "MMIAvatarComponent.h"
 
 #include "SimulationController.generated.h"
 
@@ -31,7 +31,7 @@ using namespace MMIStandard;
 using namespace Concurrency;
 
 // forward declaration
-class AMMIAvatar;
+class UMosimAvatar;
 class UnrealSceneAccess;
 class MMISettings;
 class UAvatarBehavior;
@@ -63,11 +63,11 @@ public:
 	// The global ID for the current environment
 	string CurrentSceneID;
     // All assigned avatars
-    vector<AMMIAvatar*> Avatars;
+    vector<UMosimAvatar*> Avatars;
 
     vector<UMMISceneObject*> sceneObjects;
 	// The unique session id for each avatar
-	concurrent_unordered_map<AMMIAvatar*, string> AvatarSessionIDs;
+	concurrent_unordered_map<UMosimAvatar*, string> AvatarSessionIDs;
 
     // start the simulation controller automatically
     bool AutoStart;
@@ -122,20 +122,20 @@ public:
     // update all MMIAvatars and MMISceneObjects in the scene
     void RegisterAllAvatarsAndObjects();
 
-    void RegisterNewAvatar( AMMIAvatar* avatar );
+    void RegisterNewAvatar( UMosimAvatar* avatar );
     void RegisterNewObject(UMMISceneObject* mmiSceneObject);
 
     // exectuted at the end of the game
     virtual void EndPlay( EEndPlayReason::Type EndPlayReason ) override;
 
     // load and execute the instructions
-    void ExecuteInstructions(AMMIAvatar* avatar);
+    void ExecuteInstructions(UMosimAvatar* avatar);
 
 	// load and execute the instructions
 	void ExecuteInstructionsForAll();
 
 	// abort the current instruction during the game for specific avatar
-	void StopCurrentInstruction(AMMIAvatar* avatar);
+	void StopCurrentInstruction(UMosimAvatar* avatar);
 
 	// abort the current instruction during the game for all agents
 	void StopAllCurrentInstructions();
@@ -152,13 +152,13 @@ private:
     UWorld* scene;
 
     // results of the simulation step
-    concurrent_unordered_map<AMMIAvatar*, MSimulationResult> resultsMap;
+    concurrent_unordered_map<UMosimAvatar*, MSimulationResult> resultsMap;
 
     // current instruction ID
-    map<AMMIAvatar*, string> currentInstructionsID;
+    map<UMosimAvatar*, string> currentInstructionsID;
 
 	// Drawcalls from the last executed DoStep for each avatar
-	map<AMMIAvatar*, std::vector<MMIStandard::MDrawingCall>> lastDrawcalls;
+	map<UMosimAvatar*, std::vector<MMIStandard::MDrawingCall>> lastDrawcalls;
 
     int rediscoverCounter;
 };

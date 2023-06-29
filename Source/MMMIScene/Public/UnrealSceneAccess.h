@@ -29,7 +29,7 @@ using namespace MMIStandard;
 using namespace std;
 
 // forward declarations
-class AMMIAvatar;
+class UMosimAvatar;
 class UMMISceneObject;
 
 class UnrealSceneAccess : virtual public MSceneAccessIf, virtual public MSynchronizableSceneIf
@@ -165,11 +165,11 @@ public:
     vector<UMMISceneObject*> GetMMISceneObjectsVector();
 
     // Add new MMIAvatar in the Dictionary containing all MMI avatars structured by the specific id
-    void AddMMIAvatar( string id, AMMIAvatar* avatar );
+    void AddMMIAvatar( string id, UMosimAvatar* avatar );
     // Remove MMIAvatar in the Dictionary containing all MMI avatars structured by the specific id
     void RemoveMMIAvatar( string id );
     // return registered MMISceneObjects as vector
-    vector<AMMIAvatar*> GetMMIAvatarsVector();
+    vector<UMosimAvatar*> GetMMIAvatarsVector();
 
     // The last processed scene update
     MSceneUpdate SceneUpdate;
@@ -241,7 +241,7 @@ private:
     unordered_map<string, UMMISceneObject*> MMISceneObjectsByID;
 
     // Dictionary containing all MMI avatars structured by the specific id
-    unordered_map<string, AMMIAvatar*> MMIAvatarsByID;
+    unordered_map<string, UMosimAvatar*> MMIAvatarsByID;
 
     friend class SceneAccessServer::UnrealSceneAccessServer;
 };

@@ -15,7 +15,7 @@
 #include "UnrealSceneAccess.h"
 #include "MMUAccess.h"
 #include "MMISceneObject.h"
-#include "MMIAvatar.h"
+#include "MMIAvatarComponent.h"
 #include "Utils/Logger.h"
 #include "Extensions/MVector3Extensions.h"
 #include "Extensions/MQuaternionExtensions.h"
@@ -333,11 +333,11 @@ MBoolResponse UnrealSceneAccess::AddAvatars( vector<MAvatar> avatars )
         // Add the scene object to id dictionary
         if( this->MMIAvatarsByID.find( avatar.ID ) == this->MMIAvatarsByID.end() )
         {
-            // Add the new MAvatar in a AMMIAvatar
+            // Add the new MAvatar in a UMosimAvatar
             // TODO --> does not work so far --> clarifiy what should be done here --> spawning of a
             // new avatar seems to be required
-            // this->MMIAvatarsByID.insert(pair<string, shared_ptr<AMMIAvatar>> {avatar.ID,
-            // make_shared<AMMIAvatar>(AMMIAvatar{})});
+            // this->MMIAvatarsByID.insert(pair<string, shared_ptr<UMosimAvatar>> {avatar.ID,
+            // make_shared<UMosimAvatar>(UMosimAvatar{})});
             // MMIAvatarsByID[avatar.ID]->MAvatarPtr = &avatar;
         }
 
@@ -484,7 +484,7 @@ MBoolResponse UnrealSceneAccess::RemoveAvatars( vector<string> avatarIDs )
             }
 
             // Remove the scene object from the dictionary
-            MMIAvatarsByID[id]->~AMMIAvatar();
+            MMIAvatarsByID[id]->~UMosimAvatar();
             MMIAvatarsByID.erase( id );
         }
     }
@@ -784,11 +784,11 @@ void UnrealSceneAccess::AddMMISceneObject( string id, UMMISceneObject* sceneObj 
 }
 
 // Add new MMIAvatar in the Dictionary containing all MMI avatars structured by the specific id
-void UnrealSceneAccess::AddMMIAvatar( string id, AMMIAvatar* avatar )
+void UnrealSceneAccess::AddMMIAvatar( string id, UMosimAvatar* avatar )
 {
     if( this->MMIAvatarsByID.find( id ) == this->MMIAvatarsByID.end() )
     {
-        this->MMIAvatarsByID.insert( pair<string, AMMIAvatar*>{id, avatar} );
+        this->MMIAvatarsByID.insert( pair<string, UMosimAvatar*>{id, avatar} );
     }
     else
     {
@@ -807,9 +807,9 @@ vector<UMMISceneObject*> UnrealSceneAccess::GetMMISceneObjectsVector()
     return _return;
 }
 
-vector<AMMIAvatar*> UnrealSceneAccess::GetMMIAvatarsVector()
+vector<UMosimAvatar*> UnrealSceneAccess::GetMMIAvatarsVector()
 {
-    vector<AMMIAvatar*> _return;
+    vector<UMosimAvatar*> _return;
     for( auto it = MMIAvatarsByID.begin(); it != MMIAvatarsByID.end(); it++ )
     {
         _return.push_back( it->second );

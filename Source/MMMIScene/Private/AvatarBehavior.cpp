@@ -13,7 +13,7 @@
 #include "SimulationController.h"
 #include "UnrealSceneAccess.h"
 #include "MMISceneObject.h"
-#include "MMIAvatar.h"
+#include "MMIAvatarComponent.h"
 #include "mmi_constants.h"
 
 #include <algorithm>
@@ -55,7 +55,7 @@ void UAvatarBehavior::BeginPlay()
 }
 
 
-UInstructionWrapper* UAvatarBehavior::IdleInstruction(AMMIAvatar* avatar,
+UInstructionWrapper* UAvatarBehavior::IdleInstruction(UMosimAvatar* avatar,
 	UInstructionWrapper* previousInstruction, float duration, float delay)
 {
 	// It is probably not possible to stop the execution before runtime errors. Can't think of more elegant solution.
@@ -81,7 +81,7 @@ UInstructionWrapper* UAvatarBehavior::IdleInstruction(AMMIAvatar* avatar,
 
 
 
-void UAvatarBehavior::ExecuteInstructions(AMMIAvatar* avatar)
+void UAvatarBehavior::ExecuteInstructions(UMosimAvatar* avatar)
 {
 	if (checkNullArgument(avatar, "Avatar", "Execute Instructions"))
 		return;
@@ -90,7 +90,7 @@ void UAvatarBehavior::ExecuteInstructions(AMMIAvatar* avatar)
 	//log("Executed instructions for an avatar with name " + avatar->baseName);
 }
 
-void UAvatarBehavior::CleanInstructions(AMMIAvatar* avatar)
+void UAvatarBehavior::CleanInstructions(UMosimAvatar* avatar)
 {
 	if (checkNullArgument(avatar, "Avatar", "Clean Instructions"))
 		return;
@@ -157,7 +157,7 @@ void UAvatarBehavior::log(const FString& message, Verbosity verbosity) const
 	}
 }
 
-void UAvatarBehavior::scheduleNewInstruction(AMMIAvatar* avatar, MInstruction& newInstruction,
+void UAvatarBehavior::scheduleNewInstruction(UMosimAvatar* avatar, MInstruction& newInstruction,
 	UInstructionWrapper* previousInstruction, float duration, float delay)
 {
     auto& instructions = instructionList;
