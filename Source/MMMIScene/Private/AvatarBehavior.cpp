@@ -79,6 +79,44 @@ UInstructionWrapper* UAvatarBehavior::IdleInstruction(UMosimAvatar* avatar,
 	return UInstructionWrapper::Create(idleInstruction);
 }
 
+UInstructionWrapper* UAvatarBehavior::GenericUpdateInstruction(
+    UMosimAvatar* avatar, 
+	FString updateID, FString Name, FString MotionType,
+    TMap<FString, FString> parameters, 
+	UInstructionWrapper* previousInstruction, float duration, float delay)
+{
+    MInstruction instruction;
+    if( updateID == "" )
+    {
+        instruction.__set_ID( MMUAccess::GetNewGuid() );
+    }
+    else
+    {
+        instruction.__set_ID( TCHAR_TO_UTF8( *updateID ) );
+    }
+    instruction.__set_Name( TCHAR_TO_UTF8( *Name ) );
+    instruction.__set_MotionType( TCHAR_TO_UTF8( *MotionType ) );
+    instruction.__set_AvatarID( avatar->AvatarID );
+
+	map<string, string> instProperties;
+    for( auto& Elem : parameters )
+    {
+        instProperties.insert( std::pair<string, string>(TCHAR_TO_UTF8( *Elem.Key ), TCHAR_TO_UTF8( *Elem.Value )) );
+	}
+    instruction.__set_Properties( instProperties );
+
+	scheduleNewInstruction( avatar, instruction, previousInstruction, duration, delay );
+
+	return UInstructionWrapper::Create( instruction );
+}
+
+FString UAvatarBehavior::SerializeFVector( FVector v )
+{
+    MVector3 vec = ToMVec3( v );
+    FString s = FString::Printf( TEXT( "%.3f, %.3f, %.3f" ), vec.X, vec.Y, vec.Z );
+    return s;
+}
+
 
 
 void UAvatarBehavior::ExecuteInstructions(UMosimAvatar* avatar)

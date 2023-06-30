@@ -48,6 +48,17 @@ public:
 	UPARAM(DisplayName = "Instruction")
 	UInstructionWrapper* IdleInstruction(UMosimAvatar* avatar,
 		 UInstructionWrapper* previousInstruction = nullptr, float duration = 0, float delay = 0.01f);
+    
+
+	UFUNCTION( BlueprintCallable )
+    UPARAM( DisplayName = "Instruction" )
+    UInstructionWrapper* GenericUpdateInstruction( UMosimAvatar* avatar,											
+                                            FString updateID, FString Name, FString MotionType,
+											TMap<FString, FString> parameters,
+                                           UInstructionWrapper* previousInstruction = nullptr,		
+                                            float duration = 0, float delay = 0.01f );
+    UFUNCTION( BlueprintCallable )
+	FString SerializeFVector( FVector v );
 
 	/*** Execute all scheduled instructions for specific avatar */
 	UFUNCTION(BlueprintCallable)
