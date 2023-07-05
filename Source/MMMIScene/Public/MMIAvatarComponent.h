@@ -66,7 +66,7 @@ public:
     FPoseSnapshot GetSnapshot();
 
         // Relative path of the reference posture file for MOSIM retargeting service.
-    UPROPERTY( VisibleAnywhere, BlueprintReadWrite,
+    UPROPERTY( EditAnywhere, BlueprintReadWrite,
                Category = "MOSIM Properties" )  //, Meta = ( FilePathFilter = "mos" ) )
     FString ReferencePostureFile;
 
@@ -130,6 +130,10 @@ public:
     // current helper variable to check, if everything is set up and tick can be used.
     UPROPERTY( EditAnywhere, Category = "MOSIM" )
     bool running;
+    
+    //A Way to save a Snap Pose inside the class. Might be deleted later.
+    UPROPERTY( EditAnywhere, BlueprintReadWrite, Category = "MOSIM" )
+    FPoseSnapshot SnapPose;
 
     bool IsInitialized();
     bool InitialSceneSynch = false;
@@ -145,6 +149,15 @@ public:
     virtual void TickComponent( float DeltaTime, enum ELevelTick TickType,
                                 FActorComponentTickFunction* ThisTickFunction ) override;
 
+     UFUNCTION( BlueprintCallable, Category = "MOSIM|Functions" )
+    void SetBehavior( UAvatarBehavior* b );
+
+    UFUNCTION( BlueprintCallable, Category = "MOSIM|Functions" )
+    void SetAvatarID( FString id );
+
+    UFUNCTION( BlueprintCallable, Category = "MOSIM|Functions" )
+    FString GetAvatarID();
+
     protected:
 
     // the retrageting access
@@ -155,11 +168,7 @@ public:
     // Reference Posture for Retargeting
     MAvatarPosture GlobalReferencePosture;
 
-        UFUNCTION( BlueprintCallable, Category = "MOSIM|Functions" )
-    void SetAvatarID( FString id );
 
-            UFUNCTION( BlueprintCallable, Category = "MOSIM|Functions" )
-    FString GetAvatarID();
 
 
 private:

@@ -173,7 +173,7 @@ public:
     UFUNCTION( BlueprintCallable, Category = "MOSIM|Functions" )
     void SetAvatarID(FString id);
 
-        UFUNCTION( BlueprintCallable, Category = "MOSIM|Functions" )
+    UFUNCTION( BlueprintCallable, Category = "MOSIM|Functions" )
     void SetBehavior( UAvatarBehavior* b );
    
 
