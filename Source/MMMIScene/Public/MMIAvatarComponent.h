@@ -186,8 +186,8 @@ private:
     std::map<int, const char*> _MJointType_VALUES_TO_NAMES;
     int nJoints = 66;
 
-    static FQuat UE2MOSIM;
-    static FQuat MOSIM2UE;
+    const FQuat UE2MOSIM = FRotator(0, 90, 0).Quaternion() * FRotator(0, 0, -90).Quaternion();
+    const FQuat MOSIM2UE = FRotator(0, -90, 0).Quaternion() * FRotator(0, 0, 90).Quaternion();
 
     const char* _kMJointTypeNames[66] = { "Undefined",
                                           "LeftBallTip",

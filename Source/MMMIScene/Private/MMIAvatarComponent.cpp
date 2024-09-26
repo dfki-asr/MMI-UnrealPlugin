@@ -36,14 +36,6 @@
 int UMosimAvatar::RemoteCoSimulationAccessPortIncremented =
     MMISettings::GetInstance()->RemoteCoSimulationAccessPort;
 
-FQuat UMosimAvatar::UE2MOSIM =
-    FRotator( 0, 90, 0 ).Quaternion() * FRotator( 0, 0, -90 ).Quaternion();
-FQuat UMosimAvatar::MOSIM2UE =
-    FRotator( 0, -90, 0 ).Quaternion() * FRotator( 0, 0, 90 ).Quaternion();
-
-
-
-
 UMosimAvatar::UMosimAvatar()
     : Super(),
     Timeout( 1 ),
