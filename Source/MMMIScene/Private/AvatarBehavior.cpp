@@ -50,6 +50,8 @@ UAvatarBehavior::UAvatarBehavior()
 // Called when the game starts or when spawned
 void UAvatarBehavior::BeginPlay()
 {
+	Super::BeginPlay();
+
 	AActor* simActor = UGameplayStatics::GetActorOfClass(GetWorld(), ASimulationController::StaticClass());
 	SimContr = Cast<ASimulationController>(simActor);
 }
