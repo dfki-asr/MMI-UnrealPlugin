@@ -27,6 +27,7 @@
 #include "UObject/UObjectGlobals.h"
 
 #include "AvatarBehavior.h"
+#include "JointPose.h"
 
 #include "MMIAvatarComponent.generated.h"
 
@@ -130,6 +131,10 @@ public:
     // current helper variable to check, if everything is set up and tick can be used.
     UPROPERTY( EditAnywhere, Category = "MOSIM" )
     bool running;
+
+    // Apply the changes in actor position and rotation during the ApplyPostureValues call?
+    UPROPERTY(EditAnywhere, Category = "MOSIM")
+    bool ApplyActorTransform;
     
     //A Way to save a Snap Pose inside the class. Might be deleted later.
     UPROPERTY( EditAnywhere, BlueprintReadWrite, Category = "MOSIM" )
@@ -167,6 +172,9 @@ public:
     MAvatarPosture LoadAvatarPosture( FString filePath );
     // Reference Posture for Retargeting
     MAvatarPosture GlobalReferencePosture;
+
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "MOSIM")
+    TArray<FJointPose> CachedJointPoses;
 
 
 

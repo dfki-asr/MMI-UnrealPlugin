@@ -51,7 +51,7 @@ UMosimAvatar::UMosimAvatar()
     AvatarID( string( "" ) ), sessionID( string( "" ) ), baseName( string( "" ) ),
     statusText( string( "" ) ), MMUAccessPtr( nullptr ), SceneAccess( nullptr ),
     SimController( nullptr ), skeletonAccessPtr( nullptr ), running( true ),
-    retargetingAccessPtr( nullptr ), isInitialized( false )
+    ApplyActorTransform(false), retargetingAccessPtr( nullptr ), isInitialized( false )
 {
     for( int i = 0; i < this->nJoints; i++ )
     {
@@ -94,6 +94,15 @@ UMosimAvatar::UMosimAvatar()
 void UMosimAvatar::BeginPlay()
 {
     Super::BeginPlay();
+
+    if (!this->isInitialized)
+    {
+        auto scene = this->GetWorld();
+        for (TActorIterator<ASimulationController> SimContr(scene); SimContr; ++SimContr)
+        {
+            SimContr->RegisterNewAvatar(this);
+        }
+    }
 }
 
 void UMosimAvatar::EndPlay( const EEndPlayReason::Type EndPlayReason )
@@ -148,6 +157,7 @@ bool UMosimAvatar::Setup( MIPAddress registerAddress, string _sessionID,
         MAvatarPosture zeroP =
             this->LoadAvatarPosture( FPaths::ProjectContentDir() + ReferencePostureFile );
         this->GlobalReferencePosture = zeroP;
+        CachedJointPoses.SetNumUninitialized(int32(zeroP.Joints.size()));
         UE_LOG( LogMOSIM, Display, TEXT( " Successfully loaded AvatarDescription %s" ),
                 *ReferencePostureFile );
     }
@@ -289,16 +299,6 @@ bool UMosimAvatar::Setup( MIPAddress registerAddress, string _sessionID,
 void UMosimAvatar::TickComponent( float DeltaTime, enum ELevelTick TickType,
                                   FActorComponentTickFunction* ThisTickFunction )
 {
-    if( !this->isInitialized )
-    {
-        auto scene = this->GetWorld();
-        for( TActorIterator<ASimulationController> SimContr( scene ); SimContr; ++SimContr )
-        {
-            SimContr->RegisterNewAvatar( this );
-        }
-        return;
-    }
-
     Super::TickComponent( DeltaTime, TickType, ThisTickFunction);
 
     // Get the posture values of the current posture
@@ -399,21 +399,6 @@ MAvatarPostureValues UMosimAvatar::ReadCurrentPosture()
     FPoseSnapshot snap = this->GetSnapshot();
     ACharacter* owner = (ACharacter*)GetOwner();
 
-    // make snap global
-    USkeleton* skel = owner->GetMesh()->SkeletalMesh->Skeleton;
-    for( int i = 0; i < snap.LocalTransforms.Num(); i++ )
-    {
-        TArray<int32> children;
-        skel->GetChildBones( i, children );
-        for( int c = 0; c < children.Num(); c++ )
-        {
-            FTransform out; 
-            FTransform::Multiply( &out, &snap.LocalTransforms[i], &snap.LocalTransforms[c] );
-            snap.LocalTransforms[c] = out;
-        }
-    }
-
-
     // UE_LOG( LogTemp, Warning, TEXT( "reading" ) );
     for( int32 i = 0; i < this->GlobalReferencePosture.Joints.size(); i++ )
     {
@@ -426,42 +411,23 @@ MAvatarPostureValues UMosimAvatar::ReadCurrentPosture()
                            // retargeting service.
         if( j.ID == "_VirtualRoot" )
         { 
-            auto actorPos = owner->GetActorLocation();
+            FVector actorPos = owner->GetActorLocation();
             actorPos.Z -= owner->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
             cj.Position = ToMVec3( actorPos );
             cj.Rotation = ToMQuat( owner->GetActorRotation().Quaternion() );
         }
         else
         {
-            // For every other coordinate system, we can take the joint ID and select it from the
-            // avatar,
+            USkeletalMeshComponent* mesh = owner->GetMesh();
+            FName jointID = FName(UTF8_TO_TCHAR(j.ID.c_str()));
+            // For every other coordinate system, we can take the joint ID and select it from the avatar,
             // as the *.mos file is designed specifically for this avatar.
-            FVector loc;
-            FQuat rot;
-            int ueJID = owner->GetMesh()->GetBoneIndex(FName( UTF8_TO_TCHAR( j.ID.c_str() )));
-            loc = snap.LocalTransforms[i].GetLocation();
-            rot = snap.LocalTransforms[i].GetRotation();
-            /*
-            FVector loc = MOSIMMesh->GetBoneLocationByName( FName( UTF8_TO_TCHAR( j.ID.c_str() ) ),
-                                                            EBoneSpaces::WorldSpace );
-            FQuat rot = MOSIMMesh
-                            ->GetBoneRotationByName( FName( UTF8_TO_TCHAR( j.ID.c_str() ) ),
-                                                     EBoneSpaces::WorldSpace )
-                            .Quaternion();
-            */
-            // scaling see above.
-            loc = loc / 100;
-
-            cj.Position.X = loc.Y;
-            cj.Position.Y = loc.Z;
-            cj.Position.Z = loc.X;
-
+            FVector loc = mesh->GetBoneLocation(jointID, EBoneSpaces::WorldSpace);
+            FQuat rot = mesh->GetBoneQuaternion(jointID, EBoneSpaces::WorldSpace);
             rot = UMosimAvatar::UE2MOSIM * rot;
 
-            cj.Rotation.X = -rot.X;
-            cj.Rotation.Y = -rot.Y;
-            cj.Rotation.Z = rot.Z;
-            cj.Rotation.W = rot.W;
+            cj.Position = ToMVec3(loc);
+            cj.Rotation = ToMQuat(rot);
         }
         globalPosture.Joints.push_back( cj );
     }
@@ -488,97 +454,58 @@ void UMosimAvatar::ApplyPostureValues( MAvatarPostureValues vals )
     // update the posture values in the MAvatar
     this->MAvatar.__set_PostureValues( vals );
 
+    ACharacter* owner = (ACharacter*)GetOwner();
+    FTransform invTrm = owner->GetActorTransform().Inverse();
+
     // Retarget to global posture from MOSIM skeleton. This requires that there was a
     // SetupRetargeting before.
-    MAvatarPosture globalPosture = this->retargetingAccessPtr->RetargetFromIntermediate( vals );
-
-    FPoseSnapshot globalSnap = this->GetSnapshot();
-    FPoseSnapshot localSnap = this->GetSnapshot();
-    ACharacter* owner = (ACharacter*)GetOwner();
-    USkeleton* skel = owner->GetMesh()->SkeletalMesh->Skeleton;
-
-    for( int32 i = 0; i < globalPosture.Joints.size(); i++ )
+    MAvatarPosture globalPosture = this->retargetingAccessPtr->RetargetFromIntermediate(vals);
+    //UE_LOG( LogTemp, Warning, TEXT( "applying" ) );
+    for (int32 i = 0; i < globalPosture.Joints.size(); i++)
     {
         MJoint j = globalPosture.Joints[i];
-        if( j.Type != MJointType::type::Undefined )
+        if (j.Type != MJointType::type::Undefined)
         {
             // Only retarget joints, which are mapped by the retargeting.
             // ToDo: Non-Mapped joints should probably be interpolated.
-            FVector loc;
 
-            FQuat rot;
-
-            loc.X = j.Position.Z;
-            loc.Y = j.Position.X;
-            loc.Z = j.Position.Y;
-            loc = loc * 100;
-
-            rot.X = -j.Rotation.X;
-            rot.Y = -j.Rotation.Y;
-            rot.Z = j.Rotation.Z;
-            rot.W = j.Rotation.W;
-
-            // The additional rotation is relevant! For some reason, this seems to be
-            // invariant to the global orientation of the character.
-            rot = UMosimAvatar::MOSIM2UE * rot;
-
-            if( j.ID == "_VirtualRoot" )
+            if (j.ID == "_VirtualRoot")
             {
-                auto actorPos = ToFVec3( j.Position );
-                actorPos.Z += owner->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
-                FHitResult hitres;
-                owner->SetActorLocationAndRotation( actorPos, ToFQuat( j.Rotation ), false, &hitres,
-                                                    ETeleportType::TeleportPhysics );
+                FVector actorPos = ToFVec3(j.Position);
+                FQuat actorRot = ToFQuat(j.Rotation);
+                actorRot = actorRot * UMosimAvatar::MOSIM2UE;
 
-                // Multiply it by the global position transform to get the local pos.
-                
-                // Set the Root of the Snap.
-                globalSnap.LocalTransforms[0].SetLocation( loc );
-                globalSnap.LocalTransforms[0].SetRotation( rot );
+                if (ApplyActorTransform)
+                {
+                    //actorPos.Z += owner->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+                    FHitResult hitres;
+                    owner->SetActorLocationAndRotation(actorPos, actorRot, false, &hitres,
+                        ETeleportType::TeleportPhysics);
+                }
+
+                invTrm = FTransform(actorRot, actorPos, FVector::OneVector).Inverse();
             }
             else
             {
-                // Set the bone local. 
-                //Find F_Parent() and inverse it.
-                int ueJID = owner->GetMesh()->GetBoneIndex( FName( UTF8_TO_TCHAR( j.ID.c_str() ) ) );
-                
-                // Save the global transform to the snap.
-                globalSnap.LocalTransforms[ueJID].SetLocation(
-                    loc );
-                globalSnap.LocalTransforms[ueJID].SetRotation(
-                    rot);
+                FVector loc = ToFVec3(j.Position);
 
-                FName parent = owner->GetMesh()->GetParentBone( FName( UTF8_TO_TCHAR( j.ID.c_str() ) ) );
+                //FQuat rot = ToFQuat(j.Rotation);
+                FQuat rot;
+                rot.X = -j.Rotation.X;
+                rot.Y = -j.Rotation.Y;
+                rot.Z = j.Rotation.Z;
+                rot.W = j.Rotation.W;
+                // The additional rotation is relevant! For some reason, this seems to be invariant
+                // to the global orientation of the character.
+                rot = UMosimAvatar::MOSIM2UE * rot;
 
-
-                if( !(parent == NAME_None ))
-                {
-
-                    // Get reverse transform of parent.
-                    int parentID = owner->GetMesh()->GetBoneIndex( parent );
-                    //For testing purposes only Root.
-                    if( parentID < 1 )
-                    {
-                        globalSnap.LocalTransforms[ueJID].SetRotation(
-                            globalSnap.LocalTransforms[ueJID].GetRotation().GetNormalized() );
-
-                        globalSnap.LocalTransforms[parentID].SetRotation(
-                            globalSnap.LocalTransforms[parentID].GetRotation().GetNormalized() );
-
-                        FTransform out = globalSnap.LocalTransforms[ueJID].GetRelativeTransform(
-                            globalSnap.LocalTransforms[parentID] );
-
-                        //localSnap.LocalTransforms[ueJID].SetLocation(out.GetLocation());
-                        const FQuat currentrot = out.GetRotation().GetNormalized();
-                        localSnap.LocalTransforms[ueJID].SetRotation( currentrot );
-                    }
-                    
-                }
+                auto& joint = CachedJointPoses[i];
+                joint.JointName = FName(UTF8_TO_TCHAR(j.ID.c_str()));
+                joint.JointPosition = invTrm.TransformPosition(loc);
+                joint.JointRotation = invTrm.TransformRotation(rot);
             }
         }
     }
-    // TODO: Make Snap joint local by traversing from child to parent bones.
-    this->SetSnapshot( localSnap );
 }
 
 bool UMosimAvatar::IsInitialized()
