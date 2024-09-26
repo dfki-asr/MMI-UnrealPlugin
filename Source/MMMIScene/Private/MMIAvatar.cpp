@@ -49,7 +49,7 @@ FQuat AMMIAvatar::MOSIM2UE = FRotator( 0, -90, 0 ).Quaternion() * FRotator( 0, 0
 
 // Sets default values
 AMMIAvatar::AMMIAvatar(const FObjectInitializer& ObjectInitializer)
-    : Super( ObjectInitializer.DoNotCreateDefaultSubobject( ACharacter::MeshComponentName ) ), 
+    : Super(ObjectInitializer),
     AddBoneSceneObjects( false ),
       Timeout( 1 ),
       RemoteCoSimulationAccessPort( 0 ),
@@ -76,10 +76,6 @@ AMMIAvatar::AMMIAvatar(const FObjectInitializer& ObjectInitializer)
     // applied in the AvatarBehavior class for looking for the behavior
     this->UpdateBaseName();
 
-    //this->MOSIMMesh =
-    //    CreateDefaultSubobject<UPoseableMeshComponent>( TEXT( "CharacterPoseableMesh" ) );
-    //this->MOSIMMesh->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepRelativeTransform);
-
     // Initialize MAvatar
     // Create a new UUID for the avatar ID, this prevents issues in the retargeting and MMU usage
     // later on.
@@ -95,26 +91,14 @@ AMMIAvatar::AMMIAvatar(const FObjectInitializer& ObjectInitializer)
     // if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
 
-    // Add the poseable mesh component. This will appear as an empty component, which has to be
-    // configured by the user when making a new blueprint.
-    this->MOSIMMesh = CreateDefaultSubobject<UPoseableMeshComponent>( TEXT( "Mesh" ) );
-    this->MOSIMMesh->SetHiddenInGame( false, true );
-
     // set the collison for the whole actor
     this->SetActorEnableCollision( true );
-
 }
 
 void AMMIAvatar::OnConstruction( const FTransform& Transform )
 {
     Super::OnConstruction( Transform );
     auto height = this->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
-    if( this->MOSIMMesh != nullptr )
-    {
-        this->MOSIMMesh->SetRelativeLocation( FVector( 0, 0, -height ) );
-        this->MOSIMMesh->SetRelativeRotation( FQuat( 0, 0, 0, 1 ) );
-    }
-    
 }
 
 
@@ -201,6 +185,7 @@ bool AMMIAvatar::Setup( MIPAddress registerAddress, string _sessionID,
         // Loading the reference zero posture.
         MAvatarPosture zeroP = this->LoadAvatarPosture( FPaths::ProjectContentDir() + ReferencePostureFile );
         this->GlobalReferencePosture = zeroP;
+        JointPoses.SetNumUninitialized(int32(zeroP.Joints.size()));
         UE_LOG( LogMOSIM, Display, TEXT( " Successfully loaded AvatarDescription %s" ),
                 *ReferencePostureFile );
     }
@@ -618,16 +603,16 @@ MAvatarPostureValues AMMIAvatar::ReadCurrentPosture()
         }
         else
         {
+            auto mesh = GetMesh();
             // For every other coordinate system, we can take the joint ID and select it from the
             // avatar,
             // as the *.mos file is designed specifically for this avatar.
-			FVector loc = MOSIMMesh->GetBoneLocationByName(
+			FVector loc = mesh->GetBoneLocation(
 				FName( UTF8_TO_TCHAR( j.ID.c_str() ) ),
 				EBoneSpaces::WorldSpace );
-			FQuat rot = MOSIMMesh->GetBoneRotationByName(
+			FQuat rot = mesh->GetBoneQuaternion(
 				FName( UTF8_TO_TCHAR( j.ID.c_str() ) ),
-				EBoneSpaces::WorldSpace )
-				.Quaternion();
+				EBoneSpaces::WorldSpace );
 
             // scaling see above.
             loc = loc / 100;
@@ -668,6 +653,8 @@ void AMMIAvatar::ApplyPostureValues( MAvatarPostureValues vals )
     // update the posture values in the MAvatar
     this->MAvatar.__set_PostureValues( vals );
 
+    FTransform invTrm = this->GetActorTransform().Inverse();
+
     // Retarget to global posture from MOSIM skeleton. This requires that there was a
     // SetupRetargeting before.
     MAvatarPosture globalPosture = this->retargetingAccessPtr->RetargetFromIntermediate( vals );
@@ -687,7 +674,7 @@ void AMMIAvatar::ApplyPostureValues( MAvatarPostureValues vals )
                 FHitResult hitres;
                 this->SetActorLocationAndRotation( actorPos, ToFQuat( j.Rotation ), false, &hitres,
                                                     ETeleportType::TeleportPhysics );
-
+                invTrm = this->GetActorTransform().Inverse();
             }
             else
             {
@@ -706,10 +693,10 @@ void AMMIAvatar::ApplyPostureValues( MAvatarPostureValues vals )
                 // to the global orientation of the character.
                 rot = AMMIAvatar::MOSIM2UE * rot;
 
-                this->MOSIMMesh->SetBoneRotationByName( FName( UTF8_TO_TCHAR( j.ID.c_str() ) ),
-                                                   rot.Rotator(), EBoneSpaces::WorldSpace );
-                this->MOSIMMesh->SetBoneLocationByName( FName( UTF8_TO_TCHAR( j.ID.c_str() ) ), loc,
-                                                   EBoneSpaces::WorldSpace );
+                auto& joint = JointPoses[i];
+                joint.JointName = FName(UTF8_TO_TCHAR(j.ID.c_str()));
+                joint.JointPosition = invTrm.TransformPosition(loc);
+                joint.JointRotation = invTrm.TransformRotation(rot);
             }
         }
     }

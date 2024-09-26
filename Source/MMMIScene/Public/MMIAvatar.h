@@ -35,6 +35,7 @@
 #include "UObject/UObjectGlobals.h"
 
 #include "AvatarBehavior.h"
+#include "JointPose.h"
 
 #include "MMIAvatar.generated.h"
 
@@ -61,10 +62,6 @@ public:
 
     // destructor
     ~AMMIAvatar();
-
-    // Poseable Mesh Component containing the rigged avatar.
-    UPROPERTY( VisibleAnywhere, Category = "MOSIM Properties" )
-    UPoseableMeshComponent* MOSIMMesh;
     
 //    FString AvatarID;
 
@@ -192,6 +189,9 @@ protected:
     MAvatarPosture LoadAvatarPosture( FString filePath );
     // Reference Posture for Retargeting
     MAvatarPosture GlobalReferencePosture;
+
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "MOSIM")
+    TArray<FJointPose> JointPoses;
 
 private:
     bool isInitialized;

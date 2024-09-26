@@ -24,6 +24,11 @@
 			"Name": "MMIScene",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "MMISceneUncooked",
+			"Type": "UncookedOnly",
+			"LoadingPhase": "Default"
 		}
         ]
 }

@@ -33,7 +33,8 @@ namespace UnrealBuildTool.Rules
 					"CoreUObject",
 					"Engine",
 					"InputCore",
-					"MMIFramework"
+					"MMIFramework",
+					"AnimGraphRuntime"
 				}
 				);
 
